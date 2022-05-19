@@ -1,0 +1,16 @@
+{
+  "name": "spoktor",
+  "version": "1.0.0",
+  "description": "An spotify to traktos playlist converter",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "uvu tests"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "node-html-parser": "^5.3.3",
+    "uvu": "^0.5.3"
+  }
+}
