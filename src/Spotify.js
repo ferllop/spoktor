@@ -1,28 +1,18 @@
-export class Spotify {
-    parse(html) {
-        const tracks = this.#extractTracks(html)
-        return tracks ? tracks.map(this.#createTrackEntry.bind(this)) : []
+import {TracksSetParser} from './TracksSetParser.js'
+
+export class Spotify extends TracksSetParser {
+    extractTracks(spotifyPlaylist) {
+        const regex = /(<div.*?type="track".*?>.*?<\/div>)/gsm
+        return spotifyPlaylist.match(regex)
     }
 
-    #extractTracks(htmlPlaylist) {
-        const regex = /(<div.*?type="track".*?>.*?<\/div>)/gms
-        return htmlPlaylist.match(regex)
-    }
-
-    #extractArtist(track) {
+    extractArtist(track) {
         const regex = /<a.*?href=".*?\/artist\/.*?">(.*?)<\/a>/s
         return track.match(regex)[1]
     }
 
-    #extractSong(track) {
+    extractSong(track) {
         const regex = /<a.*?href=".*?\/track\/.*?">(.*?)<\/a>/s
         return track.match(regex)[1]
-    }
-
-    #createTrackEntry(htmlTrack) {
-        return {
-            artist: this.#extractArtist(htmlTrack),
-            song: this.#extractSong(htmlTrack),
-        }
     }
 }
