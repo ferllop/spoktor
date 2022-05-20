@@ -1,7 +1,17 @@
 export class TraktorTrackBuilder {
     constructor() {
-        this.song = ''
-        this.artist = ''
+        this.song = 'someSong'
+        this.artist = 'someArtist'
+    }
+
+    withoutArtist() {
+        this.artist = null
+        return this
+    }
+
+    withoutSong() {
+        this.song = null
+        return this
     }
 
     withSong(song) {
@@ -15,12 +25,14 @@ export class TraktorTrackBuilder {
     }
 
     build() {
+        const artistAttribute = this.artist === null ? '' : `ARTIST="${this.artist}"`
+        const titleAttribute = this.song === null ? '' : `TITLE="${this.song}"`
         return `
             <ENTRY 
             MODIFIED_DATE="2022/5/18" 
             MODIFIED_TIME="67805" AUDIO_ID="AOQAABJVRUVVRFVURnUzRAAAA==" 
-            TITLE="${this.song}" 
-            ARTIST="${this.artist}">
+            ${titleAttribute} 
+            ${artistAttribute}>
             <LOCATION DIR="/:19-05-22 Dolçe/:" 
             FILE="Lamberghini _ Audio Song _ The Doorbeen Feat Ragini _ Speed Records.mp3" VOLUME="C:" VOLUMEID="daa01b2e"></LOCATION>
 <ALBUM TITLE="Lamborgini"></ALBUM>

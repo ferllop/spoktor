@@ -1,18 +1,14 @@
 import {parse} from 'node-html-parser'
 import * as fs from 'fs'
 import {Spotify} from './Spotify.js'
-import {DOMParser} from 'xmldom'
 import {Traktor} from './Traktor.js'
 
 const spotify = new Spotify({parse})
-const traktor = new Traktor({parse: (xmlString) => {
-        return new DOMParser()
-            .parseFromString(xmlString, 'text/xml')
-    }})
+const traktor = new Traktor()
 
 try {
-    const spotifyPLaylistFile = process.argv[2]
-    console.log(parseSpotifyPlaylist(spotifyPLaylistFile))
+    const spotifyPlaylistFile = process.argv[2]
+    console.log(parseSpotifyPlaylist(spotifyPlaylistFile))
 
     const traktorCollectionFile = process.argv[3]
     console.log(JSON.stringify(parseTraktorCollection(traktorCollectionFile)))
