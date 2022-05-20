@@ -2,12 +2,11 @@ import {suite} from 'uvu'
 import * as assert from 'uvu/assert'
 import {SpotifyPlaylistBuilder} from './spotify-playlist-builder.js'
 import {Spotify} from '../src/Spotify.js'
-import {parse} from 'node-html-parser'
 
 const spotify2Json = suite("Spotify to JSON converter")
 
 spotify2Json.before.each(context => {
-    context.spotify = new Spotify({parse})
+    context.spotify = new Spotify()
 })
 
 spotify2Json('should return an empty array when there are no tracks', ({spotify}) => {

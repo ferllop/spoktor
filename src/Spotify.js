@@ -1,28 +1,22 @@
 export class Spotify {
-
-    constructor(parser) {
-        this.parser = parser
-    }
-
     parse(html) {
-        if (html.length === 0) {
-            return []
-        }
         const tracks = this.#extractTracks(html)
-        return tracks.map(this.#createTrackEntry.bind(this))
+        return tracks ? tracks.map(this.#createTrackEntry.bind(this)) : []
     }
 
     #extractTracks(htmlPlaylist) {
-        const document = this.parser.parse(htmlPlaylist)
-        return document.querySelectorAll('div[type="track"]')
+        const regex = /(<div.*?type="track".*?>.*?<\/div>)/gms
+        return htmlPlaylist.match(regex)
     }
 
     #extractArtist(track) {
-        return track.querySelector('a[href*="/artist/"]').innerText
+        const regex = /<a.*?href=".*?\/artist\/.*?">(.*?)<\/a>/s
+        return track.match(regex)[1]
     }
 
     #extractSong(track) {
-        return track.querySelector('a[href*="/track/"]').innerText
+        const regex = /<a.*?href=".*?\/track\/.*?">(.*?)<\/a>/s
+        return track.match(regex)[1]
     }
 
     #createTrackEntry(htmlTrack) {

@@ -1,9 +1,8 @@
-import {parse} from 'node-html-parser'
 import * as fs from 'fs'
 import {Spotify} from './Spotify.js'
 import {Traktor} from './Traktor.js'
 
-const spotify = new Spotify({parse})
+const spotify = new Spotify()
 const traktor = new Traktor()
 
 try {
