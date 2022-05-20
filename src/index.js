@@ -2,31 +2,20 @@ import * as fs from 'fs'
 import {Spotify} from './Spotify.js'
 import {Traktor} from './Traktor.js'
 
-const spotify = new Spotify()
-const traktor = new Traktor()
-
 try {
     const spotifyPlaylistFile = process.argv[2]
-    console.log(parseSpotifyPlaylist(spotifyPlaylistFile))
+    console.log(JSON.stringify(parseTracksSet(spotifyPlaylistFile, new Spotify())))
 
     const traktorCollectionFile = process.argv[3]
-    console.log(JSON.stringify(parseTraktorCollection(traktorCollectionFile)))
+    console.log(JSON.stringify(parseTracksSet(traktorCollectionFile, new Traktor())))
 } catch (error) {
     console.log(error.message)
 }
 
-function parseSpotifyPlaylist(playlistFilename) {
-    let htmlString = ''
-    if (playlistFilename !== 'none') {
-        htmlString = fs.readFileSync(playlistFilename, 'utf8')
+function parseTracksSet(tracksSetFilename, parser) {
+    let data = ''
+    if (tracksSetFilename !== 'none') {
+        data = fs.readFileSync(tracksSetFilename, 'utf8')
     }
-    return spotify.parse(htmlString)
-}
-
-function parseTraktorCollection(collectionFilename) {
-    let xmlString = ''
-    if (collectionFilename !== 'none') {
-        xmlString = fs.readFileSync(collectionFilename, 'utf8')
-    }
-    return traktor.parse(xmlString)
+    return parser.parse(data)
 }
