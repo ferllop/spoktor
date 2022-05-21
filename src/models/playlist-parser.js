@@ -2,12 +2,12 @@
  *  @abstract
  */
 export class PlaylistParser {
-    parse(tracksSet) {
-        const tracks = this.extractTracks(tracksSet)
+    parse(playlist) {
+        const tracks = this.extractTracks(playlist)
         return tracks
             ? tracks
-                .map(this.#createTrackEntry.bind(this))
-                .filter(this.#isTrack.bind(this))
+                .map(this.#createDigest.bind(this))
+                .filter(this.#isValidDigest.bind(this))
                 .map(this.#addIndex.bind(this))
             : []
     }
@@ -16,7 +16,7 @@ export class PlaylistParser {
         return {index, ...track}
     }
 
-    #createTrackEntry(track) {
+    #createDigest(track) {
         return {
             artist: this.extractArtist(track),
             song: this.extractSong(track),
@@ -28,15 +28,15 @@ export class PlaylistParser {
         return {}
     }
 
-    #isTrack(trackEntry) {
-        return trackEntry.artist.length > 0
-            || trackEntry.song.length > 0
+    #isValidDigest(digest) {
+        return digest.artist.length > 0
+            || digest.song.length > 0
     }
 
     /**
      *  @abstract
      */
-    extractTracks(tracksSet) {
+    extractTracks(playlist) {
     }
 
     /**
