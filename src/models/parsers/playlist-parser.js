@@ -1,3 +1,5 @@
+import {Digest} from '../digest.js'
+
 /**
  *  @abstract
  */
@@ -7,7 +9,7 @@ export class PlaylistParser {
         return tracks
             ? tracks
                 .map(this.#createDigest.bind(this))
-                .filter(this.#isValidDigest.bind(this))
+                .filter(Digest.isValid)
                 .map(this.#addIndex.bind(this))
             : []
     }
@@ -17,20 +19,15 @@ export class PlaylistParser {
     }
 
     #createDigest(track) {
-        return {
-            artist: this.extractArtist(track),
-            song: this.extractSong(track),
-            ...this.computeExtraData(track),
-        }
+        return new Digest(
+            this.extractArtist(track),
+            this.extractSong(track),
+            this.computeExtraData(track),
+        ).toDto()
     }
 
     computeExtraData(track) {
         return {}
-    }
-
-    #isValidDigest(digest) {
-        return digest.artist.length > 0
-            || digest.song.length > 0
     }
 
     /**
