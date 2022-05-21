@@ -8,7 +8,12 @@ export class TracksSetParser {
             ? tracks
                 .map(this.#createTrackEntry.bind(this))
                 .filter(this.#isTrack.bind(this))
+                .map(this.#addIndex.bind(this))
             : []
+    }
+
+    #addIndex(track, index) {
+        return {index, ...track}
     }
 
     #createTrackEntry(track) {

@@ -15,10 +15,11 @@ export class DigestPlaylistBuilder {
             .fill(null)
             .map((_, index) => {
                     const trackNumber = index + 1
-                    return new TrackDigestBuilder()
+                    const digest = new TrackDigestBuilder()
                         .withArtist('artist' + trackNumber)
                         .withSong('song' + trackNumber)
                         .build()
+                    return {index, ...digest}
                 })
     }
 }
