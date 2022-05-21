@@ -1,11 +1,11 @@
 import {suite} from 'uvu'
 import * as assert from 'uvu/assert'
-import {Traktor} from '../src/Traktor.js'
-import {TraktorPlaylistBuilder} from './traktor-collection-builder.js'
-import {TraktorTrackBuilder} from './traktor-track-builder.js'
-import {TrackDigestBuilder} from './track-digest-builder.js'
-import {DigestPlaylistBuilder} from './digest-playlist-builder.js'
-import {assertDigestPlaylistsAreEqual, assertDigestsAreEqual} from './custom-asserts.js'
+import {Traktor} from '../../../src/models/Traktor.js'
+import {TraktorPlaylistBuilder} from '../../helpers/traktor-collection-builder.js'
+import {TraktorTrackBuilder} from '../../helpers/traktor-track-builder.js'
+import {TrackDigestBuilder} from '../../helpers/track-digest-builder.js'
+import {DigestPlaylistBuilder} from '../../helpers/digest-playlist-builder.js'
+import {assertDigestPlaylistsAreEqual, assertDigestsAreEqual} from '../../helpers/custom-asserts.js'
 
 const traktor2Json = suite('Traktor to JSON converter')
 

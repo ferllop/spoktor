@@ -1,7 +1,7 @@
 import {suite} from 'uvu'
 import * as assert from 'uvu/assert'
-import {SpotifyPlaylistBuilder} from './spotify-playlist-builder.js'
-import {Spotify} from '../src/Spotify.js'
+import {SpotifyPlaylistBuilder} from '../../helpers/spotify-playlist-builder.js'
+import {Spotify} from '../../../src/models/Spotify.js'
 
 const spotify2Json = suite("Spotify to JSON converter")
 

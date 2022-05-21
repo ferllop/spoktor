@@ -1,8 +1,8 @@
 import * as fs from 'fs'
-import {Spotify} from './Spotify.js'
-import {Traktor} from './Traktor.js'
-import {Intersect} from './Intersect.js'
-import {TraktorCollectionGenerator} from './traktor-collection-generator.js'
+import {Spotify} from './models/Spotify.js'
+import {Traktor} from './models/Traktor.js'
+import {Intersect} from './models/Intersect.js'
+import {TraktorCollectionGenerator} from './models/traktor-collection-generator.js'
 
 try {
     const spotifyPlaylistFile = process.argv[2]
