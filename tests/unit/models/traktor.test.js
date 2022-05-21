@@ -1,6 +1,6 @@
 import {suite} from 'uvu'
 import * as assert from 'uvu/assert'
-import {TraktorParser} from '../../../src/models/traktor-parser.js'
+import {TraktorParser} from '../../../src/models/parsers/traktor-parser.js'
 import {TraktorPlaylistBuilder} from '../../helpers/traktor-collection-builder.js'
 import {TraktorTrackBuilder} from '../../helpers/traktor-track-builder.js'
 import {TrackDigestBuilder} from '../../helpers/track-digest-builder.js'

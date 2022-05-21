@@ -1,5 +1,5 @@
-import {SpotifyParser} from './spotify-parser.js'
-import {TraktorParser} from './traktor-parser.js'
+import {SpotifyParser} from './parsers/spotify-parser.js'
+import {TraktorParser} from './parsers/traktor-parser.js'
 import {Intersect} from './intersect.js'
 import {TraktorCollectionGenerator} from './traktor-collection-generator.js'
 
