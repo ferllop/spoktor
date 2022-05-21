@@ -1,7 +1,7 @@
 /**
  *  @abstract
  */
-export class TracksSetParser {
+export class PlaylistParser {
     parse(tracksSet) {
         const tracks = this.extractTracks(tracksSet)
         return tracks
