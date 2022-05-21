@@ -1,18 +1,9 @@
 import {SpotifyTrackBuilder} from '../track/spotify-track-builder.js'
-import {AbstractTrackListBuilder} from './traktor-collection-builder.js'
+import {AbstractTrackListBuilder} from './abstract-track-list-builder.js'
 
 export class SpotifyPlaylistBuilder extends AbstractTrackListBuilder {
-    withXTracks(quantity) {
-        this.tracks = this.tracks.concat(new Array(quantity)
-            .fill(null)
-            .map((_, index) => {
-                const trackNumber = index + 1
-                return new SpotifyTrackBuilder()
-                    .withArtist('artist' + trackNumber)
-                    .withSong('song' + trackNumber)
-                    .build()
-            }))
-        return this
+    withXTracks(quantity, offset = 1) {
+        return super.withXTracks(quantity, offset, new SpotifyTrackBuilder())
     }
 
     build() {

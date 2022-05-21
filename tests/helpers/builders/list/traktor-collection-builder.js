@@ -1,41 +1,9 @@
 import {TraktorTrackBuilder} from '../track/traktor-track-builder.js'
-
-/**
- * @abstract
- */
-
-export class AbstractTrackListBuilder {
-    constructor() {
-        this.tracks = []
-    }
-
-    withoutTracks() {
-        this.tracks = []
-        return this
-    }
-
-    withTrack(track) {
-        this.tracks = this.tracks.concat(track)
-        return this
-    }
-
-    /**
-     * @abstract
-     */
-    withXTracks(quantity) {
-    }
-}
+import {AbstractTrackListBuilder} from './abstract-track-list-builder.js'
 
 export class TraktorPlaylistBuilder extends AbstractTrackListBuilder {
-    withXTracks(quantity) {
-        this.tracks = this.tracks.concat(new Array(quantity).fill(null).map((_, index) => {
-            const trackNumber = index + 1
-            return new TraktorTrackBuilder()
-                .withArtist('artist' + trackNumber)
-                .withSong('song' + trackNumber)
-                .build()
-        }))
-        return this
+    withXTracks(quantity, offset = 1) {
+        return super.withXTracks(quantity, offset, new TraktorTrackBuilder())
     }
 
     build() {

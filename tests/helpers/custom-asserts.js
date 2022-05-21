@@ -20,5 +20,5 @@ export function assertRawDataAreEqual(dataA, dataB) {
 }
 
 function equalizeString(str) {
-    return str.replace(/\s/g, '').replace(/\n/g, '')
+    return str.replace(/\s/g, '').replace(/\n/g, '').replace(/></g, '>\n<')
 }

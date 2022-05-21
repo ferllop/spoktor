@@ -1,11 +1,15 @@
 import {Digest} from '../digest.js'
 import {DigestList} from '../digest-list.js'
+import {EmptyPlaylistError} from '../errors/empty-playlist-error.js'
 
 /**
  *  @abstract
  */
 export class PlaylistParser {
     parse(playlist) {
+        if(playlist.length === 0) {
+            throw new EmptyPlaylistError()
+        }
         const tracks = this.extractTracks(playlist) ?? DigestList.EMPTY
         const digests = tracks.map(this.#createDigest.bind(this))
         return new DigestList(digests).getList()

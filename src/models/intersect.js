@@ -7,8 +7,8 @@ export class Intersect {
 
     #digestsHasDigest(digests) {
         return checkingDigest => digests.some(digest => {
-            return digest.song === checkingDigest.song
-                && digest.artist === checkingDigest.artist
+            return digest.digest.song === checkingDigest.digest.song
+                && digest.digest.artist === checkingDigest.digest.artist
         })
     }
 }
