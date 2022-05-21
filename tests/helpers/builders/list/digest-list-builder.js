@@ -1,13 +1,10 @@
-import {DigestBuilder} from './digest-builder.js'
-import {DigestList} from '../../src/models/digest-list.js'
+import {DigestBuilder} from '../track/digest-builder.js'
+import {DigestList} from '../../../../src/models/digest-list.js'
+import {AbstractTrackListBuilder} from './traktor-collection-builder.js'
 
-export class DigestListBuilder {
-    constructor() {
-        this.digests = []
-    }
-
-    withXTracks(quantity, trackRawDataBuilder) {
-        this.digests = this.digests.concat(new Array(quantity)
+export class DigestListBuilder extends AbstractTrackListBuilder {
+        withXTracks(quantity, trackRawDataBuilder) {
+        this.tracks = this.tracks.concat(new Array(quantity)
             .fill(null)
             .map((_, index) => {
                 const trackNumber = index + 1
@@ -22,12 +19,7 @@ export class DigestListBuilder {
         return this
     }
 
-    withDigest(digest) {
-        this.digests = this.digests.concat(digest)
-        return this
-    }
-
     build() {
-        return new DigestList(this.digests).getList()
+        return new DigestList(this.tracks).getList()
     }
 }
