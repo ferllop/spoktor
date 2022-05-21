@@ -5,9 +5,9 @@ export class TraktorParser extends PlaylistParser {
         return {traktorData: track}
     }
 
-    extractTracks(traktorCollection) {
+    extractTracks(collection) {
         const regex = /(<ENTRY.*?>.*?<\/ENTRY>)/gsm
-        return traktorCollection.match(regex)
+        return collection.match(regex)
     }
 
     extractArtist(track) {
@@ -16,6 +16,8 @@ export class TraktorParser extends PlaylistParser {
     }
 
     extractSong(track) {
+        /* We don't capture the title directly to be sure that we don't
+           capture the TITLE existing into the album field */
         const entryRegex = /<ENTRY(.*?)>/s
         const entry = track.match(entryRegex)[1]
         const titleRegex = /TITLE="(.*?)"/s
