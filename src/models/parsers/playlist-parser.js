@@ -16,7 +16,7 @@ export class PlaylistParser {
             this.extractArtist(track),
             this.extractSong(track),
             this.computeExtraData(track),
-        ).toDto()
+        )
     }
 
     computeExtraData(track) {

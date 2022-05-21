@@ -5,15 +5,16 @@ export class DigestList {
 
     constructor(digests) {
         this.digests = digests
+            .filter(Digest.isValid)
+            .map(this.addDigest.bind(this))
     }
 
-    addIndex(digest, index) {
-        return {index, ...digest}
+    addDigest(digest, index) {
+        return {index, digest: digest}
     }
 
     getList() {
-        return this.digests
-            .filter(Digest.isValid)
-            .map(this.addIndex.bind(this))
+        return this.digests.map(
+            item => ({index: item.index, ...item.digest.toDto()}))
     }
 }
