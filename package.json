@@ -5,11 +5,15 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "test": "uvu tests"
+    "test": "uvu tests",
+    "serve": "web-dev-server --root-dir src/delivery/web --watch --node-resolve"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "uvu": "^0.5.3"
+  },
+  "devDependencies": {
+    "@web/dev-server": "0.1.31"
   }
 }
