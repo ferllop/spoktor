@@ -1,6 +1,10 @@
 import {TracksSetParser} from './TracksSetParser.js'
 
 export class Traktor extends TracksSetParser {
+    computeExtraData(track) {
+        return {traktorData: track}
+    }
+
     extractTracks(traktorCollection) {
         const regex = /(<ENTRY.*?>.*?<\/ENTRY>)/gsm
         return traktorCollection.match(regex)

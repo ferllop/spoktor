@@ -15,7 +15,12 @@ export class TracksSetParser {
         return {
             artist: this.extractArtist(track),
             song: this.extractSong(track),
+            ...this.computeExtraData(track),
         }
+    }
+
+    computeExtraData(track) {
+        return {}
     }
 
     #isTrack(trackEntry) {
