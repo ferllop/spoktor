@@ -2,6 +2,7 @@ import {suite} from 'uvu'
 import * as assert from 'uvu/assert'
 import {SpotifyPlaylistBuilder} from '../../helpers/spotify-playlist-builder.js'
 import {SpotifyParser} from '../../../src/models/parsers/spotify-parser.js'
+import {assertDigestListsAreEqual} from '../../helpers/custom-asserts.js'
 
 const spotify2Json = suite("Spotify to JSON converter")
 
@@ -14,13 +15,13 @@ spotify2Json('should return an empty array when there are no tracks', ({spotify}
 })
 
 spotify2Json('should return a one item array when there is one track in the playlist', ({spotify}) => {
-    const playlist = new SpotifyPlaylistBuilder().withXtracks(1).build()
-    assert.equal(spotify.parse(playlist), [{index:0, artist:'artist1', song: 'song1'}])
+    const playlist = new SpotifyPlaylistBuilder().withXTracks(1)
+    assertDigestListsAreEqual(spotify.parse(playlist.build()), playlist.toDigestList())
 })
 
-spotify2Json('should return a the item array when there are two coincidences', ({spotify}) => {
-    const playlist = new SpotifyPlaylistBuilder().withXtracks(2).build()
-    assert.equal(spotify.parse(playlist), [{index:0, artist:'artist1', song: 'song1'}, {index: 1, artist:'artist2', song: 'song2'}])
+spotify2Json('should return a two items array when there are two items in the playlist', ({spotify}) => {
+    const playlist = new SpotifyPlaylistBuilder().withXTracks(2)
+    assertDigestListsAreEqual(spotify.parse(playlist.build()), playlist.toDigestList())
 })
 
 spotify2Json.run()

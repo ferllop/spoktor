@@ -15,12 +15,8 @@ export class PlaylistParser {
         return new Digest(
             this.extractArtist(track),
             this.extractSong(track),
-            this.computeExtraData(track),
+            track,
         )
-    }
-
-    computeExtraData(track) {
-        return {}
     }
 
     /**

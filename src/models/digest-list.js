@@ -2,19 +2,19 @@ import {Digest} from './digest.js'
 
 export class DigestList {
     static EMPTY = []
+    #indexedDigests
 
     constructor(digests) {
-        this.digests = digests
+        this.#indexedDigests = digests
             .filter(Digest.isValid)
-            .map(this.addDigest.bind(this))
+            .map(this.createItem.bind(this))
     }
 
-    addDigest(digest, index) {
+    createItem(digest, index) {
         return {index, digest: digest}
     }
 
     getList() {
-        return this.digests.map(
-            item => ({index: item.index, ...item.digest.toDto()}))
+        return this.#indexedDigests
     }
 }

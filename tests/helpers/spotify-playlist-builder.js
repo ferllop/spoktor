@@ -1,11 +1,13 @@
 import {SpotifyTrackBuilder} from './spotify-track-builder.js'
+import {Digest} from '../../src/models/digest.js'
+import {DigestList} from '../../src/models/digest-list.js'
 
 export class SpotifyPlaylistBuilder {
     constructor() {
         this.quantity = 0
     }
 
-    withXtracks(quantity) {
+    withXTracks(quantity) {
         this.quantity = quantity
         return this
     }
@@ -14,12 +16,28 @@ export class SpotifyPlaylistBuilder {
         return new Array(this.quantity)
             .fill(null)
             .map((_, index) => {
-                    const trackNumber = index + 1
-                    return new SpotifyTrackBuilder()
+                const trackNumber = index + 1
+                return new SpotifyTrackBuilder()
+                    .withArtist('artist' + trackNumber)
+                    .withSong('song' + trackNumber)
+                    .build()
+            })
+            .join('')
+    }
+
+    toDigestList() {
+        const digests = new Array(this.quantity)
+            .fill(null)
+            .map((_, index) => {
+                const trackNumber = index + 1
+                return new Digest(
+                    'artist' + trackNumber,
+                    'song' + trackNumber,
+                    new SpotifyTrackBuilder()
                         .withArtist('artist' + trackNumber)
                         .withSong('song' + trackNumber)
-                        .build()
-                })
-            .join('')
+                        .build())
+            })
+        return new DigestList(digests).getList()
     }
 }

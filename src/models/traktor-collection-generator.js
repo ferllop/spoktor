@@ -5,7 +5,7 @@ export class TraktorCollectionGenerator {
 <COLLECTION ENTRIES="${digests.length}">`
         const footer = '</COLLECTION></NML>'
         return header +
-            digests.map(digest => digest.traktorData).join('') +
+            digests.map(digest => digest.digest.rawData).join('') +
             footer
     }
 }

@@ -1,8 +1,8 @@
 export class Digest {
-    constructor(artist, song, extraData = {}) {
+    constructor(artist, song, rawData) {
         this.artist = artist
         this.song = song
-        this.extraData = extraData
+        this.rawData = rawData
     }
 
     static isValid(digest) {
@@ -14,7 +14,7 @@ export class Digest {
         return {
             artist: this.artist,
             song: this.song,
-            ...this.extraData,
+            rawData: this.rawData,
         }
     }
 }

@@ -1,10 +1,6 @@
 import {PlaylistParser} from './playlist-parser.js'
 
 export class TraktorParser extends PlaylistParser {
-    computeExtraData(track) {
-        return {traktorData: track}
-    }
-
     extractTracks(collection) {
         const regex = /(<ENTRY.*?>.*?<\/ENTRY>)/gsm
         return collection.match(regex)
