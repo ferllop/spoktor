@@ -1,7 +1,7 @@
 {
   "name": "spoktor",
   "version": "1.0.0",
-  "description": "An spotify to traktos playlist converter",
+  "description": "An spotify to traktor playlist converter",
   "type": "module",
   "main": "index.js",
   "scripts": {
