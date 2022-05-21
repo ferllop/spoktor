@@ -1,9 +1,9 @@
 import {PlaylistParser} from './playlist-parser.js'
 
 export class SpotifyParser extends PlaylistParser {
-    extractTracks(spotifyPlaylist) {
+    extractTracks(playlist) {
         const regex = /(<div.*?type="track".*?>.*?<\/div>)/gsm
-        return spotifyPlaylist.match(regex)
+        return playlist.match(regex)
     }
 
     extractArtist(track) {
