@@ -1,21 +1,14 @@
 import {Digest} from '../digest.js'
+import {DigestList} from '../digest-list.js'
 
 /**
  *  @abstract
  */
 export class PlaylistParser {
     parse(playlist) {
-        const tracks = this.extractTracks(playlist)
-        return tracks
-            ? tracks
-                .map(this.#createDigest.bind(this))
-                .filter(Digest.isValid)
-                .map(this.#addIndex.bind(this))
-            : []
-    }
-
-    #addIndex(track, index) {
-        return {index, ...track}
+        const tracks = this.extractTracks(playlist) ?? DigestList.EMPTY
+        const digests = tracks.map(this.#createDigest.bind(this))
+        return new DigestList(digests).getList()
     }
 
     #createDigest(track) {
