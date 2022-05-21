@@ -1,5 +1,5 @@
 import * as assert from 'uvu/assert'
-import {Traktor} from '../../src/models/Traktor.js'
+import {TraktorParser} from '../../src/models/traktor-parser.js'
 
 export function assertDigestPlaylistsAreEqual(playlistA, playlistB) {
     assert.equal(playlistA.length, playlistB.length)
@@ -18,7 +18,7 @@ export function assertDigestsAreEqual(digestA, digestB) {
 }
 
 export function assertTraktorTracksAreEqual(trackA, trackB) {
-    const traktorParser = new Traktor()
+    const traktorParser = new TraktorParser()
     const artistA = traktorParser.extractArtist(trackA)
     const artistB = traktorParser.extractArtist(trackB)
     assert.equal(artistA, artistB)

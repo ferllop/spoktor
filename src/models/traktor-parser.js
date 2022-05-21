@@ -1,6 +1,6 @@
-import {TracksSetParser} from './TracksSetParser.js'
+import {TracksSetParser} from './tracks-set-parser.js'
 
-export class Traktor extends TracksSetParser {
+export class TraktorParser extends TracksSetParser {
     computeExtraData(track) {
         return {traktorData: track}
     }

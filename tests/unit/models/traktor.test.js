@@ -1,6 +1,6 @@
 import {suite} from 'uvu'
 import * as assert from 'uvu/assert'
-import {Traktor} from '../../../src/models/Traktor.js'
+import {TraktorParser} from '../../../src/models/traktor-parser.js'
 import {TraktorPlaylistBuilder} from '../../helpers/traktor-collection-builder.js'
 import {TraktorTrackBuilder} from '../../helpers/traktor-track-builder.js'
 import {TrackDigestBuilder} from '../../helpers/track-digest-builder.js'
@@ -10,7 +10,7 @@ import {assertDigestPlaylistsAreEqual, assertDigestsAreEqual} from '../../helper
 const traktor2Json = suite('Traktor to JSON converter')
 
 traktor2Json.before.each(context => {
-    context.traktor = new Traktor()
+    context.traktor = new TraktorParser()
 })
 
 traktor2Json('should return an empty array when there are no tracks', ({traktor}) => {

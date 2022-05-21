@@ -1,6 +1,6 @@
-import {TracksSetParser} from './TracksSetParser.js'
+import {TracksSetParser} from './tracks-set-parser.js'
 
-export class Spotify extends TracksSetParser {
+export class SpotifyParser extends TracksSetParser {
     extractTracks(spotifyPlaylist) {
         const regex = /(<div.*?type="track".*?>.*?<\/div>)/gsm
         return spotifyPlaylist.match(regex)
