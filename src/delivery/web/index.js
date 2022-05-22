@@ -1,4 +1,4 @@
-import {Spoktor} from '../../models/spoktor.js'
+import {Spoktor} from '../../domain/spoktor.js'
 
 let spotifyPlaylist = null
 let traktorPlaylist = null

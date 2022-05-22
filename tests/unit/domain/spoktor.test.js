@@ -1,9 +1,9 @@
 import {suite} from 'uvu'
 import * as assert from 'uvu/assert'
-import {Spoktor} from '../../../src/models/spoktor.js'
+import {Spoktor} from '../../../src/domain/spoktor.js'
 import {TraktorPlaylistBuilder} from '../../helpers/builders/list/traktor-collection-builder.js'
 import {SpotifyPlaylistBuilder} from '../../helpers/builders/list/spotify-playlist-builder.js'
-import {EmptyPlaylistError} from '../../../src/models/errors/empty-playlist-error.js'
+import {EmptyPlaylistError} from '../../../src/domain/errors/empty-playlist-error.js'
 import {assertRawDataAreEqual} from '../../helpers/custom-asserts.js'
 
 const spoktorTest = suite('Spoktor')

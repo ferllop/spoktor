@@ -1,7 +1,7 @@
 import {suite} from 'uvu'
 import * as assert from 'uvu/assert'
 import {DigestListBuilder} from '../../helpers/builders/list/digest-list-builder.js'
-import {TraktorCollectionGenerator} from '../../../src/models/traktor-collection-generator.js'
+import {TraktorCollectionGenerator} from '../../../src/domain/traktor-collection-generator.js'
 import {TraktorPlaylistBuilder} from '../../helpers/builders/list/traktor-collection-builder.js'
 import {TraktorTrackBuilder} from '../../helpers/builders/track/traktor-track-builder.js'
 

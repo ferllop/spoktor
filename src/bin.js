@@ -1,4 +1,4 @@
-import {Spoktor} from './models/spoktor.js'
+import {Spoktor} from './domain/spoktor.js'
 import fs from 'fs'
 
 const spotifyPlaylistFile = process.argv[2]

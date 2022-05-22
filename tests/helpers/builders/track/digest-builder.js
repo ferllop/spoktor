@@ -1,4 +1,4 @@
-import {Digest} from '../../../../src/models/digest.js'
+import {Digest} from '../../../../src/domain/digest.js'
 import {AbstractTrackBuilder} from './abstract-track-builder.js'
 
 export class DigestBuilder extends AbstractTrackBuilder {
