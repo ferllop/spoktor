@@ -1,6 +1,6 @@
 import {suite} from 'uvu'
 import * as assert from 'uvu/assert'
-import {Intersect} from '../../../src/domain/intersect.js'
+import {Intersect} from '../../../../src/domain/commands/intersect.js'
 
 const intersectTest = suite('Intersect')
 

@@ -1,9 +1,9 @@
 import {suite} from 'uvu'
-import {SpotifyPlaylistBuilder} from '../../helpers/builders/list/spotify-playlist-builder.js'
-import {SpotifyParser} from '../../../src/domain/parsers/spotify-parser.js'
-import {assertDigestListsAreEqual} from '../../helpers/custom-asserts.js'
-import {DigestListBuilder} from '../../helpers/builders/list/digest-list-builder.js'
-import {SpotifyTrackBuilder} from '../../helpers/builders/track/spotify-track-builder.js'
+import {SpotifyPlaylistBuilder} from '../../../helpers/builders/list/spotify-playlist-builder.js'
+import {SpotifyParser} from '../../../../src/domain/parsers/spotify-parser.js'
+import {assertDigestListsAreEqual} from '../../../helpers/custom-asserts.js'
+import {DigestListBuilder} from '../../../helpers/builders/list/digest-list-builder.js'
+import {SpotifyTrackBuilder} from '../../../helpers/builders/track/spotify-track-builder.js'
 
 const spotify2Json = suite("Spotify to JSON converter")
 

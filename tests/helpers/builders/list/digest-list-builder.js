@@ -1,5 +1,5 @@
 import {DigestBuilder} from '../track/digest-builder.js'
-import {DigestList} from '../../../../src/domain/digest-list.js'
+import {DigestList} from '../../../../src/domain/models/digest-list.js'
 import {AbstractTrackListBuilder} from './abstract-track-list-builder.js'
 
 export class DigestListBuilder extends AbstractTrackListBuilder {
