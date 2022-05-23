@@ -13,9 +13,12 @@ function getFileContent(tracksSetFilename) {
 }
 
 try {
-    console.log(new Spoktor().execute(
-    getFileContent(spotifyPlaylistFile),
-    getFileContent(traktorCollectionFile)))
+    console.log(
+        new Spoktor(
+            getFileContent(spotifyPlaylistFile),
+            getFileContent(traktorCollectionFile))
+            .getTraktorPlaylist(),
+    )
 } catch (error) {
     console.log(error.message)
 }

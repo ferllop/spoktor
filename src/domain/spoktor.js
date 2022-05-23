@@ -3,15 +3,24 @@ import {TraktorCollectionGenerator} from './commands/traktor-collection-generato
 import {ParserSelector} from './commands/parser-selector.js'
 
 export class Spoktor {
-    execute(inputPlaylist, outputPlaylist) {
-        const inputParser = new ParserSelector().selectFor(inputPlaylist)
-        const inputDigests = inputParser.parse(inputPlaylist)
 
-        const outputParser = new ParserSelector().selectFor(outputPlaylist)
-        const outputDigests = outputParser.parse(outputPlaylist)
+    constructor(inputPlaylist, outputPlaylist) {
+        this.input = this.getDigestsFor(inputPlaylist)
+        this.output = this.getDigestsFor(outputPlaylist)
+    }
 
-        const coincidences = new Intersect().execute(inputDigests, outputDigests)
-        return new TraktorCollectionGenerator().execute(
-            coincidences.map(coincidence => outputDigests[coincidence]))
+    getTraktorPlaylist() {
+        const coincidenceIndexes = this.getCoincidentDigests()
+        return new TraktorCollectionGenerator().execute(coincidenceIndexes)
+    }
+
+    getCoincidentDigests() {
+        return new Intersect().execute(this.input, this.output)
+            .map(coincidence => this.output[coincidence])
+    }
+
+    getDigestsFor(playlist) {
+        const parser = new ParserSelector().selectFor(playlist)
+        return parser.parse(playlist)
     }
 }

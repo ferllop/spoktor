@@ -12,17 +12,17 @@ const traktorCollection = new TraktorPlaylistBuilder().withXTracks(3).build()
 const spotifyPlaylist = new SpotifyHtmlPlaylistBuilder().withXTracks(3).build()
 
 spoktorTest('should throw error if spotify playlist is empty', () => {
-    assert.throws(() => new Spoktor().execute([], traktorCollection),
+    assert.throws(() => new Spoktor([], traktorCollection).getTraktorPlaylist(),
             error => error instanceof EmptyPlaylistError)
 })
 
 spoktorTest('should throw error if traktor collection is empty', () => {
-    assert.throws(() => new Spoktor().execute(spotifyPlaylist, []),
+    assert.throws(() => new Spoktor(spotifyPlaylist, []).getTraktorPlaylist(),
         error => error instanceof EmptyPlaylistError)
 })
 
 spoktorTest('should return the same traktor playlist if spotify and traktor are equal', () => {
-    assertRawDataAreEqual(new Spoktor().execute(spotifyPlaylist, traktorCollection), traktorCollection)
+    assertRawDataAreEqual(new Spoktor(spotifyPlaylist, traktorCollection).getTraktorPlaylist(), traktorCollection)
 })
 
 spoktorTest('should return the one item that matches', () => {
@@ -34,10 +34,8 @@ spoktorTest('should return the one item that matches', () => {
         .build()
 
     assertRawDataAreEqual(
-        new Spoktor().execute(spotifyPlaylist, traktorPlaylist),
+        new Spoktor(spotifyPlaylist, traktorPlaylist).getTraktorPlaylist(),
         new TraktorPlaylistBuilder().withXTracks(1, 69).build())
 })
-
-
 
 spoktorTest.run()
