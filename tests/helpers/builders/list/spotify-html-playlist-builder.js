@@ -7,6 +7,19 @@ export class SpotifyHtmlPlaylistBuilder extends AbstractTrackListBuilder {
     }
 
     build() {
-        return this.tracks.join('')
+        return header + this.tracks.join('') + footer
     }
 }
+
+const header = `<!DOCTYPE html><html lang=en dir="ltr" class="mobile-web-player">
+<head><meta charset="UTF-8">
+<title>carnaval 2022 mama - playlist by ferllop | Spotify</title>
+<meta name="description" content="Listen on Spotify: " />
+<meta property="google" content="notranslate" />
+<meta property="fb:app_id" content="174829003346" />
+<meta property="og:title" content="carnaval 2022 mama" />
+<meta property="og:description" content="ferllop · Playlist · 38 songs" />
+<meta property="og:url" content="https://open.spotify.com/playlist/1W0X6U8GupQnU4xtMwfmys" />
+</head><body>`
+
+const footer = `</body></html>`

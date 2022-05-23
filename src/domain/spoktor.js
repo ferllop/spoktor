@@ -1,14 +1,17 @@
-import {SpotifyHtmlParser} from './parsers/spotify-html-parser.js'
-import {TraktorXmlParser} from './parsers/traktor-xml-parser.js'
 import {Intersect} from './commands/intersect.js'
 import {TraktorCollectionGenerator} from './commands/traktor-collection-generator.js'
+import {ParserSelector} from './commands/parser-selector.js'
 
 export class Spoktor {
-    execute(spotifyPlaylist, traktorCollection) {
-        const spotifyDigests = new SpotifyHtmlParser().parse(spotifyPlaylist)
-        const traktorDigests = new TraktorXmlParser().parse(traktorCollection)
-        const coincidences = new Intersect().execute(spotifyDigests, traktorDigests)
+    execute(inputPlaylist, outputPlaylist) {
+        const inputParser = new ParserSelector().selectFor(inputPlaylist)
+        const inputDigests = inputParser.parse(inputPlaylist)
+
+        const outputParser = new ParserSelector().selectFor(outputPlaylist)
+        const outputDigests = outputParser.parse(outputPlaylist)
+
+        const coincidences = new Intersect().execute(inputDigests, outputDigests)
         return new TraktorCollectionGenerator().execute(
-            coincidences.map(coincidence => traktorDigests[coincidence]))
+            coincidences.map(coincidence => outputDigests[coincidence]))
     }
 }
