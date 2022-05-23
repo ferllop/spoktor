@@ -1,6 +1,8 @@
 /**
  * @abstract
  */
+import {AbstractTrackListBuilder} from '../list/abstract-track-list-builder.js'
+
 export class AbstractTrackBuilder {
     constructor() {
         this.song = 'someSong'
@@ -14,6 +16,12 @@ export class AbstractTrackBuilder {
 
     withArtist(artist) {
         this.artist = artist
+        return this
+    }
+
+    numberedWith(number) {
+        this.withSong(AbstractTrackListBuilder.GENERIC_SONG_TITLE + number)
+        this.withArtist(AbstractTrackListBuilder.GENERIC_ARTIST_NAME + number)
         return this
     }
 

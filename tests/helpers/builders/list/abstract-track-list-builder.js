@@ -3,6 +3,9 @@
  */
 
 export class AbstractTrackListBuilder {
+    static GENERIC_ARTIST_NAME = 'artist'
+    static GENERIC_SONG_TITLE = 'song'
+
     constructor() {
         this.tracks = []
     }
@@ -23,8 +26,8 @@ export class AbstractTrackListBuilder {
             .map((_, index) => {
                 const trackNumber = index + offset
                 return trackBuilder
-                    .withArtist('artist' + trackNumber)
-                    .withSong('song' + trackNumber)
+                    .withArtist(AbstractTrackListBuilder.GENERIC_ARTIST_NAME + trackNumber)
+                    .withSong(AbstractTrackListBuilder.GENERIC_SONG_TITLE + trackNumber)
                     .build()
             }))
         return this

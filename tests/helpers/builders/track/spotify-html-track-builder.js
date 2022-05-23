@@ -1,6 +1,6 @@
 import {AbstractTrackBuilder} from './abstract-track-builder.js'
 
-export class SpotifyTrackBuilder extends AbstractTrackBuilder {
+export class SpotifyHtmlTrackBuilder extends AbstractTrackBuilder {
     build() {
         return `
             <div data-testid="track-row" class="EntityRowV2__Container-sc-ayafop-0 bjLiWe">
