@@ -1,5 +1,5 @@
 import {Intersect} from './commands/intersect.js'
-import {TraktorCollectionGenerator} from './commands/traktor-collection-generator.js'
+import {TraktorPlaylistGenerator} from './commands/traktor-playlist-generator.js'
 import {ParserSelector} from './commands/parser-selector.js'
 
 export class Spoktor {
@@ -11,7 +11,7 @@ export class Spoktor {
 
     getTraktorPlaylist() {
         const coincidenceIndexes = this.getCoincidentDigests()
-        return new TraktorCollectionGenerator().execute(coincidenceIndexes)
+        return new TraktorPlaylistGenerator().execute(coincidenceIndexes)
     }
 
     getCoincidentDigests() {
