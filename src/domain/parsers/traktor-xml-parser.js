@@ -19,4 +19,9 @@ export class TraktorXmlParser extends PlaylistParser {
         const titleRegex = /TITLE="(.*?)"/s
         return entry.match(titleRegex)?.[1] ?? ''
     }
+
+    extractDir(track) {
+        const regex = /<LOCATION.*?DIR="(.*?)"/s
+        return track.match(regex)[1]
+    }
 }

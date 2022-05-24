@@ -5,6 +5,7 @@ import {TraktorTrackBuilder} from '../../../helpers/builders/track/traktor-track
 import {DigestBuilder} from '../../../helpers/builders/track/digest-builder.js'
 import {DigestListBuilder} from '../../../helpers/builders/list/digest-list-builder.js'
 import {assertDigestListsAreEqual, assertRawDataAreEqual} from '../../../helpers/custom-asserts.js'
+import * as assert from 'uvu/assert'
 
 const traktorXmlParser = suite('Traktor XML parser')
 
@@ -66,6 +67,12 @@ traktorXmlParser('should include the raw data into the track digest', ({traktor}
     const track = new TraktorTrackBuilder().build()
     const playlist = new TraktorCollectionBuilder().withTrack(track).build()
     assertRawDataAreEqual(traktor.parse(playlist)[0].digest.rawData, track)
+})
+
+traktorXmlParser('should know how to extract the directory of a collection entry', ({traktor}) => {
+    const directory = '/the-absolute/directory/path/'
+    const track = new TraktorTrackBuilder().withDirectory(directory).build()
+    assert.equal(traktor.extractDir(track), directory.replaceAll('/', '/:'))
 })
 
 traktorXmlParser.run()

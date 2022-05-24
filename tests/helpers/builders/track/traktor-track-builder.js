@@ -2,6 +2,8 @@ export class TraktorTrackBuilder {
     constructor() {
         this.song = 'someSong'
         this.artist = 'someArtist'
+        this.directory = '/:path/:where/:audio-file/:is-located/:'
+        this.filename = 'audio file-file_name.mp3'
     }
 
     withoutArtist() {
@@ -24,6 +26,18 @@ export class TraktorTrackBuilder {
         return this
     }
 
+    withDirectory(directory) {
+        this.directory = '/:' + directory
+            .replace(/^\//, '')
+            .replace(/\/$/, '')
+            .replaceAll('/', '/:') + '/:'
+        return this
+    }
+    withFilename(filename) {
+        this.filename = filename
+        return this
+    }
+
     build() {
         const artistAttribute = this.artist === null ? '' : `ARTIST="${this.artist}"`
         const titleAttribute = this.song === null ? '' : `TITLE="${this.song}"`
@@ -33,8 +47,8 @@ export class TraktorTrackBuilder {
             MODIFIED_TIME="67805" AUDIO_ID="AOQAABJVRUVVRFVURnUzRAAAA==" 
             ${titleAttribute} 
             ${artistAttribute}>
-            <LOCATION DIR="/:19-05-22 Dolçe/:" 
-            FILE="Lamberghini _ Audio Song _ The Doorbeen Feat Ragini _ Speed Records.mp3" VOLUME="C:" VOLUMEID="daa01b2e"></LOCATION>
+            <LOCATION DIR="${this.directory}" 
+            FILE="${this.filename}" VOLUME="C:" VOLUMEID="daa01b2e"></LOCATION>
 <ALBUM TITLE="Lamborgini"></ALBUM>
 <MODIFICATION_INFO AUTHOR_TYPE="user"></MODIFICATION_INFO>
 <INFO BITRATE="245252" COVERARTID="020/UQQJSAD5XLQPSDMGCLPVCEA5WRBA" PLAYTIME="229" PLAYTIME_FLOAT="228.072006" IMPORT_DATE="2022/5/19" RELEASE_DATE="2018/1/1" FLAGS="12"></INFO>
