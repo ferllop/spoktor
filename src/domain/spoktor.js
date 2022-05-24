@@ -5,8 +5,8 @@ import {ParserSelector} from './commands/parser-selector.js'
 export class Spoktor {
 
     constructor(inputPlaylist, outputPlaylist) {
-        this.input = this.getDigestsFor(inputPlaylist)
-        this.output = this.getDigestsFor(outputPlaylist)
+        this.input = Spoktor.getDigestsFor(inputPlaylist)
+        this.output = Spoktor.getDigestsFor(outputPlaylist)
     }
 
     getTraktorPlaylist() {
@@ -19,7 +19,7 @@ export class Spoktor {
             .map(coincidence => this.output[coincidence])
     }
 
-    getDigestsFor(playlist) {
+    static getDigestsFor(playlist) {
         const parser = new ParserSelector().selectFor(playlist)
         return parser.parse(playlist)
     }
