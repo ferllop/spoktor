@@ -24,4 +24,9 @@ export class TraktorXmlParser extends PlaylistParser {
         const regex = /<LOCATION.*?DIR="(.*?)"/s
         return track.match(regex)[1]
     }
+
+    extractFilename(track) {
+        const regex = /<LOCATION.*?FILE="(.*?)"/s
+        return track.match(regex)[1]
+    }
 }

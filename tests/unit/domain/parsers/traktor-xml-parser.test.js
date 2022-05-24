@@ -69,10 +69,16 @@ traktorXmlParser('should include the raw data into the track digest', ({traktor}
     assertRawDataAreEqual(traktor.parse(playlist)[0].digest.rawData, track)
 })
 
-traktorXmlParser('should know how to extract the directory of a collection entry', ({traktor}) => {
+traktorXmlParser('should know how to extract the directory from a collection entry', ({traktor}) => {
     const directory = '/the-absolute/directory/path/'
     const track = new TraktorTrackBuilder().withDirectory(directory).build()
     assert.equal(traktor.extractDir(track), directory.replaceAll('/', '/:'))
+})
+
+traktorXmlParser('should know how to extract the filename from a collection entry', ({traktor}) => {
+    const filename = 'this-is the_filename.mp3'
+    const track = new TraktorTrackBuilder().withFilename(filename).build()
+    assert.equal(traktor.extractFilename(track), filename)
 })
 
 traktorXmlParser.run()
