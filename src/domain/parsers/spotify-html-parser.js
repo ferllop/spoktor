@@ -15,4 +15,9 @@ export class SpotifyHtmlParser extends PlaylistParser {
         const regex = /<a.*?href=".*?\/track\/.*?">(.*?)<\/a>/s
         return track.match(regex)[1]
     }
+
+    extractPlaylistName(playlist) {
+        const regex = /<meta property="og:title" content="(.*?)"\/>/s
+        return playlist.match(regex)[1]
+    }
 }

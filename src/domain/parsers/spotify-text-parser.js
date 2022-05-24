@@ -12,6 +12,10 @@ export class SpotifyTextParser extends PlaylistParser {
     extractSong(track) {
         return track.split('\n')[2]
     }
+
+    extractPlaylistName(playlist) {
+        return playlist[1]
+    }
 }
 
 class TrackExtractor {

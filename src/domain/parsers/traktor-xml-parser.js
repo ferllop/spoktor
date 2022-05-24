@@ -34,4 +34,8 @@ export class TraktorXmlParser extends PlaylistParser {
         const regex = /<LOCATION.*?VOLUME="(.*?)"/s
         return track.match(regex)[1]
     }
+
+    extractPlaylistName(track) {
+        return ''
+    }
 }

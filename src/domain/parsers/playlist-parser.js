@@ -40,4 +40,10 @@ export class PlaylistParser {
      */
     extractSong(track) {
     }
+
+    /**
+     *  @abstract
+     */
+    extractPlaylistName(track) {
+    }
 }
