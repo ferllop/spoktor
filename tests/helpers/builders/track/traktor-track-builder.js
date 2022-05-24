@@ -2,6 +2,7 @@ export class TraktorTrackBuilder {
     constructor() {
         this.song = 'someSong'
         this.artist = 'someArtist'
+        this.volume = 'C:'
         this.directory = '/:path/:where/:audio-file/:is-located/:'
         this.filename = 'audio file-file_name.mp3'
     }
@@ -33,8 +34,14 @@ export class TraktorTrackBuilder {
             .replaceAll('/', '/:') + '/:'
         return this
     }
+
     withFilename(filename) {
         this.filename = filename
+        return this
+    }
+
+    withVolume(volume) {
+        this.volume = volume.replaceAll(':', '').toUpperCase() + ':'
         return this
     }
 
@@ -48,7 +55,7 @@ export class TraktorTrackBuilder {
             ${titleAttribute} 
             ${artistAttribute}>
             <LOCATION DIR="${this.directory}" 
-            FILE="${this.filename}" VOLUME="C:" VOLUMEID="daa01b2e"></LOCATION>
+            FILE="${this.filename}" VOLUME="${this.volume}" VOLUMEID="daa01b2e"></LOCATION>
 <ALBUM TITLE="Lamborgini"></ALBUM>
 <MODIFICATION_INFO AUTHOR_TYPE="user"></MODIFICATION_INFO>
 <INFO BITRATE="245252" COVERARTID="020/UQQJSAD5XLQPSDMGCLPVCEA5WRBA" PLAYTIME="229" PLAYTIME_FLOAT="228.072006" IMPORT_DATE="2022/5/19" RELEASE_DATE="2018/1/1" FLAGS="12"></INFO>

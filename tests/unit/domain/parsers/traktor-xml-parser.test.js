@@ -81,4 +81,10 @@ traktorXmlParser('should know how to extract the filename from a collection entr
     assert.equal(traktor.extractFilename(track), filename)
 })
 
+traktorXmlParser('should know how to extract the volume from a collection entry', ({traktor}) => {
+    const volume = 'C:'
+    const track = new TraktorTrackBuilder().withVolume(volume).build()
+    assert.equal(traktor.extractVolume(track), volume)
+})
+
 traktorXmlParser.run()
