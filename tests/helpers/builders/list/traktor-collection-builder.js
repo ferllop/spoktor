@@ -1,7 +1,7 @@
 import {TraktorTrackBuilder} from '../track/traktor-track-builder.js'
 import {AbstractTrackListBuilder} from './abstract-track-list-builder.js'
 
-export class TraktorPlaylistBuilder extends AbstractTrackListBuilder {
+export class TraktorCollectionBuilder extends AbstractTrackListBuilder {
     withXTracks(quantity, offset = 1) {
         return super.withXTracks(quantity, offset, new TraktorTrackBuilder())
     }

@@ -1,14 +1,14 @@
 import {suite} from 'uvu'
 import * as assert from 'uvu/assert'
 import {Spoktor} from '../../../src/domain/spoktor.js'
-import {TraktorPlaylistBuilder} from '../../helpers/builders/list/traktor-collection-builder.js'
+import {TraktorCollectionBuilder} from '../../helpers/builders/list/traktor-collection-builder.js'
 import {SpotifyHtmlPlaylistBuilder} from '../../helpers/builders/list/spotify-html-playlist-builder.js'
 import {EmptyPlaylistError} from '../../../src/domain/errors/empty-playlist-error.js'
 import {assertRawDataAreEqual} from '../../helpers/custom-asserts.js'
 
 const spoktorTest = suite('Spoktor')
 
-const traktorCollection = new TraktorPlaylistBuilder().withXTracks(3).build()
+const traktorCollection = new TraktorCollectionBuilder().withXTracks(3).build()
 const spotifyPlaylist = new SpotifyHtmlPlaylistBuilder().withXTracks(3).build()
 
 spoktorTest('should throw error if spotify playlist is empty', () => {
@@ -27,7 +27,7 @@ spoktorTest('should return the same traktor playlist if spotify and traktor are 
 
 spoktorTest('should return the one item that matches', () => {
     const spotifyPlaylist = new SpotifyHtmlPlaylistBuilder().withXTracks(1, 69).build()
-    const traktorPlaylist = new TraktorPlaylistBuilder()
+    const traktorPlaylist = new TraktorCollectionBuilder()
         .withXTracks(3)
         .withXTracks( 2, 69)
         .withXTracks(4, 3)
@@ -35,7 +35,7 @@ spoktorTest('should return the one item that matches', () => {
 
     assertRawDataAreEqual(
         new Spoktor(spotifyPlaylist, traktorPlaylist).getTraktorPlaylist(),
-        new TraktorPlaylistBuilder().withXTracks(1, 69).build())
+        new TraktorCollectionBuilder().withXTracks(1, 69).build())
 })
 
 spoktorTest.run()

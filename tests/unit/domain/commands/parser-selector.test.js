@@ -4,7 +4,7 @@ import {SpotifyTextPlaylistBuilder} from '../../../helpers/builders/list/spotify
 import {SpotifyTextParser} from '../../../../src/domain/parsers/spotify-text-parser.js'
 import {ParserSelector} from '../../../../src/domain/commands/parser-selector.js'
 import {TraktorXmlParser} from '../../../../src/domain/parsers/traktor-xml-parser.js'
-import {TraktorPlaylistBuilder} from '../../../helpers/builders/list/traktor-collection-builder.js'
+import {TraktorCollectionBuilder} from '../../../helpers/builders/list/traktor-collection-builder.js'
 import {EmptyPlaylistError} from '../../../../src/domain/errors/empty-playlist-error.js'
 import {SpotifyHtmlPlaylistBuilder} from '../../../helpers/builders/list/spotify-html-playlist-builder.js'
 import {SpotifyHtmlParser} from '../../../../src/domain/parsers/spotify-html-parser.js'
@@ -12,7 +12,7 @@ import {SpotifyHtmlParser} from '../../../../src/domain/parsers/spotify-html-par
 const parserSelector = suite('Parser selector')
 
 parserSelector('should return the parser to parse a traktor text playlist when is what is provided', () => {
-    const traktorPlaylist = new TraktorPlaylistBuilder().withXTracks(3).build()
+    const traktorPlaylist = new TraktorCollectionBuilder().withXTracks(3).build()
     assert.instance(new ParserSelector().selectFor(traktorPlaylist), TraktorXmlParser)
 })
 
