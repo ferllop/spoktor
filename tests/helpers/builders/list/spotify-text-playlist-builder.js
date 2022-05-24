@@ -6,14 +6,20 @@ export class SpotifyTextPlaylistBuilder extends AbstractTrackListBuilder {
         return super.withXTracks(quantity, offset, new SpotifyTextTrackBuilder())
     }
 
+    withPlaylistName(name) {
+        this.playlistName = name
+        return this
+    }
+
     build() {
-        return header + '\n' + this.tracks.join('\n\n') + '\n' + footer
+        return header(this.playlistName) + '\n' + this.tracks.join('\n\n') + '\n' + footer
     }
 
 }
 
-const header = `somerandomcharactersonalongstring--sgljhsfgljhfljahfpawuyrapjdfhsñkjgsfkgjfg
-4 de Junio 2022
+const header = (playlistName) => `somerandomcharactersonalongstring--sgljhsfgljhfljahfpawuyrapjdfhsñkjgsfkgjfg
+
+${playlistName ?? '4 de Junio 2022'}
 Upgrade
 
 theuser
@@ -82,14 +88,14 @@ Change volume
 
 Listening on AA-L678
 
-4 de Junio 2022
+${playlistName ?? '4 de Junio 2022'}
 Choose photo
 
 
     Playlist
 
 
-  4 de Junio 2022
+  ${playlistName ?? '4 de Junio 2022'}
 
 theuser <https://open.spotify.com/user/theuser>
 1 like73 songs, 4 hr 51 min

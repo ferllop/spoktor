@@ -14,7 +14,12 @@ export class SpotifyTextParser extends PlaylistParser {
     }
 
     extractPlaylistName(playlist) {
-        return playlist[1]
+        const arr = playlist.split('\n')
+        const hashtagIndex = arr.findIndex(line => {
+            const cleaned = line.replace(/\s/g, '')
+            return cleaned === '#'
+        })
+        return arr[hashtagIndex - 12]
     }
 }
 

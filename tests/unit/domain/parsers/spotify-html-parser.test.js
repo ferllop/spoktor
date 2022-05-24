@@ -4,6 +4,7 @@ import {SpotifyHtmlParser} from '../../../../src/domain/parsers/spotify-html-par
 import {assertDigestListsAreEqual} from '../../../helpers/custom-asserts.js'
 import {DigestListBuilder} from '../../../helpers/builders/list/digest-list-builder.js'
 import {SpotifyHtmlTrackBuilder} from '../../../helpers/builders/track/spotify-html-track-builder.js'
+import * as assert from 'uvu/assert'
 
 const spotifyHtmlParser = suite("Spotify HTML parser")
 
@@ -22,6 +23,12 @@ spotifyHtmlParser('should return a two items array when there are two items in t
     const playlist = new SpotifyHtmlPlaylistBuilder().withXTracks(2)
     assertDigestListsAreEqual(spotify.parse(playlist.build()),
         new DigestListBuilder().withXTracks(2, new SpotifyHtmlTrackBuilder()).build())
+})
+
+spotifyHtmlParser('should know how to extract the name of the playlist', ({spotify}) => {
+    const playlistName = 'The Playlist'
+    const playlist = new SpotifyHtmlPlaylistBuilder().withPlaylistName(playlistName).build()
+    assert.equal(spotify.extractPlaylistName(playlist), playlistName)
 })
 
 spotifyHtmlParser.run()

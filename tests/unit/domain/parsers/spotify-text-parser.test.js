@@ -84,6 +84,12 @@ spotifyTextParser('should return the two digests when there are two items in the
         new DigestListBuilder().withXTracks(2, new SpotifyTextTrackBuilder()).build())
 })
 
+spotifyTextParser('should know how to extract the playlist name', ({spotify}) => {
+    const playlistName = 'The Playlist'
+    const playlist = new SpotifyTextPlaylistBuilder().withPlaylistName(playlistName).build()
+    assert.equal(spotify.extractPlaylistName(playlist), playlistName)
+})
+
 
 
 spotifyTextParser.run()
