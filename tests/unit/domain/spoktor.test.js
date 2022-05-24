@@ -4,7 +4,8 @@ import {Spoktor} from '../../../src/domain/spoktor.js'
 import {TraktorCollectionBuilder} from '../../helpers/builders/list/traktor-collection-builder.js'
 import {SpotifyHtmlPlaylistBuilder} from '../../helpers/builders/list/spotify-html-playlist-builder.js'
 import {EmptyPlaylistError} from '../../../src/domain/errors/empty-playlist-error.js'
-import {assertRawDataAreEqual} from '../../helpers/custom-asserts.js'
+import {assertDigestListsAreEqual} from '../../helpers/custom-asserts.js'
+import * as crypto from 'node:crypto'
 
 const spoktorTest = suite('Spoktor')
 
@@ -12,17 +13,21 @@ const traktorCollection = new TraktorCollectionBuilder().withXTracks(3).build()
 const spotifyPlaylist = new SpotifyHtmlPlaylistBuilder().withXTracks(3).build()
 
 spoktorTest('should throw error if spotify playlist is empty', () => {
-    assert.throws(() => new Spoktor([], traktorCollection).getTraktorPlaylist(),
+    assert.throws(() => new Spoktor([], traktorCollection).getTraktorPlaylist(crypto.randomUUID),
             error => error instanceof EmptyPlaylistError)
 })
 
 spoktorTest('should throw error if traktor collection is empty', () => {
-    assert.throws(() => new Spoktor(spotifyPlaylist, []).getTraktorPlaylist(),
+    assert.throws(() => new Spoktor(spotifyPlaylist, []).getTraktorPlaylist(crypto.randomUUID),
         error => error instanceof EmptyPlaylistError)
 })
 
 spoktorTest('should return the same traktor playlist if spotify and traktor are equal', () => {
-    assertRawDataAreEqual(new Spoktor(spotifyPlaylist, traktorCollection).getTraktorPlaylist(), traktorCollection)
+    assertDigestListsAreEqual(
+        Spoktor.getDigestsFor(
+            new Spoktor(spotifyPlaylist, traktorCollection)
+                .getTraktorPlaylist(crypto.randomUUID)),
+        Spoktor.getDigestsFor(traktorCollection))
 })
 
 spoktorTest('should return the one item that matches', () => {
@@ -33,9 +38,12 @@ spoktorTest('should return the one item that matches', () => {
         .withXTracks(4, 3)
         .build()
 
-    assertRawDataAreEqual(
-        new Spoktor(spotifyPlaylist, traktorPlaylist).getTraktorPlaylist(),
-        new TraktorCollectionBuilder().withXTracks(1, 69).build())
+    assertDigestListsAreEqual(
+        Spoktor.getDigestsFor(
+            new Spoktor(spotifyPlaylist, traktorPlaylist)
+                .getTraktorPlaylist(crypto.randomUUID)),
+        Spoktor.getDigestsFor(
+            new TraktorCollectionBuilder().withXTracks(1, 69).build()))
 })
 
 spoktorTest.run()
