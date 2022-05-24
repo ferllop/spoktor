@@ -34,6 +34,8 @@ function loadSpotifyFile(inputElement) {
     const fr = new FileReader()
     fr.onload = function () {
         spotifyPlaylist = fr.result
+        const aside = document.getElementById('spotify-content')
+        renderDigests(Spoktor.getDigestsFor(spotifyPlaylist), aside)
     }
     fr.readAsText(inputElement.files[0])
 }
@@ -41,12 +43,48 @@ function loadSpotifyFile(inputElement) {
 const submit = document.querySelector('input[type="submit"]')
 submit.addEventListener('click', (event) => {
     event.preventDefault()
-    getResults()
+    const spoktor = new Spoktor(spotifyPlaylist, traktorPlaylist)
+    const result = spoktor.getCoincidentDigests()
+    document.dispatchEvent(new CustomEvent('spoktor', {bubbles: true, detail: result}))
 })
 
-function getResults() {
-    const result = new Spoktor().execute(spotifyPlaylist, traktorPlaylist)
-    download('generated-playlist.nml', result)
+
+const result = document.getElementById('result')
+document.addEventListener('spoktor', event => {
+    const digests = event.detail
+    if (digests.length === 0) {
+        return renderNoCoincidences(result)
+    }
+    result.innerHTML = ''
+    const spoktor = new Spoktor(spotifyPlaylist, traktorPlaylist)
+    insertDownloadButton(result, spoktor.getTraktorPlaylist())
+    renderDigests(digests, result)
+})
+
+function renderNoCoincidences(parentElement) {
+    parentElement.innerHTML = ''
+    const article = document.createElement('article')
+    article.innerText = 'There are no coincidences'
+    parentElement.appendChild(article)
+}
+function insertDownloadButton(parent, fileContent) {
+    const button = document.createElement('button')
+    button.innerText = 'Download traktor playlist'
+    button.addEventListener('click', () => {
+        download('generated-playlist.nml', fileContent)
+    })
+    parent.appendChild(button)
+}
+
+function renderDigests(digests, parentElement) {
+    const list = document.createElement('ol')
+    digests.map(digest => {
+        const item = document.createElement('li')
+        item.innerHTML = 'Artist: ' + digest.digest.artist +
+            '<br />' + 'Song: ' + digest.digest.song
+        list.appendChild(item)
+    })
+    parentElement.appendChild(list)
 }
 
 function download(filename, text) {
@@ -58,4 +96,5 @@ function download(filename, text) {
     element.click()
     document.body.removeChild(element)
 }
+
 

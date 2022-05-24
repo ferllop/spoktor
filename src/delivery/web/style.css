@@ -1,7 +1,11 @@
 body {
     display: grid;
+    grid-template-columns: repeat(3, 1fr);
     place-content: center;
-    font-size: 1.2rem;
+}
+
+aside {
+    font-size: 0.9rem;
 }
 
 h1 {
@@ -10,6 +14,7 @@ h1 {
 }
 
 form {
+    font-size: 1.2rem;
     display: flex;
     flex-direction: column;
 }
@@ -20,4 +25,8 @@ fieldset:not(:last-child) {
 
 input[type="submit"] {
     padding: 1em;
+}
+
+li {
+    margin-bottom: 1em;
 }
