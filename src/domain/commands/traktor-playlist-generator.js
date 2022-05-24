@@ -1,9 +1,6 @@
 import {TraktorXmlParser} from '../parsers/traktor-xml-parser.js'
 
 export class TraktorPlaylistGenerator {
-    constructor(uuidGenerator) {
-        this.uuidGenerator = uuidGenerator
-    }
 
     execute(digests, playlistName) {
         const header = `<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
@@ -17,7 +14,7 @@ export class TraktorPlaylistGenerator {
 <NODE TYPE="FOLDER" NAME="$ROOT">
 <SUBNODES COUNT="1">
 <NODE TYPE="PLAYLIST" NAME="${playlistName}">
-<PLAYLIST ENTRIES="${digests.length}" TYPE="LIST" UUID="${this.uuidGenerator().replaceAll('-', '')}">
+<PLAYLIST ENTRIES="${digests.length}" TYPE="LIST" UUID="generatedByTraktor">
 ${this.getNodePlaylistEntries(digests)}
 </PLAYLIST>
 </NODE>

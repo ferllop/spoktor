@@ -57,7 +57,7 @@ document.addEventListener('spoktor', event => {
     }
     result.innerHTML = ''
     const spoktor = new Spoktor(spotifyPlaylist, traktorPlaylist)
-    insertDownloadButton(result, spoktor.getTraktorPlaylist())
+    insertDownloadButton(result, spoktor.getTraktorPlaylist(), spoktor.getPlaylistNameFrom(spotifyPlaylist))
     renderDigests(digests, result)
 })
 
@@ -67,11 +67,11 @@ function renderNoCoincidences(parentElement) {
     article.innerText = 'There are no coincidences'
     parentElement.appendChild(article)
 }
-function insertDownloadButton(parent, fileContent) {
+function insertDownloadButton(parent, fileContent, filename) {
     const button = document.createElement('button')
     button.innerText = 'Download traktor playlist'
     button.addEventListener('click', () => {
-        download('generated-playlist.nml', fileContent)
+        download('spoktor_-' + filename + '.nml', fileContent)
     })
     parent.appendChild(button)
 }

@@ -6,7 +6,6 @@ import {SpotifyHtmlPlaylistBuilder} from '../../helpers/builders/list/spotify-ht
 import {EmptyPlaylistError} from '../../../src/domain/errors/empty-playlist-error.js'
 import {assertDigestListsAreEqual} from '../../helpers/custom-asserts.js'
 import {SpotifyTextPlaylistBuilder} from '../../helpers/builders/list/spotify-text-playlist-builder.js'
-import {emptyUUIDGenerator} from '../../helpers/empty-uuid-generator.js'
 
 const spoktorTest = suite('Spoktor')
 
@@ -14,20 +13,19 @@ const traktorCollection = new TraktorCollectionBuilder().withXTracks(3).build()
 const spotifyPlaylist = new SpotifyTextPlaylistBuilder().withXTracks(3).build()
 
 spoktorTest('should throw error if spotify playlist is empty', () => {
-    assert.throws(() => new Spoktor([], traktorCollection).getTraktorPlaylist(emptyUUIDGenerator),
+    assert.throws(() => new Spoktor([], traktorCollection).getTraktorPlaylist(),
             error => error instanceof EmptyPlaylistError)
 })
 
 spoktorTest('should throw error if traktor collection is empty', () => {
-    assert.throws(() => new Spoktor(spotifyPlaylist, []).getTraktorPlaylist(emptyUUIDGenerator),
+    assert.throws(() => new Spoktor(spotifyPlaylist, []).getTraktorPlaylist(),
         error => error instanceof EmptyPlaylistError)
 })
 
 spoktorTest('should return the same traktor playlist if spotify and traktor are equal', () => {
     assertDigestListsAreEqual(
         Spoktor.getDigestsFor(
-            new Spoktor(spotifyPlaylist, traktorCollection)
-                .getTraktorPlaylist(emptyUUIDGenerator)),
+            new Spoktor(spotifyPlaylist, traktorCollection).getTraktorPlaylist()),
         Spoktor.getDigestsFor(traktorCollection))
 })
 
@@ -41,8 +39,7 @@ spoktorTest('should return the one item that matches', () => {
 
     assertDigestListsAreEqual(
         Spoktor.getDigestsFor(
-            new Spoktor(spotifyPlaylist, traktorPlaylist)
-                .getTraktorPlaylist(emptyUUIDGenerator)),
+            new Spoktor(spotifyPlaylist, traktorPlaylist).getTraktorPlaylist()),
         Spoktor.getDigestsFor(
             new TraktorCollectionBuilder().withXTracks(1, 69).build()))
 })

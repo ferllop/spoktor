@@ -22,7 +22,7 @@ export class TraktorPlaylistBuilder extends AbstractTrackListBuilder {
 <NODE TYPE="FOLDER" NAME="$ROOT">
 <SUBNODES COUNT="1">
 <NODE TYPE="PLAYLIST" NAME="the-playlist-name">
-<PLAYLIST ENTRIES="${this.tracks.length}" TYPE="LIST" UUID="qwertyuioplkjhgfdsazxcvbnm123456">
+<PLAYLIST ENTRIES="${this.tracks.length}" TYPE="LIST" UUID="generatedByTraktor">
 ${this.getNodePlaylistEntries(this.tracks)}
 </PLAYLIST>
 </NODE>

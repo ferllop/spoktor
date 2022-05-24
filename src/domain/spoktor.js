@@ -9,10 +9,10 @@ export class Spoktor {
         this.output = outputPlaylist
     }
 
-    getTraktorPlaylist(uuidGenerator) {
+    getTraktorPlaylist() {
         const playlistName = this.getPlaylistNameFrom(this.input)
         const coincidentDigests = this.getCoincidentDigests()
-        return new TraktorPlaylistGenerator(uuidGenerator).execute(coincidentDigests, playlistName)
+        return new TraktorPlaylistGenerator().execute(coincidentDigests, playlistName)
     }
 
     getCoincidentDigests() {

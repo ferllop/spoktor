@@ -8,8 +8,7 @@ import {TraktorPlaylistBuilder} from '../../../helpers/builders/list/traktor-pla
 const traktorPlaylistGenerator = suite('Traktor playlist generator')
 
 traktorPlaylistGenerator.before.each(context => {
-    const fakeUUIDGenerator = () => 'qwertyuioplkjhgfdsazxcvbnm123456'
-    context.generator = new TraktorPlaylistGenerator(fakeUUIDGenerator)
+    context.generator = new TraktorPlaylistGenerator()
 })
 
 traktorPlaylistGenerator('should generate a playlist with no entries when zero digests are provided', ({generator}) => {
