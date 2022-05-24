@@ -48,12 +48,43 @@ spotifyTextParser('should know how to extract the artist from track when there a
     assert.equal(result, 'This is the first artist, This is the second artist, This is the third artist')
 })
 
+spotifyTextParser('should know how to extract the artist from track when there are three artists with word-break in its names', ({spotify}) => {
+    const track = `2
+
+Summer Sippin'
+Artist 1 <https://open.spotify.com/artist/08p782h5VznNEQMM4wAEp9>, Artist
+2 <https://open.spotify.com/artist/08p782h5VznNEQMM4wAEp9>, Artist 3
+<https://open.spotify.com/artist/04Z34FmSj3cdFipHz013Id>
+Summer Sippin' <https://open.spotify.com/album/5BT52U1Dee7ed2FIQbFkb9>
+hace 25 días
+
+3:21`
+    const result = spotify.extractArtist(track)
+    assert.equal(result, 'Artist 1, Artist 2, Artist 3')
+})
+
+spotifyTextParser('should not include the album when its breaked in two lines', ({spotify}) => {
+    const track = `2
+
+Summer Sippin'
+Artist 1 <https://open.spotify.com/artist/08p782h5VznNEQMM4wAEp9>
+Summer Sippin'
+<https://open.spotify.com/album/5BT52U1Dee7ed2FIQbFkb9>
+hace 25 días
+
+3:21`
+    const result = spotify.extractArtist(track)
+    assert.equal(result, 'Artist 1')
+})
+
 spotifyTextParser('should return the two digests when there are two items in the playlist', ({spotify}) => {
     const playlist = new SpotifyTextPlaylistBuilder().withXTracks(2).build()
     assertDigestListsAreEqual(
         spotify.parse(playlist),
         new DigestListBuilder().withXTracks(2, new SpotifyTextTrackBuilder()).build())
 })
+
+
 
 spotifyTextParser.run()
 

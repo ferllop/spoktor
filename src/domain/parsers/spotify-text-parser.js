@@ -16,30 +16,35 @@ export class SpotifyTextParser extends PlaylistParser {
 
 class TrackExtractor {
     extractFrom(playlist) {
-        const tracks = this.separateTracks(playlist)
+        const tracks = this.separateTracks(playlist.replace(/\r/g, ''))
         return this.cleanTracks(tracks)
     }
 
     cleanTracks(tracks) {
-        return tracks.map(track => track.replace(/^\n/, '')).filter(track => track.length > 0)
+        return tracks.map(track => track.replace(/\r/g, '').replace(/^\n/, '')).filter(track => track.length > 0)
     }
 
     separateTracks(playlist) {
         const headless = this.removeHead(playlist)
         const tailess = this.removeTail(headless)
-        return tailess.split(/(?<=\d+:\d+)\n/)
+        return tailess.split(/(?<=\d+:\d+)[\r\n]/)
     }
 
     removeHead(playlist) {
         const arr = playlist.split('\n')
-        const index = arr.findIndex(line => line.startsWith('date added'))
-        return arr.splice(index+1).join('\n')
+        const index = arr.findIndex(line => {
+            const cleaned = line.replace(/\s/g, '')
+            return cleaned === '#'
+        })
+        return arr.slice(index + 5).join('\n')
     }
 
     removeTail(playlist) {
-        const reversed = playlist.split('\n').reverse()
-        const tailIndex = reversed.findIndex(line => line.startsWith('Find more'))
-        return reversed.splice(tailIndex+1).reverse().join('\n')
+        const arr = playlist.split('\n').reverse()
+        const tailIndex = arr.findIndex((line, index) => {
+            return /^\d+:\d+/.test(arr[index+2]) && /^[a-zA-Z]/.test(line)
+        })
+        return arr.slice(tailIndex+1).reverse().join('\n')
     }
 }
 
@@ -56,27 +61,29 @@ class ArtistExtractor {
     }
 
     removeHead(track, lines) {
-        return track.split('\n').splice(lines).join('\n')
+        return track.split('\n').slice(lines).join('\n')
     }
 
     removeTail(track, lines) {
-        return track.split('\n').reverse().splice(lines).reverse().join('\n')
+        return track.split('\n').reverse().slice(lines).reverse().join('\n')
     }
 
     removeAlbum(track) {
         const reversed = track.split('\n').reverse()
-        const albumPosition = reversed.findIndex(line => line.includes('<http'))
-        const albumless = reversed.splice(albumPosition+1)
+        const albumURLPosition = reversed.findIndex(line => line.includes('<http'))
+        const isNextLineAlbumName = ! reversed[albumURLPosition+1].includes('<http')
+        const albumless = reversed.slice(albumURLPosition + (isNextLineAlbumName ? 2 : 1))
         return albumless.reverse().join('\n')
     }
 
     cleanArtist(track) {
-        return track.split('\n')
+        return track.split(',')
             .map(line => line.replace(/<.*?>/g, ''))
             .filter(line => line.length > 0)
             .map(line => line.trim()
                 .replace(/^,/, '')
                 .replace(/,$/, '')
+                .replace(/(?<=\w)\n(?=\w)/g, ' ')
                 .trim())
             .join(', ')
     }
