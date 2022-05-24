@@ -5,20 +5,21 @@ import {TraktorCollectionBuilder} from '../../helpers/builders/list/traktor-coll
 import {SpotifyHtmlPlaylistBuilder} from '../../helpers/builders/list/spotify-html-playlist-builder.js'
 import {EmptyPlaylistError} from '../../../src/domain/errors/empty-playlist-error.js'
 import {assertDigestListsAreEqual} from '../../helpers/custom-asserts.js'
-import * as crypto from 'node:crypto'
+import {SpotifyTextPlaylistBuilder} from '../../helpers/builders/list/spotify-text-playlist-builder.js'
+import {emptyUUIDGenerator} from '../../helpers/empty-uuid-generator.js'
 
 const spoktorTest = suite('Spoktor')
 
 const traktorCollection = new TraktorCollectionBuilder().withXTracks(3).build()
-const spotifyPlaylist = new SpotifyHtmlPlaylistBuilder().withXTracks(3).build()
+const spotifyPlaylist = new SpotifyTextPlaylistBuilder().withXTracks(3).build()
 
 spoktorTest('should throw error if spotify playlist is empty', () => {
-    assert.throws(() => new Spoktor([], traktorCollection).getTraktorPlaylist(crypto.randomUUID),
+    assert.throws(() => new Spoktor([], traktorCollection).getTraktorPlaylist(emptyUUIDGenerator),
             error => error instanceof EmptyPlaylistError)
 })
 
 spoktorTest('should throw error if traktor collection is empty', () => {
-    assert.throws(() => new Spoktor(spotifyPlaylist, []).getTraktorPlaylist(crypto.randomUUID),
+    assert.throws(() => new Spoktor(spotifyPlaylist, []).getTraktorPlaylist(emptyUUIDGenerator),
         error => error instanceof EmptyPlaylistError)
 })
 
@@ -26,7 +27,7 @@ spoktorTest('should return the same traktor playlist if spotify and traktor are 
     assertDigestListsAreEqual(
         Spoktor.getDigestsFor(
             new Spoktor(spotifyPlaylist, traktorCollection)
-                .getTraktorPlaylist(crypto.randomUUID)),
+                .getTraktorPlaylist(emptyUUIDGenerator)),
         Spoktor.getDigestsFor(traktorCollection))
 })
 
@@ -41,7 +42,7 @@ spoktorTest('should return the one item that matches', () => {
     assertDigestListsAreEqual(
         Spoktor.getDigestsFor(
             new Spoktor(spotifyPlaylist, traktorPlaylist)
-                .getTraktorPlaylist(crypto.randomUUID)),
+                .getTraktorPlaylist(emptyUUIDGenerator)),
         Spoktor.getDigestsFor(
             new TraktorCollectionBuilder().withXTracks(1, 69).build()))
 })
