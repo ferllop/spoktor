@@ -35,6 +35,7 @@ function loadSpotifyFile(inputElement) {
     fr.onload = function () {
         spotifyPlaylist = fr.result
         const aside = document.getElementById('spotify-content')
+        aside.innerHTML = ''
         renderDigests(Spoktor.getDigestsFor(spotifyPlaylist), aside)
     }
     fr.readAsText(inputElement.files[0])
