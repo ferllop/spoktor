@@ -51,9 +51,9 @@ class TrackExtractor {
     removeTail(playlist) {
         const arr = playlist.split('\n').reverse()
         const tailIndex = arr.findIndex((line, index) => {
-            return /^\d+:\d+/.test(arr[index+2]) && /^[a-zA-Z]/.test(line)
+            return /^\d+:\d+$/.test(arr[index])
         })
-        return arr.slice(tailIndex+1).reverse().join('\n')
+        return arr.slice(tailIndex).reverse().join('\n')
     }
 }
 
