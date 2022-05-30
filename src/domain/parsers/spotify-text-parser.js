@@ -19,7 +19,7 @@ export class SpotifyTextParser extends PlaylistParser {
             const cleaned = line.replace(/\s/g, '')
             return cleaned === '#'
         })
-        return arr[hashtagIndex - 12]
+        return arr[hashtagIndex - 5].trim()
     }
 }
 
