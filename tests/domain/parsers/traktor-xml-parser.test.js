@@ -1,10 +1,10 @@
 import {suite} from 'uvu'
-import {TraktorXmlParser} from '../../../../src/domain/parsers/traktor-xml-parser.js'
-import {TraktorCollectionBuilder} from '../../../helpers/builders/list/traktor-collection-builder.js'
-import {TraktorTrackBuilder} from '../../../helpers/builders/track/traktor-track-builder.js'
-import {DigestBuilder} from '../../../helpers/builders/track/digest-builder.js'
-import {DigestListBuilder} from '../../../helpers/builders/list/digest-list-builder.js'
-import {assertDigestListsAreEqual, assertRawDataAreEqual} from '../../../helpers/custom-asserts.js'
+import {TraktorXmlParser} from '../../../src/domain/parsers/traktor-xml-parser.js'
+import {TraktorCollectionBuilder} from '../../helpers/builders/list/traktor-collection-builder.js'
+import {TraktorTrackBuilder} from '../../helpers/builders/track/traktor-track-builder.js'
+import {DigestBuilder} from '../../helpers/builders/track/digest-builder.js'
+import {DigestListBuilder} from '../../helpers/builders/list/digest-list-builder.js'
+import {assertDigestListsAreEqual, assertRawDataAreEqual} from '../../helpers/custom-asserts.js'
 import * as assert from 'uvu/assert'
 
 const traktorXmlParser = suite('Traktor XML parser')

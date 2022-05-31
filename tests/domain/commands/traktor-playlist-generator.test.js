@@ -1,9 +1,9 @@
 import {suite} from 'uvu'
 import * as assert from 'uvu/assert'
-import {DigestListBuilder} from '../../../helpers/builders/list/digest-list-builder.js'
-import {TraktorPlaylistGenerator} from '../../../../src/domain/commands/traktor-playlist-generator.js'
-import {TraktorTrackBuilder} from '../../../helpers/builders/track/traktor-track-builder.js'
-import {TraktorPlaylistBuilder} from '../../../helpers/builders/list/traktor-playlist-builder.js'
+import {DigestListBuilder} from '../../helpers/builders/list/digest-list-builder.js'
+import {TraktorPlaylistGenerator} from '../../../src/domain/commands/traktor-playlist-generator.js'
+import {TraktorTrackBuilder} from '../../helpers/builders/track/traktor-track-builder.js'
+import {TraktorPlaylistBuilder} from '../../helpers/builders/list/traktor-playlist-builder.js'
 
 const traktorPlaylistGenerator = suite('Traktor playlist generator')
 

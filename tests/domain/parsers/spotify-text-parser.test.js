@@ -1,10 +1,10 @@
 import {suite} from 'uvu'
 import * as assert from 'uvu/assert'
-import {SpotifyTextParser} from '../../../../src/domain/parsers/spotify-text-parser.js'
-import {SpotifyTextTrackBuilder} from '../../../helpers/builders/track/spotify-text-track-builder.js'
-import {SpotifyTextPlaylistBuilder} from '../../../helpers/builders/list/spotify-text-playlist-builder.js'
-import {assertDigestListsAreEqual} from '../../../helpers/custom-asserts.js'
-import {DigestListBuilder} from '../../../helpers/builders/list/digest-list-builder.js'
+import {SpotifyTextParser} from '../../../src/domain/parsers/spotify-text-parser.js'
+import {SpotifyTextTrackBuilder} from '../../helpers/builders/track/spotify-text-track-builder.js'
+import {SpotifyTextPlaylistBuilder} from '../../helpers/builders/list/spotify-text-playlist-builder.js'
+import {assertDigestListsAreEqual} from '../../helpers/custom-asserts.js'
+import {DigestListBuilder} from '../../helpers/builders/list/digest-list-builder.js'
 
 const spotifyTextParser = suite("Spotify Text parser")
 
