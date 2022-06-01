@@ -7,7 +7,6 @@ const copyOptions = {
         {
             src: [
                 'src/delivery/web/index.html',
-                'src/delivery/web/style.css',
             ], dest: 'build',
         },
     ],
