@@ -1,6 +1,6 @@
 import {Digest} from '../models/digest'
 
-type DigestListItem = {
+export type DigestListItem = {
     index: number
     digest: Digest
 }

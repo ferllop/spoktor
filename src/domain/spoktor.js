@@ -1,5 +1,5 @@
 import {intersectPlaylists} from './commands/intersectPlaylists'
-import {TraktorPlaylistGenerator} from './commands/traktor-playlist-generator'
+import {TraktorPlaylist} from './commands/traktor-playlist-generator'
 import {selectParserFor} from './commands/parser-selector'
 
 export class Spoktor {
@@ -12,7 +12,7 @@ export class Spoktor {
     getTraktorPlaylist() {
         const playlistName = this.getPlaylistNameFrom(this.input)
         const coincidentDigests = this.getCoincidentDigests()
-        return new TraktorPlaylistGenerator().execute(coincidentDigests, playlistName)
+        return TraktorPlaylist.generatePlaylistFrom(coincidentDigests, playlistName)
     }
 
     getCoincidentDigests() {
