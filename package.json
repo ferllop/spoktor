@@ -9,7 +9,7 @@
     "serve": "web-dev-server --root-dir src/delivery/web --watch --node-resolve",
     "test:uvu": "uvu tests/domain",
     "test:wtr": "web-test-runner 'tests/delivery/web/**/*.test.js' --node-resolve",
-    "test": "npm run test:uvu; npm run test:wtr"
+    "test": "npm run test:uvu && npm run test:wtr"
   },
   "author": "",
   "license": "ISC",
@@ -21,6 +21,7 @@
     "@open-wc/testing": "3.1.5",
     "@web/dev-server": "0.1.31",
     "@web/test-runner": "0.13.28",
+    "@web/test-runner-commands": "0.6.1",
     "@web/test-runner-visual-regression": "0.6.5",
     "rollup": "2.75.3",
     "rollup-plugin-clean": "1.0.0",
