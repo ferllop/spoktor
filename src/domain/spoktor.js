@@ -1,6 +1,6 @@
 import {intersectPlaylists} from './commands/intersectPlaylists'
 import {TraktorPlaylistGenerator} from './commands/traktor-playlist-generator'
-import {ParserSelector} from './commands/parser-selector'
+import {selectParserFor} from './commands/parser-selector'
 
 export class Spoktor {
 
@@ -23,12 +23,12 @@ export class Spoktor {
     }
 
     static getDigestsFor(playlist) {
-        const parser = new ParserSelector().selectFor(playlist)
+        const parser = selectParserFor(playlist)
         return parser.parse(playlist)
     }
 
     getPlaylistNameFrom(playlist) {
-        const parser = new ParserSelector().selectFor(playlist)
+        const parser = selectParserFor(playlist)
         return parser.extractPlaylistName(playlist)
     }
 }
