@@ -1,6 +1,6 @@
 import {suite} from 'uvu'
-import {readFileContent} from '../../read-file-content.js'
-import {SpotifyTextPlaylistBuilder} from './spotify-text-playlist-builder.js'
+import {readFileContent} from '../../read-file-content'
+import {SpotifyTextPlaylistBuilder} from './spotify-text-playlist-builder'
 import * as assert from 'uvu/assert'
 
 const spotifyTextBuilder = suite('Spotify text playlist builder')

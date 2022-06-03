@@ -1,6 +1,6 @@
 import {intersectPlaylists} from './commands/intersectPlaylists'
-import {TraktorPlaylistGenerator} from './commands/traktor-playlist-generator.js'
-import {ParserSelector} from './commands/parser-selector.js'
+import {TraktorPlaylistGenerator} from './commands/traktor-playlist-generator'
+import {ParserSelector} from './commands/parser-selector'
 
 export class Spoktor {
 

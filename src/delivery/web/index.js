@@ -1,3 +1,3 @@
-import {Main} from './main.js'
+import {Main} from './main'
 
 customElements.define('spk-main', Main)

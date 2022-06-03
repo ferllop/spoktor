@@ -1,4 +1,4 @@
-import {PlaylistParser} from './playlist-parser.js'
+import {PlaylistParser} from './playlist-parser'
 
 export class TraktorXmlParser extends PlaylistParser {
     extractTracks(collection) {

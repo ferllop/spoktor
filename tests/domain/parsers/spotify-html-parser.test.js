@@ -1,9 +1,9 @@
 import {suite} from 'uvu'
-import {SpotifyHtmlPlaylistBuilder} from '../../helpers/builders/list/spotify-html-playlist-builder.js'
-import {SpotifyHtmlParser} from '../../../src/domain/parsers/spotify-html-parser.js'
-import {assertDigestListsAreEqual} from '../../helpers/custom-asserts.js'
-import {DigestListBuilder} from '../../helpers/builders/list/digest-list-builder.js'
-import {SpotifyHtmlTrackBuilder} from '../../helpers/builders/track/spotify-html-track-builder.js'
+import {SpotifyHtmlPlaylistBuilder} from '../../helpers/builders/list/spotify-html-playlist-builder'
+import {SpotifyHtmlParser} from '../../../src/domain/parsers/spotify-html-parser'
+import {assertDigestListsAreEqual} from '../../helpers/custom-asserts'
+import {DigestListBuilder} from '../../helpers/builders/list/digest-list-builder'
+import {SpotifyHtmlTrackBuilder} from '../../helpers/builders/track/spotify-html-track-builder'
 import * as assert from 'uvu/assert'
 
 const spotifyHtmlParser = suite("Spotify HTML parser")

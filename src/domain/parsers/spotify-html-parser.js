@@ -1,4 +1,4 @@
-import {PlaylistParser} from './playlist-parser.js'
+import {PlaylistParser} from './playlist-parser'
 
 export class SpotifyHtmlParser extends PlaylistParser {
     extractTracks(playlist) {

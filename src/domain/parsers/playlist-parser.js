@@ -1,5 +1,5 @@
-import {DigestList} from '../models/digest-list.js'
-import {EmptyPlaylistError} from '../errors/empty-playlist-error.js'
+import {DigestList} from '../models/digest-list'
+import {EmptyPlaylistError} from '../errors/empty-playlist-error'
 
 /**
  *  @abstract

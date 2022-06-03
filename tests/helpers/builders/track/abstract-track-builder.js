@@ -1,7 +1,7 @@
 /**
  * @abstract
  */
-import {AbstractTrackListBuilder} from '../list/abstract-track-list-builder.js'
+import {AbstractTrackListBuilder} from '../list/abstract-track-list-builder'
 
 export class AbstractTrackBuilder {
     constructor() {

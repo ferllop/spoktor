@@ -1,4 +1,4 @@
-import {Spoktor} from '../../domain/spoktor.js'
+import {Spoktor} from '../../domain/spoktor'
 
 const template = document.createElement('template')
 template.innerHTML = `

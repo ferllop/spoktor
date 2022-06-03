@@ -1,4 +1,4 @@
-import {AbstractTrackBuilder} from './abstract-track-builder.js'
+import {AbstractTrackBuilder} from './abstract-track-builder'
 
 export class SpotifyHtmlTrackBuilder extends AbstractTrackBuilder {
     build() {

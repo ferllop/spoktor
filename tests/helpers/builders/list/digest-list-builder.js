@@ -1,6 +1,6 @@
-import {DigestBuilder} from '../track/digest-builder.js'
-import {DigestList} from '../../../../src/domain/models/digest-list.js'
-import {AbstractTrackListBuilder} from './abstract-track-list-builder.js'
+import {DigestBuilder} from '../track/digest-builder'
+import {DigestList} from '../../../../src/domain/models/digest-list'
+import {AbstractTrackListBuilder} from './abstract-track-list-builder'
 
 export class DigestListBuilder extends AbstractTrackListBuilder {
     withXTracks(quantity, trackRawDataBuilder, offset = 1) {

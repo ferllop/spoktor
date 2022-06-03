@@ -1,13 +1,13 @@
 import {suite} from 'uvu'
 import * as assert from 'uvu/assert'
-import {SpotifyTextPlaylistBuilder} from '../../helpers/builders/list/spotify-text-playlist-builder.js'
-import {SpotifyTextParser} from '../../../src/domain/parsers/spotify-text-parser.js'
-import {ParserSelector} from '../../../src/domain/commands/parser-selector.js'
-import {TraktorXmlParser} from '../../../src/domain/parsers/traktor-xml-parser.js'
-import {TraktorCollectionBuilder} from '../../helpers/builders/list/traktor-collection-builder.js'
-import {EmptyPlaylistError} from '../../../src/domain/errors/empty-playlist-error.js'
-import {SpotifyHtmlPlaylistBuilder} from '../../helpers/builders/list/spotify-html-playlist-builder.js'
-import {SpotifyHtmlParser} from '../../../src/domain/parsers/spotify-html-parser.js'
+import {SpotifyTextPlaylistBuilder} from '../../helpers/builders/list/spotify-text-playlist-builder'
+import {SpotifyTextParser} from '../../../src/domain/parsers/spotify-text-parser'
+import {ParserSelector} from '../../../src/domain/commands/parser-selector'
+import {TraktorXmlParser} from '../../../src/domain/parsers/traktor-xml-parser'
+import {TraktorCollectionBuilder} from '../../helpers/builders/list/traktor-collection-builder'
+import {EmptyPlaylistError} from '../../../src/domain/errors/empty-playlist-error'
+import {SpotifyHtmlPlaylistBuilder} from '../../helpers/builders/list/spotify-html-playlist-builder'
+import {SpotifyHtmlParser} from '../../../src/domain/parsers/spotify-html-parser'
 
 const parserSelector = suite('Parser selector')
 

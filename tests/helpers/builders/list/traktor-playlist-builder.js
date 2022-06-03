@@ -1,6 +1,6 @@
-import {TraktorTrackBuilder} from '../track/traktor-track-builder.js'
-import {AbstractTrackListBuilder} from './abstract-track-list-builder.js'
-import {TraktorPlaylistGenerator} from '../../../../src/domain/commands/traktor-playlist-generator.js'
+import {TraktorTrackBuilder} from '../track/traktor-track-builder'
+import {AbstractTrackListBuilder} from './abstract-track-list-builder'
+import {TraktorPlaylistGenerator} from '../../../../src/domain/commands/traktor-playlist-generator'
 
 export class TraktorPlaylistBuilder extends AbstractTrackListBuilder {
     withXTracks(quantity, offset = 1) {

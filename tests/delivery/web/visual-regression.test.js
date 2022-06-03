@@ -1,6 +1,6 @@
 import {fixture, html} from '@open-wc/testing'
 import {visualDiff} from '@web/test-runner-visual-regression'
-import {Main} from '../../../src/delivery/web/main.js'
+import {Main} from '../../../src/delivery/web/main'
 import {executeServerCommand} from '@web/test-runner-commands'
 
 customElements.define('spk-main', Main)

@@ -1,4 +1,4 @@
-import {TraktorXmlParser} from '../parsers/traktor-xml-parser.js'
+import {TraktorXmlParser} from '../parsers/traktor-xml-parser'
 
 export class TraktorPlaylistGenerator {
 

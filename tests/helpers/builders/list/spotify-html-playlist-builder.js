@@ -1,5 +1,5 @@
-import {AbstractTrackListBuilder} from './abstract-track-list-builder.js'
-import {SpotifyHtmlTrackBuilder} from '../track/spotify-html-track-builder.js'
+import {AbstractTrackListBuilder} from './abstract-track-list-builder'
+import {SpotifyHtmlTrackBuilder} from '../track/spotify-html-track-builder'
 
 export class SpotifyHtmlPlaylistBuilder extends AbstractTrackListBuilder {
     withXTracks(quantity, offset = 1) {

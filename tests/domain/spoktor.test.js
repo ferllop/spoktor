@@ -1,11 +1,11 @@
 import {suite} from 'uvu'
 import * as assert from 'uvu/assert'
-import {Spoktor} from '../../src/domain/spoktor.js'
-import {TraktorCollectionBuilder} from '../helpers/builders/list/traktor-collection-builder.js'
-import {SpotifyHtmlPlaylistBuilder} from '../helpers/builders/list/spotify-html-playlist-builder.js'
-import {EmptyPlaylistError} from '../../src/domain/errors/empty-playlist-error.js'
-import {assertDigestListsAreEqual} from '../helpers/custom-asserts.js'
-import {SpotifyTextPlaylistBuilder} from '../helpers/builders/list/spotify-text-playlist-builder.js'
+import {Spoktor} from '../../src/domain/spoktor'
+import {TraktorCollectionBuilder} from '../helpers/builders/list/traktor-collection-builder'
+import {SpotifyHtmlPlaylistBuilder} from '../helpers/builders/list/spotify-html-playlist-builder'
+import {EmptyPlaylistError} from '../../src/domain/errors/empty-playlist-error'
+import {assertDigestListsAreEqual} from '../helpers/custom-asserts'
+import {SpotifyTextPlaylistBuilder} from '../helpers/builders/list/spotify-text-playlist-builder'
 
 const spoktorTest = suite('Spoktor')
 
