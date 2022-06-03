@@ -1,5 +1,5 @@
 import {TraktorXmlParser} from '../parsers/traktor-xml-parser'
-import {DigestListItem} from './intersectPlaylists'
+import {Digest} from '../models/digest'
 
 type RawTrack = string
 
@@ -16,16 +16,16 @@ function renderFullFilePathFrom(track: RawTrack) {
     return volume + directoryPath + filename
 }
 
-function getNodePlaylistEntries(digests: DigestListItem[]) {
+function getNodePlaylistEntries(digests: Digest[]) {
     return digests.map(digest => {
-        const filePath = renderFullFilePathFrom(digest.digest.rawData)
+        const filePath = renderFullFilePathFrom(digest.rawData)
         return `<ENTRY>
 <PRIMARYKEY TYPE="TRACK" KEY="${filePath}"></PRIMARYKEY>
 </ENTRY>`
     })
 }
 
-function generatePlaylistFrom(digests: DigestListItem[], playlistName: string) {
+function generatePlaylistFrom(digests: Digest[], playlistName: string) {
     const header = `<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <NML VERSION="19"><HEAD COMPANY="www.native-instruments.com" PROGRAM="Traktor"></HEAD>
 <MUSICFOLDERS></MUSICFOLDERS>
@@ -48,6 +48,6 @@ ${getNodePlaylistEntries(digests).join('')}
 </NML>`
 
     return header +
-        digests.map(digest => digest.digest.rawData).join('') +
+        digests.map(digest => digest.rawData).join('') +
         footer
 }

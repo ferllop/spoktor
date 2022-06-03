@@ -66,7 +66,7 @@ traktorXmlParser('should ignore a track if it has neither artist nor song', ({tr
 traktorXmlParser('should include the raw data into the track digest', ({traktor}) => {
     const track = new TraktorTrackBuilder().build()
     const playlist = new TraktorCollectionBuilder().withTrack(track).build()
-    assertRawDataAreEqual(traktor.parse(playlist)[0].digest.rawData, track)
+    assertRawDataAreEqual(traktor.parse(playlist)[0].rawData, track)
 })
 
 traktorXmlParser('should know how to extract the directory from a collection entry', ({traktor}) => {

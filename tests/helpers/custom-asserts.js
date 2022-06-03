@@ -2,8 +2,8 @@ import * as assert from 'uvu/assert'
 
 export function assertDigestListsAreEqual(playlistA, playlistB) {
     assert.equal(playlistA.length, playlistB.length, 'Playlist length')
-    const digestsA = playlistA.map(item => item.digest)
-    const digestsB = playlistB.map(item => item.digest)
+    const digestsA = playlistA
+    const digestsB = playlistB
     digestsA.forEach(
         (digest, index) => assertDigestsAreEqual(digest, digestsB[index]),
     )

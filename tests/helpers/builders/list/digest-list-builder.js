@@ -1,6 +1,6 @@
 import {DigestBuilder} from '../track/digest-builder'
-import {DigestList} from '../../../../src/domain/models/digest-list'
 import {AbstractTrackListBuilder} from './abstract-track-list-builder'
+import {DigestedPlaylist} from '../../../../src/domain/models/digested-playlist'
 
 export class DigestListBuilder extends AbstractTrackListBuilder {
     withXTracks(quantity, trackRawDataBuilder, offset = 1) {
@@ -20,6 +20,6 @@ export class DigestListBuilder extends AbstractTrackListBuilder {
     }
 
     build() {
-        return new DigestList(this.tracks).getList()
+        return DigestedPlaylist.recordPosition(this.tracks)
     }
 }

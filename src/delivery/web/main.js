@@ -1,4 +1,5 @@
 import {Spoktor} from '../../domain/spoktor'
+import {RawPlaylist} from '../../domain/models/raw-playlist'
 
 const template = document.createElement('template')
 template.innerHTML = `
@@ -121,7 +122,7 @@ export class Main extends HTMLElement {
             fr.addEventListener('load', () => {
                 this.spotifyPlaylist = fr.result
                 aside.innerHTML = ''
-                this.renderDigests(Spoktor.getDigestsFor(this.spotifyPlaylist), aside)
+                this.renderDigests(RawPlaylist.digest(this.spotifyPlaylist), aside)
             })
             fr.readAsText(inputElement.files[0])
         }
@@ -147,8 +148,8 @@ export class Main extends HTMLElement {
             const list = document.createElement('ol')
             digests.map(digest => {
                 const item = document.createElement('li')
-                item.innerHTML = 'Artist: ' + digest.digest.artist +
-                    '<br />' + 'Song: ' + digest.digest.song
+                item.innerHTML = 'Artist: ' + digest.artist +
+                    '<br />' + 'Song: ' + digest.song
                 list.appendChild(item)
             })
             parentElement.appendChild(list)

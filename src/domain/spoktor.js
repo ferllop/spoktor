@@ -1,30 +1,25 @@
-import {intersectPlaylists} from './commands/intersectPlaylists'
 import {TraktorPlaylist} from './commands/traktor-playlist-generator'
 import {selectParserFor} from './commands/parser-selector'
+import {DigestedPlaylist} from './models/digested-playlist'
+import {RawPlaylist} from './models/raw-playlist'
 
 export class Spoktor {
 
-    constructor(inputPlaylist, outputPlaylist) {
-        this.input = inputPlaylist
-        this.output = outputPlaylist
+    constructor(needles, haystack) {
+        this.needles = needles
+        this.haystack = haystack
     }
 
     getTraktorPlaylist() {
-        const playlistName = this.getPlaylistNameFrom(this.input)
+        const playlistName = this.getPlaylistNameFrom(this.needles)
         const coincidentDigests = this.getCoincidentDigests()
         return TraktorPlaylist.generatePlaylistFrom(coincidentDigests, playlistName)
     }
 
     getCoincidentDigests() {
-        const inputDigests = Spoktor.getDigestsFor(this.input)
-        const outputDigests = Spoktor.getDigestsFor(this.output)
-        return intersectPlaylists(inputDigests, outputDigests)
-            .map(coincidentDigest => outputDigests[coincidentDigest])
-    }
-
-    static getDigestsFor(playlist) {
-        const parser = selectParserFor(playlist)
-        return parser.parse(playlist)
+        const needles = RawPlaylist.digest(this.needles)
+        const haystack = RawPlaylist.digest(this.haystack)
+        return DigestedPlaylist.getNeedlesFromHaystack(needles, haystack)
     }
 
     getPlaylistNameFrom(playlist) {

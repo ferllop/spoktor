@@ -6,6 +6,7 @@ import {SpotifyHtmlPlaylistBuilder} from '../helpers/builders/list/spotify-html-
 import {EmptyPlaylistError} from '../../src/domain/errors/empty-playlist-error'
 import {assertDigestListsAreEqual} from '../helpers/custom-asserts'
 import {SpotifyTextPlaylistBuilder} from '../helpers/builders/list/spotify-text-playlist-builder'
+import {RawPlaylist} from '../../src/domain/models/raw-playlist'
 
 const spoktorTest = suite('Spoktor')
 
@@ -24,9 +25,8 @@ spoktorTest('should throw error if traktor collection is empty', () => {
 
 spoktorTest('should return the same traktor playlist if spotify and traktor are equal', () => {
     assertDigestListsAreEqual(
-        Spoktor.getDigestsFor(
-            new Spoktor(spotifyPlaylist, traktorCollection).getTraktorPlaylist()),
-        Spoktor.getDigestsFor(traktorCollection))
+        RawPlaylist.digest(new Spoktor(spotifyPlaylist, traktorCollection).getTraktorPlaylist()),
+        RawPlaylist.digest(traktorCollection))
 })
 
 spoktorTest('should return the one item that matches', () => {
@@ -38,10 +38,8 @@ spoktorTest('should return the one item that matches', () => {
         .build()
 
     assertDigestListsAreEqual(
-        Spoktor.getDigestsFor(
-            new Spoktor(spotifyPlaylist, traktorPlaylist).getTraktorPlaylist()),
-        Spoktor.getDigestsFor(
-            new TraktorCollectionBuilder().withXTracks(1, 69).build()))
+        RawPlaylist.digest(new Spoktor(spotifyPlaylist, traktorPlaylist).getTraktorPlaylist()),
+        RawPlaylist.digest(new TraktorCollectionBuilder().withXTracks(1, 69).build()))
 })
 
 spoktorTest.run()
