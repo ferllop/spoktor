@@ -1,4 +1,4 @@
-import {Intersect} from './commands/intersect.js'
+import {intersectPlaylists} from './commands/intersectPlaylists'
 import {TraktorPlaylistGenerator} from './commands/traktor-playlist-generator.js'
 import {ParserSelector} from './commands/parser-selector.js'
 
@@ -18,7 +18,7 @@ export class Spoktor {
     getCoincidentDigests() {
         const inputDigests = Spoktor.getDigestsFor(this.input)
         const outputDigests = Spoktor.getDigestsFor(this.output)
-        return new Intersect().execute(inputDigests, outputDigests)
+        return intersectPlaylists(inputDigests, outputDigests)
             .map(coincidentDigest => outputDigests[coincidentDigest])
     }
 

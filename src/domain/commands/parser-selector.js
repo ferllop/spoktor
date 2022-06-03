@@ -1,4 +1,4 @@
-import {TraktorXmlParser} from '../parsers/traktor-xml-parser.js'
+import {TraktorXmlParser} from '../parsers/traktor-xml-parser'
 import {SpotifyTextParser} from '../parsers/spotify-text-parser.js'
 import {SpotifyHtmlParser} from '../parsers/spotify-html-parser.js'
 import {EmptyPlaylistError} from '../errors/empty-playlist-error.js'
