@@ -1,5 +1,6 @@
 import {visualRegressionPlugin} from '@web/test-runner-visual-regression/plugin'
 import * as path from 'node:path'
+import { esbuildPlugin } from '@web/dev-server-esbuild'
 
 export function uploadFilePlugin() {
     function computeAbsoluteFilePaths(testFile, filePaths) {
@@ -77,6 +78,7 @@ export function shadowRootClickPlugin() {
 
 export default {
     plugins: [
+        esbuildPlugin({ ts: true }),
         visualRegressionPlugin({
             update: process.argv.includes('--update-snapshots'),
         }),

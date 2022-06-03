@@ -1,4 +1,3 @@
-import {Digest} from '../models/digest.js'
 import {DigestList} from '../models/digest-list.js'
 import {EmptyPlaylistError} from '../errors/empty-playlist-error.js'
 
@@ -16,11 +15,11 @@ export class PlaylistParser {
     }
 
     #createDigest(track) {
-        return new Digest(
-            this.extractArtist(track),
-            this.extractSong(track),
-            track,
-        )
+        return {
+            artist: this.extractArtist(track),
+            song: this.extractSong(track),
+            rawData: track,
+        }
     }
 
     /**

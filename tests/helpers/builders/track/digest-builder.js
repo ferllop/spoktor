@@ -1,4 +1,3 @@
-import {Digest} from '../../../../src/domain/models/digest.js'
 import {AbstractTrackBuilder} from './abstract-track-builder.js'
 
 export class DigestBuilder extends AbstractTrackBuilder {
@@ -21,10 +20,10 @@ export class DigestBuilder extends AbstractTrackBuilder {
     }
 
     build() {
-        return new Digest(
-            this.artist,
-            this.song,
-            this.rawData,
-        )
+        return {
+            artist: this.artist,
+            song: this.song,
+            rawData: this.rawData,
+        }
     }
 }

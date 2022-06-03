@@ -1,4 +1,4 @@
-import {Digest} from './digest.js'
+import {Digest} from './digest'
 
 export class DigestList {
     static EMPTY = []

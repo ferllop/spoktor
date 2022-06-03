@@ -1,6 +1,7 @@
 import clean from 'rollup-plugin-clean'
 import copy from 'rollup-plugin-copy'
 import {terser} from 'rollup-plugin-terser'
+import typescript from '@rollup/plugin-typescript'
 
 const copyOptions = {
     targets: [
@@ -22,5 +23,6 @@ export default {
         clean(),
         copy(copyOptions),
         terser(),
+        typescript(),
     ],
 }
