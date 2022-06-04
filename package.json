@@ -7,7 +7,7 @@
   "scripts": {
     "build": "rollup --config",
     "serve": "npm run build -- --watch & web-dev-server --root-dir build --watch --node-resolve",
-    "test:uvu": "uvu -r tsm tests/domain",
+    "test:uvu": "watchlist src test -- uvu -r tsm tests/domain",
     "test:wtr": "web-test-runner 'tests/delivery/web/**/*.test.{ts,js}' --node-resolve"
   },
   "author": "Ferran Llop",
@@ -30,6 +30,7 @@
     "rollup-plugin-terser": "7.0.2",
     "tsm": "2.2.1",
     "typescript": "4.7.2",
-    "uvu": "0.5.3"
+    "uvu": "0.5.3",
+    "watchlist": "0.3.1"
   }
 }
