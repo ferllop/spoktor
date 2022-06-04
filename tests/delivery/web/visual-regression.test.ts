@@ -32,7 +32,7 @@ async function loadSpotifyFile() {
     return executeServerCommand(
         'upload-file',
         {
-            selector: `document.querySelector('spk-main').shadowRoot.querySelector('#spotify')`,
+            selector: `document.querySelector('spk-main').shadowRoot.querySelector('spk-form').shadowRoot.querySelector('#spotify')`,
             filePaths: 'test-data/spotify-playlist.txt'
         })
 }
@@ -41,7 +41,7 @@ async function loadTraktorFile() {
     return executeServerCommand(
         'upload-file',
         {
-            selector: `document.querySelector('spk-main').shadowRoot.querySelector('#traktor')`,
+            selector: `document.querySelector('spk-main').shadowRoot.querySelector('spk-form').shadowRoot.querySelector('#traktor')`,
             filePaths: 'test-data/traktor-collection.nml'
         })
 }
@@ -50,6 +50,6 @@ async function intersect() {
     return executeServerCommand(
         'shadow-root-click',
         {
-            selector: `document.querySelector('spk-main').shadowRoot.querySelector('input[type="submit"]')`,
+            selector: `document.querySelector('spk-main').shadowRoot.querySelector('spk-form').shadowRoot.querySelector('input[type="submit"]')`,
         })
 }
