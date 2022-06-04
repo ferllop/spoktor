@@ -14,8 +14,9 @@ const copyOptions = {
 }
 
 export default {
-    input: 'src/delivery/web/index.js',
+    input: 'src/delivery/web/index.ts',
     output: {
+        sourcemap: true,
         file: './build/index.js',
         format: 'es',
     },
