@@ -1,9 +1,9 @@
 import {TraktorTrackBuilder} from '../track/traktor-track-builder'
-import {AbstractTrackListBuilder} from './abstract-track-list-builder'
+import {TextPlayListBuilder} from './text-play-list-builder'
 import {TraktorPlaylist} from '../../../../src/domain/commands/traktor-playlist-generator'
 
-export class TraktorPlaylistBuilder extends AbstractTrackListBuilder {
-    withXTracks(quantity, offset = 1) {
+export class TraktorPlaylistBuilder extends TextPlayListBuilder {
+    override withXTracks(quantity: number, offset = 1) {
         return super.withXTracks(quantity, offset, new TraktorTrackBuilder())
     }
 
@@ -33,7 +33,7 @@ ${this.getNodePlaylistEntries(this.tracks).join('')}
 </NML>`
     }
 
-    getNodePlaylistEntries(tracks) {
+    getNodePlaylistEntries(tracks: string[]) {
         return tracks.map(track => {
             return `<ENTRY>
 <PRIMARYKEY TYPE="TRACK" KEY="${TraktorPlaylist.renderFullFilePathFrom(track)}"></PRIMARYKEY>

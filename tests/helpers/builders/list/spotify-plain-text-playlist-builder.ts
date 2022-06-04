@@ -1,14 +1,9 @@
-import {AbstractTrackListBuilder} from './abstract-track-list-builder'
+import {TextPlayListBuilder} from './text-play-list-builder'
 import {SpotifyTextTrackBuilder} from '../track/spotify-text-track-builder'
 
-export class SpotifyTextPlaylistBuilder extends AbstractTrackListBuilder {
-    withXTracks(quantity, offset = 1) {
+export class SpotifyPlainTextPlaylistBuilder extends TextPlayListBuilder {
+    override withXTracks(quantity: number, offset = 1) {
         return super.withXTracks(quantity, offset, new SpotifyTextTrackBuilder())
-    }
-
-    withPlaylistName(name) {
-        this.playlistName = name
-        return this
     }
 
     build() {
@@ -17,7 +12,7 @@ export class SpotifyTextPlaylistBuilder extends AbstractTrackListBuilder {
 
 }
 
-const header = (playlistName) => `somerandomcharactersonalongstring--sgljhsfgljhfljahfpawuyrapjdfhsñkjgsfkgjfg
+const header = (playlistName: string) => `somerandomcharactersonalongstring--sgljhsfgljhfljahfpawuyrapjdfhsñkjgsfkgjfg
 
 ${playlistName ?? '4 de Junio 2022'}
 Upgrade

@@ -1,33 +1,11 @@
-export class TraktorTrackBuilder {
-    constructor() {
-        this.song = 'someSong'
-        this.artist = 'someArtist'
-        this.volume = 'C:'
-        this.directory = '/:path/:where/:audio-file/:is-located/:'
-        this.filename = 'audio file-file_name.mp3'
-    }
+import {TextTrackBuilder} from './text-track-builder'
 
-    withoutArtist() {
-        this.artist = null
-        return this
-    }
+export class TraktorTrackBuilder extends TextTrackBuilder {
+    volume = 'C:'
+    directory = '/:path/:where/:audio-file/:is-located/:'
+    filename = 'audio file-file_name.mp3'
 
-    withoutSong() {
-        this.song = null
-        return this
-    }
-
-    withSong(song) {
-        this.song = song
-        return this
-    }
-
-    withArtist(artist) {
-        this.artist = artist
-        return this
-    }
-
-    withDirectory(directory) {
+    withDirectory(directory: string) {
         this.directory = '/:' + directory
             .replace(/^\//, '')
             .replace(/\/$/, '')
@@ -35,12 +13,12 @@ export class TraktorTrackBuilder {
         return this
     }
 
-    withFilename(filename) {
+    withFilename(filename: string) {
         this.filename = filename
         return this
     }
 
-    withVolume(volume) {
+    withVolume(volume: string) {
         this.volume = volume.replaceAll(':', '').toUpperCase() + ':'
         return this
     }

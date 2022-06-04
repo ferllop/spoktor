@@ -1,8 +1,8 @@
 import {TraktorTrackBuilder} from '../track/traktor-track-builder'
-import {AbstractTrackListBuilder} from './abstract-track-list-builder'
+import {TextPlayListBuilder} from './text-play-list-builder'
 
-export class TraktorCollectionBuilder extends AbstractTrackListBuilder {
-    withXTracks(quantity, offset = 1) {
+export class TraktorCollectionBuilder extends TextPlayListBuilder {
+    override withXTracks(quantity: number, offset = 1) {
         return super.withXTracks(quantity, offset, new TraktorTrackBuilder())
     }
 

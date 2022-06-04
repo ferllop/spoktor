@@ -1,15 +1,10 @@
 import {Digest} from './digest'
 
-type PositionedDigest = Digest & {positionInOrigin: number}
-export type DigestedPlaylist = PositionedDigest[]
+export type DigestedPlaylist = Digest[]
 
-const EMPTY: PositionedDigest[] = []
+const EMPTY: Digest[] = []
 
-function recordPosition(digests: Digest[]): PositionedDigest[] {
-    return digests.map((digest, index) => ({...digest, positionInOrigin: index}))
-}
-
-function getNeedlesFromHaystack(needles: DigestedPlaylist, haystack: DigestedPlaylist): PositionedDigest[] {
+function getNeedlesFromHaystack(needles: DigestedPlaylist, haystack: DigestedPlaylist): Digest[] {
     return haystack.filter(digestsPresentIn(needles))
 }
 
@@ -23,6 +18,5 @@ function digestsPresentIn(digests: Digest[]) {
 export const DigestedPlaylist = {
     EMPTY,
     getNeedlesFromHaystack,
-    recordPosition,
 }
 

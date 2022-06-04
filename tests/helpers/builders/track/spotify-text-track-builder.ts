@@ -1,11 +1,11 @@
-import {AbstractTrackBuilder} from './abstract-track-builder'
+import {TextTrackBuilder} from './text-track-builder'
 
-export class SpotifyTextTrackBuilder extends AbstractTrackBuilder {
-    withArtist(artist) {
+export class SpotifyTextTrackBuilder extends TextTrackBuilder {
+    override withArtist(artist: string) {
         return this.withArtists(artist)
     }
 
-    withArtists(...artists) {
+    withArtists(...artists: string[]) {
         this.artist = artists.map(artist =>
                 artist + ' <https://open.spotify.com/artist/2wMcQIxzH2LYHJZNxo9FcN>'
         ).join(',\n')

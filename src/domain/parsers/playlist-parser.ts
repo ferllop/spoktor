@@ -15,7 +15,7 @@ export abstract class PlaylistParser {
         }
         const tracks = this.extractTracks(playlist) ?? DigestedPlaylist.EMPTY
         const digests = tracks.map(this.createDigest.bind(this))
-        return DigestedPlaylist.recordPosition(digests.filter(Digest.isValid))
+        return digests.filter(Digest.isValid)
     }
 
     private createDigest(track: RawTrack) {

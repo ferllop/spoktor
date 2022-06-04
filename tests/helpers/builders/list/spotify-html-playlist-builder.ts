@@ -1,14 +1,9 @@
-import {AbstractTrackListBuilder} from './abstract-track-list-builder'
+import {TextPlayListBuilder} from './text-play-list-builder'
 import {SpotifyHtmlTrackBuilder} from '../track/spotify-html-track-builder'
 
-export class SpotifyHtmlPlaylistBuilder extends AbstractTrackListBuilder {
-    withXTracks(quantity, offset = 1) {
+export class SpotifyHtmlPlaylistBuilder extends TextPlayListBuilder {
+    override withXTracks(quantity: number, offset = 1) {
         return super.withXTracks(quantity, offset, new SpotifyHtmlTrackBuilder())
-    }
-
-    withPlaylistName(name) {
-        this.playlistName = name
-        return this
     }
 
     build() {
@@ -16,7 +11,7 @@ export class SpotifyHtmlPlaylistBuilder extends AbstractTrackListBuilder {
     }
 }
 
-const header = (playlistName) => `<!DOCTYPE html><html lang=en dir="ltr" class="mobile-web-player">
+const header = (playlistName: string) => `<!DOCTYPE html><html lang=en dir="ltr" class="mobile-web-player">
 <head><meta charset="UTF-8">
 <title>${playlistName ?? 'carnaval 2022 mama'} - playlist by ferllop | Spotify</title>
 <meta name="description" content="Listen on Spotify: " />

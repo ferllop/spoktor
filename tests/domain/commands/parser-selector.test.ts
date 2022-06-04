@@ -1,6 +1,6 @@
 import {suite} from 'uvu'
 import * as assert from 'uvu/assert'
-import {SpotifyTextPlaylistBuilder} from '../../helpers/builders/list/spotify-text-playlist-builder'
+import {SpotifyPlainTextPlaylistBuilder} from '../../helpers/builders/list/spotify-plain-text-playlist-builder'
 import {SpotifyTextParser} from '../../../src/domain/parsers/spotify-text-parser'
 import {TraktorXmlParser} from '../../../src/domain/parsers/traktor-xml-parser'
 import {TraktorCollectionBuilder} from '../../helpers/builders/list/traktor-collection-builder'
@@ -17,7 +17,7 @@ parserSelector('should return the parser to parse a traktor text playlist when i
 })
 
 parserSelector('should return the parser to parse a text spotify playlist when is what is provided', () => {
-    const spotifyTextPlaylist = new SpotifyTextPlaylistBuilder().withXTracks(3).build()
+    const spotifyTextPlaylist = new SpotifyPlainTextPlaylistBuilder().withXTracks(3).build()
     assert.instance(selectParserFor(spotifyTextPlaylist), SpotifyTextParser)
 })
 
@@ -30,7 +30,7 @@ parserSelector('should throw EmptyPlaylistError when playlist is empty', () => {
     const emptyPlaylist = ''
     assert.throws(() => {
             selectParserFor(emptyPlaylist)},
-        error => error instanceof EmptyPlaylistError)
+        (error: Error) => error instanceof EmptyPlaylistError)
 })
 
 parserSelector.run()

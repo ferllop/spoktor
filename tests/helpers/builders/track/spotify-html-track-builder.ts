@@ -1,6 +1,6 @@
-import {AbstractTrackBuilder} from './abstract-track-builder'
+import {TextTrackBuilder} from './text-track-builder'
 
-export class SpotifyHtmlTrackBuilder extends AbstractTrackBuilder {
+export class SpotifyHtmlTrackBuilder extends TextTrackBuilder {
     build() {
         return `
             <div data-testid="track-row" class="EntityRowV2__Container-sc-ayafop-0 bjLiWe">

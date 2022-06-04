@@ -6,15 +6,15 @@ import {PlaylistParser} from '../../../src/domain/parsers/playlist-parser'
 const playlistParserTest = suite('Playlist parser')
 
 const TestablePlaylistParser = class extends PlaylistParser {
-    extractArtist(track) { }
-    extractSong(track) { }
-    extractTracks(playlist) { }
-    extractPlaylistName(track) { }
+    extractArtist() { return ''}
+    extractSong() { return ''}
+    extractTracks() { return []}
+    extractPlaylistName() { return ''}
 }
 
 playlistParserTest('should throw error if spotify playlist is empty is empty', () => {
     assert.throws(() => new TestablePlaylistParser().parse(''),
-        error => error instanceof EmptyPlaylistError)
+        (error: Error) => error instanceof EmptyPlaylistError)
 })
 
 playlistParserTest.run()
