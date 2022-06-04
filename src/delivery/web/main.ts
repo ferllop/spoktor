@@ -1,6 +1,6 @@
 import {Spoktor} from '../../domain/spoktor'
 import {RawPlaylist} from '../../domain/models/raw-playlist'
-import {DigestedPlaylist} from '../../domain/models/digested-playlist'
+import {Digest} from '../../domain/models/digest'
 
 const template = document.createElement('template')
 template.innerHTML = `
@@ -159,7 +159,7 @@ export class Main extends HTMLElement {
         parent.appendChild(button)
     }
 
-    renderDigests(digests: DigestedPlaylist, parentElement: HTMLElement) {
+    renderDigests(digests: Digest[], parentElement: HTMLElement) {
         const list = document.createElement('ol')
         digests.map(digest => {
             const item = document.createElement('li')

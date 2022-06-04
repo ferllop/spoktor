@@ -1,8 +1,7 @@
 import * as assert from 'uvu/assert'
-import {DigestedPlaylist} from '../../src/domain/models/digested-playlist'
 import {Digest} from '../../src/domain/models/digest'
 
-export function assertDigestedPlaylistsAreEqual(playlistA: DigestedPlaylist, playlistB: DigestedPlaylist) {
+export function assertDigestedPlaylistsAreEqual(playlistA: Digest[], playlistB: Digest[]) {
     assert.equal(playlistA.length, playlistB.length, 'Playlist length')
     playlistA.forEach(
         (digest, index) => assertDigestsAreEqual(digest, playlistB[index]),

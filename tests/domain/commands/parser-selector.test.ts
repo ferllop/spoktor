@@ -7,7 +7,7 @@ import {TraktorCollectionBuilder} from '../../helpers/builders/list/traktor-coll
 import {EmptyPlaylistError} from '../../../src/domain/errors/empty-playlist-error'
 import {SpotifyHtmlPlaylistBuilder} from '../../helpers/builders/list/spotify-html-playlist-builder'
 import {SpotifyHtmlParser} from '../../../src/domain/parsers/spotify-html-parser'
-import {selectParserFor} from '../../../src/domain/commands/parser-selector'
+import {selectParserFor} from '../../../src/domain/parsers/parser-selector'
 
 const parserSelector = suite('Parser selector')
 

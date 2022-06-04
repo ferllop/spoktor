@@ -1,7 +1,6 @@
-import {TraktorPlaylist} from './commands/traktor-playlist-generator'
-import {selectParserFor} from './commands/parser-selector'
 import {DigestedPlaylist} from './models/digested-playlist'
 import {RawPlaylist} from './models/raw-playlist'
+import {TraktorRawPlaylist} from './models/traktor-raw-playlist'
 
 export class Spoktor {
 
@@ -11,7 +10,7 @@ export class Spoktor {
     getTraktorPlaylist() {
         const playlistName = this.getPlaylistNameFrom(this.needles)
         const coincidentDigests = this.getCoincidentDigests()
-        return TraktorPlaylist.generatePlaylistFrom(coincidentDigests, playlistName)
+        return TraktorRawPlaylist.generatePlaylistFrom(coincidentDigests, playlistName)
     }
 
     getCoincidentDigests() {
@@ -21,7 +20,6 @@ export class Spoktor {
     }
 
     getPlaylistNameFrom(playlist: RawPlaylist) {
-        const parser = selectParserFor(playlist)
-        return parser.extractPlaylistName(playlist)
+        return RawPlaylist.extractPlaylistName(playlist)
     }
 }

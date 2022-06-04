@@ -1,15 +1,15 @@
 import {TraktorXmlParser} from '../parsers/traktor-xml-parser'
-import {Digest} from '../models/digest'
+import {Digest} from './digest'
 
 type RawTrack = string
 
 export const TraktorRawPlaylist = {
-    parser,
+    getParser,
     renderFullFilePathFrom,
     generatePlaylistFrom,
 }
 
-function parser() {
+function getParser() {
     return new TraktorXmlParser()
 }
 

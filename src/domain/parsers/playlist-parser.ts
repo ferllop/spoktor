@@ -9,7 +9,7 @@ type Song = string
 type PlaylistName = string
 
 export abstract class PlaylistParser {
-    parse(playlist: RawPlaylist): DigestedPlaylist {
+    parse(playlist: RawPlaylist): Digest[] {
         if(playlist.length === 0) {
             throw new EmptyPlaylistError()
         }

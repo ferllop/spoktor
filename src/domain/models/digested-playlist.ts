@@ -1,10 +1,8 @@
 import {Digest} from './digest'
 
-export type DigestedPlaylist = Digest[]
-
 const EMPTY: Digest[] = []
 
-function getNeedlesFromHaystack(needles: DigestedPlaylist, haystack: DigestedPlaylist): Digest[] {
+function getNeedlesFromHaystack(needles: Digest[], haystack: Digest[]): Digest[] {
     return haystack.filter(digestsPresentIn(needles))
 }
 
