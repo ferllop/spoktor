@@ -1,23 +1,16 @@
 import {TraktorXmlParser} from '../parsers/traktor-xml-parser'
 import {Digest} from './digest'
 
-type RawTrack = string
-
 export const TraktorRawPlaylist = {
-    getParser,
     renderFullFilePathFrom,
     generatePlaylistFrom,
 }
 
-function getParser() {
-    return new TraktorXmlParser()
-}
-
-function renderFullFilePathFrom(track: RawTrack) {
-    const traktorParser = new TraktorXmlParser()
-    const volume = traktorParser.extractVolume(track)
-    const directoryPath = traktorParser.extractDir(track)
-    const filename = traktorParser.extractFilename(track)
+function renderFullFilePathFrom(rawTrack: string) {
+    const traktorParser = TraktorXmlParser
+    const volume = traktorParser.extractVolume(rawTrack)
+    const directoryPath = traktorParser.extractDir(rawTrack)
+    const filename = traktorParser.extractFilename(rawTrack)
     return volume + directoryPath + filename
 }
 

@@ -1,8 +1,8 @@
 import {SpotifyTextParser} from './spotify-text-parser'
-import {SpotifyHtmlParser} from './spotify-html-parser'
+import {SpotifyHtmlParser} from './spotify-html-parser-class'
 import {EmptyPlaylistError} from '../errors/empty-playlist-error'
 import {InvalidPlaylistError} from '../errors/invalid-playlist-error'
-import {TraktorRawPlaylist} from '../models/traktor-raw-playlist'
+import {TraktorXmlParser} from './traktor-xml-parser'
 
 export function selectParserFor(rawPlaylist: string) {
     if (rawPlaylist.length === 0) {
@@ -10,15 +10,15 @@ export function selectParserFor(rawPlaylist: string) {
     }
 
     if (rawPlaylist.startsWith('<?xml') && rawPlaylist.includes('PROGRAM="Traktor"')) {
-        return TraktorRawPlaylist.getParser()
+        return TraktorXmlParser
     }
 
     if (rawPlaylist.includes('Spotify<https://open.spotify.com/>')) {
-        return new SpotifyTextParser()
+        return SpotifyTextParser
     }
 
     if (rawPlaylist.startsWith('<!DOCTYPE html>') && rawPlaylist.includes('Spotify')) {
-        return new SpotifyHtmlParser()
+        return SpotifyHtmlParser
     }
 
     throw new InvalidPlaylistError()

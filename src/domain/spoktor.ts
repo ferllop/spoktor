@@ -4,7 +4,7 @@ import {TraktorRawPlaylist} from './models/traktor-raw-playlist'
 
 export class Spoktor {
 
-    constructor(private needles: RawPlaylist, private haystack: RawPlaylist) {
+    constructor(private needles: string, private haystack: string) {
     }
 
     getTraktorPlaylist() {
@@ -19,7 +19,7 @@ export class Spoktor {
         return DigestedPlaylist.getNeedlesFromHaystack(needles, haystack)
     }
 
-    getPlaylistNameFrom(playlist: RawPlaylist) {
+    getPlaylistNameFrom(playlist: string) {
         return RawPlaylist.extractPlaylistName(playlist)
     }
 }

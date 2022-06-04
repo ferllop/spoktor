@@ -1,14 +1,12 @@
 import {selectParserFor} from '../parsers/parser-selector'
 import {Digest} from './digest'
 
-export type RawPlaylist = string
-
-function digest(rawPlaylist: RawPlaylist): Digest[] {
+function digest(rawPlaylist: string): Digest[] {
     const parser = selectParserFor(rawPlaylist)
     return parser.parse(rawPlaylist)
 }
 
-function extractPlaylistName(playlist: RawPlaylist) {
+function extractPlaylistName(playlist: string) {
     const parser = selectParserFor(playlist)
     return parser.extractPlaylistName(playlist)
 }
