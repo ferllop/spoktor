@@ -1,4 +1,4 @@
-import {PlaylistParser, RawTrack} from './playlist-parser'
+import {PlaylistParser} from './playlist-parser'
 import {RawPlaylist} from '../models/raw-playlist'
 
 export class SpotifyTextParser extends PlaylistParser {
@@ -6,11 +6,11 @@ export class SpotifyTextParser extends PlaylistParser {
         return new TrackExtractor().extractFrom(playlist)
     }
 
-    extractArtist(track: RawTrack) {
+    extractArtist(track: string) {
         return new ArtistExtractor().extractFrom(track)
     }
 
-    extractSong(track: RawTrack) {
+    extractSong(track: string) {
         return track.split('\n')[2] ?? ''
     }
 
@@ -30,7 +30,7 @@ class TrackExtractor {
         return this.cleanTracks(tracks)
     }
 
-    cleanTracks(tracks: RawTrack[]) {
+    cleanTracks(tracks: string[]) {
         return tracks.map(track => track.replace(/\r/g, '').replace(/^\n/, '')).filter(track => track.length > 0)
     }
 
@@ -59,26 +59,26 @@ class TrackExtractor {
 }
 
 class ArtistExtractor {
-    extractFrom(track: RawTrack) {
+    extractFrom(track: string) {
         const artist = this.extractArtist(track)
         return this.cleanArtist(artist)
     }
 
-    extractArtist(track: RawTrack) {
+    extractArtist(track: string) {
         const headerless = this.removeHead(track, 3)
         const tailess = this.removeTail(headerless, 3)
         return this.removeAlbum(tailess)
     }
 
-    removeHead(track: RawTrack, lines: number) {
+    removeHead(track: string, lines: number) {
         return track.split('\n').slice(lines).join('\n')
     }
 
-    removeTail(track: RawTrack, lines: number) {
+    removeTail(track: string, lines: number) {
         return track.split('\n').reverse().slice(lines).reverse().join('\n')
     }
 
-    removeAlbum(track: RawTrack) {
+    removeAlbum(track: string) {
         const reversed = track.split('\n').reverse()
         const albumURLPosition = reversed.findIndex(line => line.includes('<http'))
         const isNextLineAlbumName = ! reversed[albumURLPosition+1]?.includes('<http')
@@ -86,7 +86,7 @@ class ArtistExtractor {
         return albumless.reverse().join('\n')
     }
 
-    cleanArtist(track: RawTrack) {
+    cleanArtist(track: string) {
         return track.split(',')
             .map(line => line.replace(/<.*?>/g, ''))
             .filter(line => line.length > 0)

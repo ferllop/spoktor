@@ -3,11 +3,6 @@ import {Digest} from '../models/digest'
 import {DigestedPlaylist} from '../models/digested-playlist'
 import {RawPlaylist} from '../models/raw-playlist'
 
-export type RawTrack = string
-type Artist = string
-type Song = string
-type PlaylistName = string
-
 export abstract class PlaylistParser {
     parse(playlist: RawPlaylist): Digest[] {
         if(playlist.length === 0) {
@@ -18,7 +13,7 @@ export abstract class PlaylistParser {
         return digests.filter(Digest.isValid)
     }
 
-    private createDigest(track: RawTrack) {
+    private createDigest(track: string) {
         return {
             artist: this.extractArtist(track),
             song: this.extractSong(track),
@@ -26,8 +21,8 @@ export abstract class PlaylistParser {
         }
     }
 
-    abstract extractTracks(playlist: RawPlaylist): RawTrack[]
-    abstract extractArtist(track: RawTrack): Artist
-    abstract extractSong(track: RawTrack): Song
-    abstract extractPlaylistName(playlist: RawPlaylist): PlaylistName
+    abstract extractTracks(playlist: RawPlaylist): string[]
+    abstract extractArtist(track: string): string
+    abstract extractSong(track: string): string
+    abstract extractPlaylistName(playlist: RawPlaylist): string
 }

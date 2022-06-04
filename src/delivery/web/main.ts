@@ -59,8 +59,8 @@ li {
 
 export class Main extends HTMLElement {
     private shadow: ShadowRoot
-    private spotifyPlaylist: RawPlaylist | null = null
-    private traktorPlaylist: RawPlaylist | null = null
+    private spotifyPlaylist: string | null = null
+    private traktorPlaylist: string | null = null
 
     constructor() {
         super()

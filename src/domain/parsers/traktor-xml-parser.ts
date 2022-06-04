@@ -1,4 +1,4 @@
-import {PlaylistParser, RawTrack} from './playlist-parser'
+import {PlaylistParser} from './playlist-parser'
 import {RawPlaylist} from '../models/raw-playlist'
 
 export class TraktorXmlParser extends PlaylistParser {
@@ -7,12 +7,12 @@ export class TraktorXmlParser extends PlaylistParser {
         return collection.match(regex) ?? []
     }
 
-    extractArtist(track: RawTrack) {
+    extractArtist(track: string) {
         const regex = /<ENTRY.*?ARTIST="(.*?)".*?>/s
         return track.match(regex)?.[1] ?? ''
     }
 
-    extractSong(track: RawTrack) {
+    extractSong(track: string) {
         /* We don't capture the title directly to be sure that we don't
            capture the TITLE existing into the album field */
         const entryRegex = /<ENTRY(.*?)>/s
@@ -21,17 +21,17 @@ export class TraktorXmlParser extends PlaylistParser {
         return entry.match(titleRegex)?.[1] ?? ''
     }
 
-    extractDir(track: RawTrack) {
+    extractDir(track: string) {
         const regex = /<LOCATION.*?DIR="(.*?)"/s
         return track.match(regex)?.[1] ?? ''
     }
 
-    extractFilename(track: RawTrack) {
+    extractFilename(track: string) {
         const regex = /<LOCATION.*?FILE="(.*?)"/s
         return track.match(regex)?.[1] ?? ''
     }
 
-    extractVolume(track: RawTrack) {
+    extractVolume(track: string) {
         const regex = /<LOCATION.*?VOLUME="(.*?)"/s
         return track.match(regex)?.[1] ?? ''
     }

@@ -1,4 +1,4 @@
-import {PlaylistParser, RawTrack} from './playlist-parser'
+import {PlaylistParser} from './playlist-parser'
 import {RawPlaylist} from '../models/raw-playlist'
 
 export class SpotifyHtmlParser extends PlaylistParser {
@@ -7,12 +7,12 @@ export class SpotifyHtmlParser extends PlaylistParser {
         return playlist.match(regex) ?? []
     }
 
-    extractArtist(track: RawTrack) {
+    extractArtist(track: string) {
         const regex = /<a.*?href=".*?\/artist\/.*?">(.*?)<\/a>/s
         return track.match(regex)?.[1] ?? ''
     }
 
-    extractSong(track: RawTrack) {
+    extractSong(track: string) {
         const regex = /<a.*?href=".*?\/track\/.*?">(.*?)<\/a>/s
         return track.match(regex)?.[1] ?? ''
     }
