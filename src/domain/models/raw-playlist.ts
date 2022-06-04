@@ -1,8 +1,9 @@
 import {selectParserFor} from '../commands/parser-selector'
+import {DigestedPlaylist} from './digested-playlist'
 
-type RawPlaylist = string
+export type RawPlaylist = string
 
-function digest(rawPlaylist: RawPlaylist) {
+function digest(rawPlaylist: RawPlaylist): DigestedPlaylist {
     const parser = selectParserFor(rawPlaylist)
     return parser.parse(rawPlaylist)
 }

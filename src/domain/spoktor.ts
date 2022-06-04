@@ -5,9 +5,7 @@ import {RawPlaylist} from './models/raw-playlist'
 
 export class Spoktor {
 
-    constructor(needles, haystack) {
-        this.needles = needles
-        this.haystack = haystack
+    constructor(private needles: RawPlaylist, private haystack: RawPlaylist) {
     }
 
     getTraktorPlaylist() {
@@ -22,7 +20,7 @@ export class Spoktor {
         return DigestedPlaylist.getNeedlesFromHaystack(needles, haystack)
     }
 
-    getPlaylistNameFrom(playlist) {
+    getPlaylistNameFrom(playlist: RawPlaylist) {
         const parser = selectParserFor(playlist)
         return parser.extractPlaylistName(playlist)
     }

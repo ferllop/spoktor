@@ -1,45 +1,46 @@
-import {PlaylistParser} from './playlist-parser'
+import {PlaylistParser, RawTrack} from './playlist-parser'
+import {RawPlaylist} from '../models/raw-playlist'
 
 export class SpotifyTextParser extends PlaylistParser {
-    extractTracks(playlist) {
+    extractTracks(playlist: RawPlaylist) {
         return new TrackExtractor().extractFrom(playlist)
     }
 
-    extractArtist(track) {
+    extractArtist(track: RawTrack) {
         return new ArtistExtractor().extractFrom(track)
     }
 
-    extractSong(track) {
-        return track.split('\n')[2]
+    extractSong(track: RawTrack) {
+        return track.split('\n')[2] ?? ''
     }
 
-    extractPlaylistName(playlist) {
+    extractPlaylistName(playlist: RawPlaylist) {
         const arr = playlist.split('\n')
         const hashtagIndex = arr.findIndex(line => {
             const cleaned = line.replace(/\s/g, '')
             return cleaned === '#'
         })
-        return arr[hashtagIndex - 5].trim()
+        return arr[hashtagIndex - 5]?.trim() ?? ''
     }
 }
 
 class TrackExtractor {
-    extractFrom(playlist) {
+    extractFrom(playlist: RawPlaylist) {
         const tracks = this.separateTracks(playlist.replace(/\r/g, ''))
         return this.cleanTracks(tracks)
     }
 
-    cleanTracks(tracks) {
+    cleanTracks(tracks: RawTrack[]) {
         return tracks.map(track => track.replace(/\r/g, '').replace(/^\n/, '')).filter(track => track.length > 0)
     }
 
-    separateTracks(playlist) {
+    separateTracks(playlist: RawPlaylist) {
         const headless = this.removeHead(playlist)
         const tailess = this.removeTail(headless)
         return tailess.split(/(?<=\d+:\d+)[\r\n]/)
     }
 
-    removeHead(playlist) {
+    removeHead(playlist: RawPlaylist) {
         const arr = playlist.split('\n')
         const index = arr.findIndex(line => {
             const cleaned = line.replace(/\s/g, '')
@@ -48,44 +49,44 @@ class TrackExtractor {
         return arr.slice(index + 5).join('\n')
     }
 
-    removeTail(playlist) {
+    removeTail(playlist: RawPlaylist) {
         const arr = playlist.split('\n').reverse()
-        const tailIndex = arr.findIndex((line, index) => {
-            return /^\d+:\d+$/.test(arr[index])
+        const tailIndex = arr.findIndex((_, index) => {
+            return /^\d+:\d+$/.test(arr[index] ?? '')
         })
         return arr.slice(tailIndex).reverse().join('\n')
     }
 }
 
 class ArtistExtractor {
-    extractFrom(track) {
+    extractFrom(track: RawTrack) {
         const artist = this.extractArtist(track)
         return this.cleanArtist(artist)
     }
 
-    extractArtist(track) {
+    extractArtist(track: RawTrack) {
         const headerless = this.removeHead(track, 3)
         const tailess = this.removeTail(headerless, 3)
         return this.removeAlbum(tailess)
     }
 
-    removeHead(track, lines) {
+    removeHead(track: RawTrack, lines: number) {
         return track.split('\n').slice(lines).join('\n')
     }
 
-    removeTail(track, lines) {
+    removeTail(track: RawTrack, lines: number) {
         return track.split('\n').reverse().slice(lines).reverse().join('\n')
     }
 
-    removeAlbum(track) {
+    removeAlbum(track: RawTrack) {
         const reversed = track.split('\n').reverse()
         const albumURLPosition = reversed.findIndex(line => line.includes('<http'))
-        const isNextLineAlbumName = ! reversed[albumURLPosition+1].includes('<http')
+        const isNextLineAlbumName = ! reversed[albumURLPosition+1]?.includes('<http')
         const albumless = reversed.slice(albumURLPosition + (isNextLineAlbumName ? 2 : 1))
         return albumless.reverse().join('\n')
     }
 
-    cleanArtist(track) {
+    cleanArtist(track: RawTrack) {
         return track.split(',')
             .map(line => line.replace(/<.*?>/g, ''))
             .filter(line => line.length > 0)
