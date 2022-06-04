@@ -38,19 +38,31 @@ export class Main extends HTMLElement {
     private shadow: ShadowRoot
     private spotifyPlaylist: string | null = null
     private traktorPlaylist: string | null = null
+    private traktorLoadListener: EventListener
+    private spotifyLoadListener: EventListener
+    private instersectListener: EventListener
+    private downloadListener?: EventListener
 
     constructor() {
         super()
         this.shadow = this.attachShadow({mode: 'open'})
         this.shadow.appendChild(template.content.cloneNode(true))
-    }
 
-    connectedCallback() {
-        const form: HTMLFormElement | null = this.shadow.querySelector('spk-form')
-        if (!form) {
-            return
+        this.traktorLoadListener = (event: CustomEventInit) => {
+            this.traktorPlaylist = event.detail
         }
-        form.addEventListener('intersect', () => {
+
+        this.spotifyLoadListener = (event: CustomEventInit) => {
+            const aside: HTMLElement | null = this.shadow.getElementById('spotify-content')
+            this.spotifyPlaylist = event.detail
+            if (!aside || !this.spotifyPlaylist) {
+                return
+            }
+            aside.innerHTML = ''
+            this.renderDigests(RawPlaylist.digest(this.spotifyPlaylist), aside)
+        }
+
+        this.instersectListener = () => {
             const result: HTMLElement | null = this.shadow.getElementById('result')
             if (!this.spotifyPlaylist || !this.traktorPlaylist || !result) {
                 return
@@ -61,25 +73,36 @@ export class Main extends HTMLElement {
                 return this.renderNoCoincidences(result)
             }
             result.innerHTML = ''
-            this.insertDownloadButton(result, spoktor.getTraktorPlaylist(), spoktor.getPlaylistNameFrom(this.spotifyPlaylist))
-            this.renderDigests(digests, result)
-        })
-
-        const traktorLoadListener = (event: CustomEventInit) => {
-            this.traktorPlaylist = event.detail
-        }
-        form.addEventListener('traktor-collection-load', traktorLoadListener)
-
-        const spotifyLoadListener = (event: CustomEventInit) => {
-            const aside: HTMLElement | null = this.shadow.getElementById('spotify-content')
-            this.spotifyPlaylist = event.detail
-            if (!aside || !this.spotifyPlaylist) {
-                return
+            this.insertDownloadButton(result)
+            this.downloadListener = () => {
+                if (!this.spotifyPlaylist) {
+                    return
+                }
+                this.download(
+                    `spoktor_-${spoktor.getTraktorPlaylist()}.nml`,
+                    spoktor.getPlaylistNameFrom(this.spotifyPlaylist))
             }
-            aside.innerHTML = ''
-            this.renderDigests(RawPlaylist.digest(this.spotifyPlaylist), aside)
+            this.renderDigests(digests, result)
         }
-        form.addEventListener('spotify-playlist-load', spotifyLoadListener)
+    }
+
+    connectedCallback() {
+        const form = this.shadow.querySelector('spk-form')
+        form?.addEventListener('intersect', this.instersectListener)
+        form?.addEventListener('traktor-collection-load', this.traktorLoadListener)
+        form?.addEventListener('spotify-playlist-load', this.spotifyLoadListener)
+    }
+
+    disconnectedCallback() {
+        const form = this.shadow.querySelector('spk-form')
+        form?.removeEventListener('traktor-collection-load', this.traktorLoadListener)
+        form?.removeEventListener('spotify-playlist-load', this.spotifyLoadListener)
+        form?.removeEventListener('intersect', this.instersectListener)
+
+        if (this.downloadListener) {
+            const downloadButton = this.shadow.querySelector('button#download')
+            downloadButton?.removeEventListener('click', this.downloadListener)
+        }
     }
 
     renderNoCoincidences(parentElement: HTMLElement) {
@@ -89,12 +112,11 @@ export class Main extends HTMLElement {
         parentElement.appendChild(article)
     }
 
-    insertDownloadButton(parent: HTMLElement, fileContent: string, filename: string) {
+    insertDownloadButton(parent: HTMLElement) {
         const button = document.createElement('button')
+        button.id = 'download'
         button.innerText = 'Download traktor playlist'
-        button.addEventListener('click', () => {
-            this.download('spoktor_-' + filename + '.nml', fileContent)
-        })
+        button.addEventListener('click', this.downloadListener!)
         parent.appendChild(button)
     }
 
