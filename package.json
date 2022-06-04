@@ -6,10 +6,9 @@
   "main": "build/index.js",
   "scripts": {
     "build": "rollup --config",
-    "serve": "web-dev-server --root-dir src/delivery/web --watch --node-resolve",
+    "serve": "npm run build -- --watch & web-dev-server --root-dir build --watch --node-resolve",
     "test:uvu": "uvu -r tsm tests/domain",
-    "test:wtr": "web-test-runner 'tests/delivery/web/**/*.test.{ts,js}' --node-resolve",
-    "test": "npm run test:uvu && npm run test:wtr"
+    "test:wtr": "web-test-runner 'tests/delivery/web/**/*.test.{ts,js}' --node-resolve"
   },
   "author": "Ferran Llop",
   "license": "ISC",
