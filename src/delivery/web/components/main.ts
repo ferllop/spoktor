@@ -1,8 +1,10 @@
 import {Spoktor} from '../../../domain/spoktor'
-import {RawPlaylist} from '../../../domain/models/raw-playlist'
 import {Digest} from '../../../domain/models/digest'
 import {Form} from './form'
+import {Needles} from './needles'
+import {RawPlaylist} from '../../../domain/models/raw-playlist'
 
+customElements.define('spk-needles', Needles)
 customElements.define('spk-form', Form)
 
 const template = document.createElement('template')
@@ -14,20 +16,13 @@ template.innerHTML = `
     place-content: center;
 }
 
-aside {
-    font-size: 0.9rem;
-}
 
 h1 {
     text-align: center;
     padding-bottom: 1em;
 }
-
-li {
-    margin-bottom: 1em;
-}
 </style>
-<aside id="spotify-content"></aside>
+<spk-needles></spk-needles>
 <section>
     <h1>SPOKTOR</h1>
     <spk-form></spk-form>
@@ -36,6 +31,7 @@ li {
 
 export class Main extends HTMLElement {
     private shadow: ShadowRoot
+    private needles: Digest[] = []
     private spotifyPlaylist: string | null = null
     private traktorPlaylist: string | null = null
     private traktorLoadListener: EventListener
@@ -53,13 +49,12 @@ export class Main extends HTMLElement {
         }
 
         this.spotifyLoadListener = (event: CustomEventInit) => {
-            const aside: HTMLElement | null = this.shadow.getElementById('spotify-content')
-            this.spotifyPlaylist = event.detail
-            if (!aside || !this.spotifyPlaylist) {
-                return
+            this.needles = RawPlaylist.digest(event.detail)
+            const needlesEl: Needles | null = this.shadow.querySelector('spk-needles')
+            if(needlesEl) {
+                needlesEl.digests = this.needles
             }
-            aside.innerHTML = ''
-            this.renderDigests(RawPlaylist.digest(this.spotifyPlaylist), aside)
+            this.spotifyPlaylist = event.detail
         }
 
         this.instersectListener = () => {

@@ -96,6 +96,7 @@ export class Form extends HTMLElement {
         fr.addEventListener('load', () => {
             this.dispatchEvent(new CustomEvent('spotify-playlist-load', {
                 bubbles: true,
+                composed: true,
                 detail: fr.result as string,
             }))
         })
