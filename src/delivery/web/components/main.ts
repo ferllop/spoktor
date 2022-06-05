@@ -1,6 +1,6 @@
-import {Spoktor} from '../../domain/spoktor'
-import {RawPlaylist} from '../../domain/models/raw-playlist'
-import {Digest} from '../../domain/models/digest'
+import {Spoktor} from '../../../domain/spoktor'
+import {RawPlaylist} from '../../../domain/models/raw-playlist'
+import {Digest} from '../../../domain/models/digest'
 import {Form} from './form'
 
 customElements.define('spk-form', Form)
