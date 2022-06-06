@@ -24,6 +24,6 @@ export default {
         clean(),
         copy(copyOptions),
         terser(),
-        typescript({sourceMap: false}),
+        typescript({sourceMap: true}),
     ],
 }
