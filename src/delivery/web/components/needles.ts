@@ -18,9 +18,14 @@ li {
 `
 
 export class Needles extends HTMLElement {
-    digests: Digest[] = []
-    loadListener: EventListener
-    shadow: ShadowRoot
+    private values: Digest[] = []
+    private loadListener: EventListener
+    private shadow: ShadowRoot
+
+    set digests(digests: Digest[]) {
+        this.values = digests
+        this.renderDigests()
+    }
 
     constructor(){
         super()
@@ -29,17 +34,15 @@ export class Needles extends HTMLElement {
 
         this.loadListener = (event: CustomEventInit) => {
             this.digests = RawPlaylist.digest(event.detail)
-            this.renderDigests()
         }
-
     }
 
     connectedCallback() {
-        document.addEventListener('spotify-playlist-load', this.loadListener)
+        document.addEventListener('needles-load', this.loadListener)
     }
 
     disconnectedCallback() {
-        document.addEventListener('spotify-playlist-load', this.loadListener)
+        document.addEventListener('needles-load', this.loadListener)
     }
 
     renderDigests() {
@@ -48,7 +51,7 @@ export class Needles extends HTMLElement {
             return
         }
         ol.innerHTML = ''
-        this.digests.map(digest => {
+        this.values.map(digest => {
             const item = document.createElement('li')
             item.innerHTML = 'Artist: ' + digest.artist +
                 '<br />' + 'Song: ' + digest.song

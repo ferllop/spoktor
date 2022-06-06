@@ -1,10 +1,13 @@
-import {Spoktor} from '../../../domain/spoktor'
-import {Digest} from '../../../domain/models/digest'
 import {Form} from './form'
 import {Needles} from './needles'
-import {RawPlaylist} from '../../../domain/models/raw-playlist'
+import {Haystack} from './haystack'
+
+export type RawPlaylistLoadEvent = CustomEventInit & {
+    detail: string
+}
 
 customElements.define('spk-needles', Needles)
+customElements.define('spk-haystack', Haystack)
 customElements.define('spk-form', Form)
 
 const template = document.createElement('template')
@@ -27,114 +30,43 @@ h1 {
     <h1>SPOKTOR</h1>
     <spk-form></spk-form>
 </section>
-<section id="result"></section>`
+<spk-haystack></spk-haystack>`
 
 export class Main extends HTMLElement {
     private shadow: ShadowRoot
-    private needles: Digest[] = []
-    private spotifyPlaylist: string | null = null
-    private traktorPlaylist: string | null = null
-    private traktorLoadListener: EventListener
-    private spotifyLoadListener: EventListener
-    private instersectListener: EventListener
-    private downloadListener?: EventListener
+    // private needles: Digest[] = []
+    // private haystackLoadListener: EventListener
+    // private needlesLoadListener: EventListener
 
     constructor() {
         super()
         this.shadow = this.attachShadow({mode: 'open'})
         this.shadow.appendChild(template.content.cloneNode(true))
 
-        this.traktorLoadListener = (event: CustomEventInit) => {
-            this.traktorPlaylist = event.detail
-        }
+        // this.haystackLoadListener = (event: CustomEventInit) => {
+        //     const haystack: Haystack | null = this.shadow.querySelector('spk-haystack')!
+        //     haystack.digests = RawPlaylist.digest(event.detail)
+        // }
 
-        this.spotifyLoadListener = (event: CustomEventInit) => {
-            this.needles = RawPlaylist.digest(event.detail)
-            const needlesEl: Needles | null = this.shadow.querySelector('spk-needles')
-            if(needlesEl) {
-                needlesEl.digests = this.needles
-            }
-            this.spotifyPlaylist = event.detail
-        }
-
-        this.instersectListener = () => {
-            const result: HTMLElement | null = this.shadow.getElementById('result')
-            if (!this.spotifyPlaylist || !this.traktorPlaylist || !result) {
-                return
-            }
-            const spoktor = new Spoktor(this.spotifyPlaylist, this.traktorPlaylist)
-            const digests = spoktor.getCoincidentDigests()
-            if (digests.length === 0) {
-                return this.renderNoCoincidences(result)
-            }
-            result.innerHTML = ''
-            this.insertDownloadButton(result)
-            this.downloadListener = () => {
-                if (!this.spotifyPlaylist) {
-                    return
-                }
-                this.download(
-                    `spoktor_-${spoktor.getTraktorPlaylist()}.nml`,
-                    spoktor.getPlaylistNameFrom(this.spotifyPlaylist))
-            }
-            this.renderDigests(digests, result)
-        }
+        // this.needlesLoadListener = (event: CustomEventInit) => {
+        //     this.needles = RawPlaylist.digest(event.detail)
+        //     const needlesEl: Needles | null = this.shadow.querySelector('spk-needles')
+        //     if(needlesEl) {
+        //         needlesEl.digests = this.needles
+        //     }
+        // }
     }
 
     connectedCallback() {
-        const form = this.shadow.querySelector('spk-form')
-        form?.addEventListener('intersect', this.instersectListener)
-        form?.addEventListener('traktor-collection-load', this.traktorLoadListener)
-        form?.addEventListener('spotify-playlist-load', this.spotifyLoadListener)
+        // const form = this.shadow.querySelector('spk-form')
+        // form?.addEventListener('traktor-collection-load', this.haystackLoadListener)
+        // form?.addEventListener('spotify-playlist-load', this.needlesLoadListener)
     }
 
     disconnectedCallback() {
-        const form = this.shadow.querySelector('spk-form')
-        form?.removeEventListener('traktor-collection-load', this.traktorLoadListener)
-        form?.removeEventListener('spotify-playlist-load', this.spotifyLoadListener)
-        form?.removeEventListener('intersect', this.instersectListener)
-
-        if (this.downloadListener) {
-            const downloadButton = this.shadow.querySelector('button#download')
-            downloadButton?.removeEventListener('click', this.downloadListener)
-        }
+        // const form = this.shadow.querySelector('spk-form')
+        // form?.removeEventListener('traktor-collection-load', this.haystackLoadListener)
+        // form?.removeEventListener('spotify-playlist-load', this.needlesLoadListener)
     }
-
-    renderNoCoincidences(parentElement: HTMLElement) {
-        parentElement.innerHTML = ''
-        const article = document.createElement('article')
-        article.innerText = 'There are no coincidences'
-        parentElement.appendChild(article)
-    }
-
-    insertDownloadButton(parent: HTMLElement) {
-        const button = document.createElement('button')
-        button.id = 'download'
-        button.innerText = 'Download traktor playlist'
-        button.addEventListener('click', this.downloadListener!)
-        parent.appendChild(button)
-    }
-
-    renderDigests(digests: Digest[], parentElement: HTMLElement) {
-        const list = document.createElement('ol')
-        digests.map(digest => {
-            const item = document.createElement('li')
-            item.innerHTML = 'Artist: ' + digest.artist +
-                '<br />' + 'Song: ' + digest.song
-            list.appendChild(item)
-        })
-        parentElement.appendChild(list)
-    }
-
-    download(filename: string, text: string) {
-        const element = document.createElement('a')
-        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text))
-        element.setAttribute('download', filename)
-        element.style.display = 'none'
-        document.body.appendChild(element)
-        element.click()
-        document.body.removeChild(element)
-    }
-
 
 }

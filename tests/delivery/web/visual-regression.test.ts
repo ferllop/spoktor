@@ -32,7 +32,7 @@ async function loadSpotifyFile() {
     return executeServerCommand(
         'upload-file',
         {
-            selector: `document.querySelector('spk-main').shadowRoot.querySelector('spk-form').shadowRoot.querySelector('#spotify')`,
+            selector: `document.querySelector('spk-main').shadowRoot.querySelector('spk-form').shadowRoot.querySelector('#needles')`,
             filePaths: 'test-data/spotify-playlist.txt'
         })
 }
@@ -41,7 +41,7 @@ async function loadTraktorFile() {
     return executeServerCommand(
         'upload-file',
         {
-            selector: `document.querySelector('spk-main').shadowRoot.querySelector('spk-form').shadowRoot.querySelector('#traktor')`,
+            selector: `document.querySelector('spk-main').shadowRoot.querySelector('spk-form').shadowRoot.querySelector('#haystack')`,
             filePaths: 'test-data/traktor-collection.nml'
         })
 }
