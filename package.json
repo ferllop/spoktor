@@ -5,6 +5,7 @@
   "type": "module",
   "main": "build/index.js",
   "scripts": {
+    "deploy": "./deploy.sh",
     "build": "rollup --config",
     "serve": "npm run build -- --watch & web-dev-server --root-dir build --watch --node-resolve",
     "tsc": "tsc --watch --noEmit",
