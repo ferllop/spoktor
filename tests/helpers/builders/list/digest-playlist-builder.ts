@@ -9,7 +9,7 @@ export class DigestPlaylistBuilder extends PlaylistBuilder<Digest, Digest[]> {
         return new DigestBuilder()
             .withArtist(artist)
             .withSong(song)
-            .withRawData(trackBuilder.withArtist(artist).withSong(song).build())
+            .withRawData(trackBuilder.withArtist(artist).withSong(song).build()).build()
     }
 
     build() {
