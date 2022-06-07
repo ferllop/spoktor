@@ -17,12 +17,12 @@ input[type="submit"] {
 </style>
 <form action="">
         <fieldset>
-            <label for="needles">Spotify Playlist:</label>
+            <label for="needles">Playlist File:</label>
             <input type="file" id="needles">
         </fieldset>
 
         <fieldset>
-            <label for="haystack">Traktor Collection:</label>
+            <label for="haystack">Music Collection File:</label>
             <input type="file" id="haystack">
         </fieldset>
 
