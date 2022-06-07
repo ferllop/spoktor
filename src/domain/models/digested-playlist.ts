@@ -1,4 +1,4 @@
-import {AugmentedDigest, Digest, DigestComparatorFactory, DigestsComparator} from './digest'
+import {AugmentedDigest, Digest, DigestComparatorFactory, DigestsComparator, PositionedDigest} from './digest'
 
 const EMPTY: Digest[] = []
 
@@ -17,14 +17,22 @@ function getNeedlesFromHaystack(needles: Digest[], haystack: Digest[]): Digest[]
 function insertCoincidencesIntoDigests(needles: Digest[], receivingDigests: Digest[], comparator: DigestsComparator): AugmentedDigest[] {
     return receivingDigests.map(receivingDigest => ({
             ...receivingDigest,
-            coincidences: needles.filter(needle => comparator(receivingDigest, needle)),
+            coincidences: recordPosition(needles).filter(needle => comparator(receivingDigest, needle)),
         }),
     )
+}
+
+function recordPosition(digests: Digest[]): PositionedDigest[] {
+    return digests.map((digest, index) => ({
+        ...digest,
+        position: index
+    }))
 }
 
 export const DigestedPlaylist = {
     EMPTY,
     getNeedlesFromHaystack,
-    insertCoincidencesIntoDigests
+    insertCoincidencesIntoDigests,
+    recordPosition,
 }
 

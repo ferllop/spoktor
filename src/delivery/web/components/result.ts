@@ -28,35 +28,52 @@ export class Result extends HTMLElement {
     haystack: Digest[] = []
     result: AugmentedDigest[] = []
     downloadName: string = ''
-    private downloadListener: EventListener
 
     constructor() {
         super()
         this.shadow = this.attachShadow({mode: 'open'})
         this.shadow.appendChild(template.content.cloneNode(true))
-
-        this.downloadListener = () => {
-            this.download(
-                `spoktor_-${this.downloadName}.nml`,
-                TraktorRawPlaylist.generatePlaylistFrom(this.result, this.downloadName))
-        }
     }
 
     connectedCallback() {
-        document.addEventListener('needles-load', (event: CustomEventInit) => {
-            this.needles = RawPlaylist.digest(event.detail)
-            this.renderCoincidences()
-        })
-        document.addEventListener('haystack-load', (event: CustomEventInit) => {
-            this.haystack = RawPlaylist.digest(event.detail)
-            if (this.needles.length > 0) {
-                this.renderCoincidences()
-            }
-        })
+        document.addEventListener('needles-load', this.handleNeedlesLoaded.bind(this))
+        document.addEventListener('haystack-load', this.handleHaystackLoaded.bind(this))
     }
 
     disconnectedCallback() {
-        this.button?.removeEventListener('click', this.downloadListener)
+        document.removeEventListener('needles-load', this.handleNeedlesLoaded.bind(this))
+        document.removeEventListener('haystack-load', this.handleHaystackLoaded.bind(this))
+        this.button?.removeEventListener('click', this.handleDownload.bind(this))
+    }
+
+    handleNeedlesLoaded(event: CustomEventInit) {
+        this.needles = RawPlaylist.digest(event.detail)
+        this.renderCoincidences()
+    }
+
+    handleHaystackLoaded(event: CustomEventInit) {
+        if (this.needles.length === 0) {
+            return
+        }
+        this.haystack = RawPlaylist.digest(event.detail)
+        this.renderCoincidences()
+    }
+
+    handleDownload() {
+        this.download(
+            `spoktor_-${this.downloadName}.nml`,
+            TraktorRawPlaylist.generatePlaylistFrom(this.getSelectedCoincidences(), this.downloadName))
+    }
+
+    getSelectedCoincidences() {
+        const selections: NodeListOf<HTMLInputElement> = this.shadow.querySelectorAll('input[type="checkbox"]')
+        return Array.from(selections)
+            .filter((selection) => selection.checked)
+            .map(selection => {
+                const playlistPosition = Number.parseInt(selection.getAttribute('data-playlist-position')!)
+                const coincidencesPosition = Number.parseInt(selection.getAttribute('data-coincidences-position')!)
+                return this.result[playlistPosition]!.coincidences[coincidencesPosition]!
+            })
     }
 
     intersect() {
@@ -79,7 +96,9 @@ export class Result extends HTMLElement {
                 sublist.appendChild(templateWithContent(
                     `
 <li>
-<label><input type="checkbox" 
+<label><input type="checkbox"
+        data-playlist-position="${indexA}"
+        data-coincidences-position="${indexB}"
         id="${indexA}-${indexB}" 
         ${augmentedDigest.coincidences.length === 1 ? 'checked' : ''}>
 <spk-digest song="${digest.song}" 
@@ -90,8 +109,6 @@ export class Result extends HTMLElement {
             list.appendChild(item)
         })
 
-        // const coincidences = document.createElement('spk-needles') as Needles
-        // coincidences.digests = this.result
         this.shadow.replaceChildren(template.content.cloneNode(true))
         this.insertDownloadButton()
         this.shadow.appendChild(list)
@@ -107,7 +124,7 @@ export class Result extends HTMLElement {
         const button = document.createElement('button')
         button.id = 'download'
         button.innerText = 'Download traktor playlist'
-        button.addEventListener('click', this.downloadListener)
+        button.addEventListener('click', this.handleDownload.bind(this))
         this.button = button
         this.shadow.appendChild(button)
     }
@@ -122,4 +139,3 @@ export class Result extends HTMLElement {
         document.body.removeChild(element)
     }
 }
-

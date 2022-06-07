@@ -3,9 +3,9 @@ export type Digest = {
     song: string
     rawData: string
 }
-
+export type PositionedDigest = Digest & {position: number}
 export type AugmentedDigest = Digest & {
-    coincidences: Digest[]
+    coincidences: PositionedDigest[]
 }
 
 export type DigestsComparator = (a: Digest, b: Digest) => boolean
