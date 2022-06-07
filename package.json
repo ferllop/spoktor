@@ -10,9 +10,10 @@
     "serve": "npm run build -- --watch & web-dev-server --root-dir build --watch --node-resolve",
     "tsc": "tsc --watch --noEmit",
     "test:uvu": "uvu -r tsm tests/domain",
-    "test:uvu:watch": "watchlist src test -- npm run test:uvu",
+    "test:uvu:watch": "watchlist src tests -- npm run test:uvu",
     "test:wtr": "web-test-runner 'tests/delivery/web/**/*.test.{ts,js}' --node-resolve",
-    "test:wtr:watch": "npm run test:wtr -- --watch"
+    "test:wtr:watch": "npm run test:wtr -- --watch",
+    "test:watch": "npm run test:wtr:watch & npm run test:uvu:watch"
   },
   "author": "Ferran Llop",
   "license": "ISC",
