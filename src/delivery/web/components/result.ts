@@ -76,8 +76,11 @@ export class Result extends HTMLElement {
             const sublist = document.createElement('ul') as HTMLUListElement
             augmentedDigest.coincidences.forEach((digest, indexB) => {
                 sublist.appendChild(templateWithContent(
-                    `<li>
-<label><input type="checkbox" id="${indexA}-${indexB}">
+                    `
+<li>
+<label><input type="checkbox" 
+        id="${indexA}-${indexB}" 
+        ${augmentedDigest.coincidences.length === 1 ? 'checked' : ''}>
 <spk-digest song="${digest.song}" 
                                     artist="${digest.artist}"></spk-digest></label></li>`).content)
             })
