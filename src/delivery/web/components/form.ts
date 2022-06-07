@@ -25,8 +25,6 @@ input[type="submit"] {
             <label for="haystack">Music Collection File:</label>
             <input type="file" id="haystack">
         </fieldset>
-
-        <input type="submit" value="Intersect">
     </form>
 `
 
@@ -34,7 +32,6 @@ export class Form extends HTMLElement {
     private shadow: ShadowRoot
     private needlesInput: HTMLInputElement
     private haystackInput: HTMLInputElement
-    private submit: HTMLInputElement
 
     constructor() {
         super()
@@ -42,21 +39,18 @@ export class Form extends HTMLElement {
         this.shadow.appendChild(template.content.cloneNode(true))
         this.needlesInput = this.shadow.getElementById('needles') as HTMLInputElement
         this.haystackInput = this.shadow.getElementById('haystack') as HTMLInputElement
-        this.submit = this.shadow.querySelector('input[type="submit"]') as HTMLInputElement
     }
 
     connectedCallback() {
         window.addEventListener('load', this.handleInitialLoad.bind(this))
         this.needlesInput.addEventListener('change', this.handleNeedlesInputChange())
         this.haystackInput.addEventListener('change', this.handleHaystackInputChange())
-        this.submit.addEventListener('click', this.handleSubmit.bind(this))
     }
 
     disconnectedCallback() {
         window.removeEventListener('load', this.handleInitialLoad.bind(this))
         this.needlesInput.removeEventListener('change', this.handleNeedlesInputChange())
         this.haystackInput.removeEventListener('change', this.handleHaystackInputChange())
-        this.submit.removeEventListener('click', this.handleSubmit)
     }
 
     private handleNeedlesInputChange() {
@@ -65,17 +59,6 @@ export class Form extends HTMLElement {
 
     private handleHaystackInputChange() {
         return handleInputChange('haystack-load', this.haystackInput, loadFileContent)
-    }
-
-    private handleSubmit(event: Event) {
-        event.preventDefault()
-        if (!this.needlesInput.value || !this.haystackInput.value) {
-            return
-        }
-        this.shadow.dispatchEvent(new Event('intersect', {
-            bubbles: true,
-            composed: true,
-        }))
     }
 
     private handleInitialLoad() {

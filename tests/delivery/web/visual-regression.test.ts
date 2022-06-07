@@ -21,11 +21,8 @@ describe('MyElement Visual diffing', () => {
         await fixture(html`<spk-main></spk-main>`)
         await loadSpotifyFile()
         await loadTraktorFile()
-        await intersect()
         await visualDiff(document.body, 'spk-main-intersect')
     })
-
-
 })
 
 async function loadSpotifyFile() {
@@ -43,13 +40,5 @@ async function loadTraktorFile() {
         {
             selector: `document.querySelector('spk-main').shadowRoot.querySelector('spk-form').shadowRoot.querySelector('#haystack')`,
             filePaths: 'test-data/traktor-collection.nml'
-        })
-}
-
-async function intersect() {
-    return executeServerCommand(
-        'shadow-root-click',
-        {
-            selector: `document.querySelector('spk-main').shadowRoot.querySelector('spk-form').shadowRoot.querySelector('input[type="submit"]')`,
         })
 }

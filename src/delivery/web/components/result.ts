@@ -28,7 +28,6 @@ export class Result extends HTMLElement {
     haystack: Digest[] = []
     result: AugmentedDigest[] = []
     downloadName: string = ''
-    private intersectListener: EventListener
     private downloadListener: EventListener
 
     constructor() {
@@ -41,30 +40,32 @@ export class Result extends HTMLElement {
                 `spoktor_-${this.downloadName}.nml`,
                 TraktorRawPlaylist.generatePlaylistFrom(this.result, this.downloadName))
         }
-
-        this.intersectListener = () => {
-            const coincidences = DigestedPlaylist.getNeedlesFromHaystack(this.needles, this.haystack)
-            this.result = DigestedPlaylist.insertCoincidencesIntoDigests(coincidences, this.needles, Digest.areEqual)
-            this.renderCoincidences()
-        }
     }
 
     connectedCallback() {
-        document.addEventListener('intersect', this.intersectListener)
         document.addEventListener('needles-load', (event: CustomEventInit) => {
             this.needles = RawPlaylist.digest(event.detail)
+            this.renderCoincidences()
         })
         document.addEventListener('haystack-load', (event: CustomEventInit) => {
             this.haystack = RawPlaylist.digest(event.detail)
+            if (this.needles.length > 0) {
+                this.renderCoincidences()
+            }
         })
     }
 
     disconnectedCallback() {
-        document.addEventListener('intersect', this.intersectListener)
         this.button?.removeEventListener('click', this.downloadListener)
     }
 
+    intersect() {
+        const coincidences = DigestedPlaylist.getNeedlesFromHaystack(this.needles, this.haystack)
+        this.result = DigestedPlaylist.insertCoincidencesIntoDigests(coincidences, this.needles, Digest.areEqual)
+    }
+
     renderCoincidences() {
+        this.intersect()
         const list = document.createElement('ol')
         this.result.forEach((augmentedDigest, indexA) => {
             const item = document.createElement('li')
@@ -121,3 +122,4 @@ export class Result extends HTMLElement {
         document.body.removeChild(element)
     }
 }
+
