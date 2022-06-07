@@ -4,6 +4,7 @@ import {Digest} from './digest'
 export const TraktorRawPlaylist = {
     renderFullFilePathFrom,
     generatePlaylistFrom,
+    normalizeRawFullFilePathFrom,
 }
 
 function renderFullFilePathFrom(rawTrack: string) {
@@ -12,6 +13,10 @@ function renderFullFilePathFrom(rawTrack: string) {
     const directoryPath = traktorParser.extractDir(rawTrack)
     const filename = traktorParser.extractFilename(rawTrack)
     return volume + directoryPath + filename
+}
+
+function normalizeRawFullFilePathFrom(rawFullFilePath: string) {
+    return rawFullFilePath.replaceAll('/:', '\\')
 }
 
 function getNodePlaylistEntries(digests: Digest[]) {

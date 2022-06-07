@@ -102,7 +102,9 @@ export class Result extends HTMLElement {
         id="${indexA}-${indexB}" 
         ${augmentedDigest.coincidences.length === 1 ? 'checked' : ''}>
 <spk-digest song="${digest.song}" 
-                                    artist="${digest.artist}"></spk-digest></label></li>`).content)
+            artist="${digest.artist}"></spk-digest>
+${this.renderAudioPlayer(digest)}
+</label></li>`).content)
             })
             const digestEl = item.querySelector('spk-digest') as DigestComponent
             digestEl.appendChild(sublist)
@@ -114,6 +116,13 @@ export class Result extends HTMLElement {
         this.shadow.appendChild(list)
     }
 
+    renderAudioPlayer(digest: Digest) {
+        const filename = TraktorRawPlaylist.normalizeRawFullFilePathFrom(TraktorRawPlaylist.renderFullFilePathFrom(digest.rawData))
+        return `<audio controls
+        src="${filename}">
+            Your browser does not support the <code>audio</code> element.</audio>`
+
+    }
     renderWhenEmpty(message: string) {
         const article = document.createElement('article')
         article.innerHTML = `<p>${message}</p>`
