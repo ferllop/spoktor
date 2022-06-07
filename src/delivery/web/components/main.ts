@@ -1,10 +1,12 @@
 import {Form} from './form'
 import {Needles} from './needles'
-import {Haystack} from './haystack'
+import {DigestComponent} from './digest-component'
+import {Result} from './result'
 
 customElements.define('spk-needles', Needles)
-customElements.define('spk-haystack', Haystack)
+customElements.define('spk-result', Result)
 customElements.define('spk-form', Form)
+customElements.define('spk-digest', DigestComponent)
 
 const template = document.createElement('template')
 template.innerHTML = `
@@ -25,7 +27,7 @@ h1 {
     <h1>SPOKTOR</h1>
     <spk-form></spk-form>
 </section>
-<spk-haystack></spk-haystack>`
+<spk-result></spk-result>`
 
 export class Main extends HTMLElement {
     private shadow: ShadowRoot

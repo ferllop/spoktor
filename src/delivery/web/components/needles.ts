@@ -1,8 +1,8 @@
 import {RawPlaylist} from '../../../domain/models/raw-playlist'
 import {Digest} from '../../../domain/models/digest'
+import {templateWithContent} from './helpers'
 
-const template = document.createElement('template')
-template.innerHTML = `
+const template = templateWithContent(`
 <style>
 aside {
     font-size: 0.9rem;
@@ -15,7 +15,7 @@ li {
 <aside>
 <ol></ol>
 </aside>
-`
+`)
 
 export class Needles extends HTMLElement {
     private values: Digest[] = []
@@ -53,9 +53,13 @@ export class Needles extends HTMLElement {
         ol.innerHTML = ''
         this.values.map(digest => {
             const item = document.createElement('li')
-            item.innerHTML = 'Artist: ' + digest.artist +
-                '<br />' + 'Song: ' + digest.song
+            const template = templateWithContent(
+                `<spk-digest song="${digest.song}" 
+                                    artist="${digest.artist}"></spk-digest>`)
+            item.appendChild(template.content)
             ol.appendChild(item)
         })
     }
 }
+
+
