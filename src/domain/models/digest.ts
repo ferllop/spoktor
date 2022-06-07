@@ -4,11 +4,29 @@ export type Digest = {
     rawData: string
 }
 
-export function isValid(candidate: Digest) {
+export type AugmentedDigest = Digest & {
+    coincidences: Digest[]
+}
+
+export type DigestsComparator = (a: Digest, b: Digest) => boolean
+export type DigestComparatorFactory = (a: Digest) => (b: Digest) => boolean
+
+function isValid(candidate: Digest) {
     return candidate.artist.length > 0
         || candidate.song.length > 0
 }
 
+function isEqual(digestA: Digest) {
+    return (digestB: Digest) => areEqual(digestA, digestB)
+}
+
+function areEqual(digestA: Digest, digestB: Digest) {
+    return digestA.song === digestB.song
+        && digestA.artist === digestB.artist
+}
+
 export const Digest = {
     isValid,
+    areEqual,
+    isEqual,
 }
