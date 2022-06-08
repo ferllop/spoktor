@@ -1,6 +1,9 @@
 const template = document.createElement('template')
 template.innerHTML = `
 <style>
+label {
+    display: block;
+}
 form {
     font-size: 1.2rem;
     display: flex;
