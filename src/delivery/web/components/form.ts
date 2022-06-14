@@ -1,3 +1,5 @@
+import {createLink} from '../../../domain/models/youtube-playlist-link-creator'
+
 const template = document.createElement('template')
 template.innerHTML = `
 <style>
@@ -29,6 +31,12 @@ input[type="submit"] {
             <input type="file" id="haystack">
         </fieldset>
     </form>
+    
+    <form action="">
+    <textarea></textarea>
+    <input type="submit" value="Get Link">
+    <section></section>
+</form>
 `
 
 export class Form extends HTMLElement {
@@ -48,6 +56,14 @@ export class Form extends HTMLElement {
         window.addEventListener('load', this.handleInitialLoad.bind(this))
         this.needlesInput.addEventListener('change', this.handleNeedlesInputChange())
         this.haystackInput.addEventListener('change', this.handleHaystackInputChange())
+        this.shadow
+            .querySelector('input[type="submit"]')!
+            .addEventListener('click', (event) => {
+                event.preventDefault()
+                const links = this.shadow.querySelector('textarea')!.value
+                const anchor = `<a href="${createLink(links)}" target="_blank" rel="noopener">Go to playlist</a>`
+                this.shadow.querySelector('section')!.innerHTML = anchor
+            })
     }
 
     disconnectedCallback() {
