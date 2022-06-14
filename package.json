@@ -7,7 +7,7 @@
   "scripts": {
     "deploy": "./deploy.sh",
     "build": "rollup --config",
-    "serve": "npm run build -- --watch & web-dev-server --root-dir build --watch --node-resolve",
+    "serve": "web-dev-server --root-dir build --watch --node-resolve",
     "tsc": "tsc --watch --noEmit",
     "test:uvu": "uvu -r tsm tests/domain",
     "test:uvu:watch": "watchlist src tests -- npm run test:uvu",
