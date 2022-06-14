@@ -5,6 +5,7 @@ import {InvalidPlaylistError} from '../errors/invalid-playlist-error'
 import {TraktorXmlParser} from './traktor-xml-parser'
 import {VirtualDjXmlParser} from './virtualdj-xml-parser'
 import {ArtistTitleByLineParser} from './artist-title-by-line-text-parser'
+import {TuneMyMusicCsvParser} from './tune-my-music-csv-parser'
 
 export function selectParserFor(rawPlaylist: string) {
     if (rawPlaylist.length === 0) {
@@ -29,6 +30,10 @@ export function selectParserFor(rawPlaylist: string) {
 
     if (rawPlaylist.includes('Name,Track Name')) {
         return ArtistTitleByLineParser
+    }
+
+    if (rawPlaylist.startsWith('Track name, Artist name, Album, Playlist name')) {
+        return TuneMyMusicCsvParser
     }
 
     throw new InvalidPlaylistError()
