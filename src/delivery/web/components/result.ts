@@ -48,6 +48,7 @@ export class Result extends HTMLElement {
 
     handleNeedlesLoaded(event: CustomEventInit) {
         this.needles = RawPlaylist.digest(event.detail)
+        this.downloadName = RawPlaylist.extractPlaylistName(event.detail)
         this.renderCoincidences()
     }
 
