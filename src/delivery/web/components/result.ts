@@ -53,9 +53,6 @@ export class Result extends HTMLElement {
     }
 
     handleHaystackLoaded(event: CustomEventInit) {
-        if (this.needles.length === 0) {
-            return
-        }
         this.haystack = RawPlaylist.digest(event.detail)
         this.renderCoincidences()
     }
