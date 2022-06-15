@@ -98,7 +98,7 @@ export class Result extends HTMLElement {
         data-playlist-position="${indexA}"
         data-coincidences-position="${indexB}"
         id="${indexA}-${indexB}" 
-        ${augmentedDigest.coincidences.length === 1 ? 'checked' : ''}>
+        checked>
 <spk-digest song="${digest.song}" 
             artist="${digest.artist}"></spk-digest>
 </label></li>`).content)
