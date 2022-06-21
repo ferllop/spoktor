@@ -75,8 +75,7 @@ export class Result extends HTMLElement {
     }
 
     intersect() {
-        const coincidences = DigestedPlaylist.getNeedlesFromHaystack(this.needles, this.haystack)
-        this.result = DigestedPlaylist.insertCoincidencesIntoDigests(coincidences, this.needles, Digest.areEqual)
+        this.result = DigestedPlaylist.intersect(this.needles, this.haystack)
     }
 
     renderCoincidences() {

@@ -1,17 +1,13 @@
-import {AugmentedDigest, Digest, DigestComparatorFactory, DigestsComparator, PositionedDigest} from './digest'
+import {AugmentedDigest, Digest, DigestsComparator, PositionedDigest} from './digest'
 
 const EMPTY: Digest[] = []
 
-function digestsPresentIn(digests: Digest[], comparator: DigestComparatorFactory) {
-    return (checkingDigest: Digest) => digests.some(comparator(checkingDigest))
+function digestsPresentIn(digests: Digest[], comparator: DigestsComparator) {
+    return (checkingDigest: Digest) => digests.some(digest => comparator(digest, checkingDigest))
 }
 
-function digestsEquallyPresentIn(digests: Digest[]) {
-    return digestsPresentIn(digests, Digest.isEqual)
-}
-
-function getNeedlesFromHaystack(needles: Digest[], haystack: Digest[]): Digest[] {
-    return haystack.filter(digestsEquallyPresentIn(needles))
+function getNeedlesFromHaystack(needles: Digest[], haystack: Digest[], comparator: DigestsComparator): Digest[] {
+    return haystack.filter(digestsPresentIn(needles, comparator))
 }
 
 function insertCoincidencesIntoDigests(needles: Digest[], receivingDigests: Digest[], comparator: DigestsComparator): AugmentedDigest[] {
@@ -22,10 +18,16 @@ function insertCoincidencesIntoDigests(needles: Digest[], receivingDigests: Dige
     )
 }
 
+function intersect(needles: Digest[], haystack: Digest[]) {
+    const comparator = Digest.areFuzzyEqual
+    const coincidences = DigestedPlaylist.getNeedlesFromHaystack(needles, haystack, comparator)
+    return DigestedPlaylist.insertCoincidencesIntoDigests(coincidences, needles, comparator)
+}
+
 function recordPosition(digests: Digest[]): PositionedDigest[] {
     return digests.map((digest, index) => ({
         ...digest,
-        position: index
+        position: index,
     }))
 }
 
@@ -34,5 +36,6 @@ export const DigestedPlaylist = {
     getNeedlesFromHaystack,
     insertCoincidencesIntoDigests,
     recordPosition,
+    intersect,
 }
 
