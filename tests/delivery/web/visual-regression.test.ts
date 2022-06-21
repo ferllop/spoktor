@@ -2,6 +2,7 @@ import {fixture, html} from '@open-wc/testing'
 import {visualDiff} from '@web/test-runner-visual-regression'
 import {Main} from '../../../src/delivery/web/components/main'
 import {executeServerCommand} from '@web/test-runner-commands'
+import { sendKeys } from '@web/test-runner-commands'
 
 customElements.define('spk-main', Main)
 
@@ -22,6 +23,18 @@ describe('MyElement Visual diffing', () => {
         await loadSpotifyFile()
         await loadTraktorFile()
         await visualDiff(document.body, 'spk-main-intersect')
+    })
+
+    it('with a list of youtube videos', async () => {
+        const el = await fixture(html`<spk-main></spk-main>`)
+        const textarea = el.shadowRoot!.querySelector('.youtube-playlist textarea') as HTMLTextAreaElement
+        textarea.focus()
+        await sendKeys({
+            type: 'https://www.youtube.com/watch?v=aaaaaaaaaaa'
+        })
+        const submit = el.shadowRoot!.querySelector('.youtube-playlist input[type="submit"]') as HTMLInputElement
+        submit.click()
+        await visualDiff(document.body, 'spk-with-youtube-links')
     })
 })
 
