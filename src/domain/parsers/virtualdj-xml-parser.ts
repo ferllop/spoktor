@@ -1,10 +1,10 @@
-import {PlaylistParser} from './playlist-parser-class'
+import {DataExtractor, PlaylistParser} from './playlist-parser-class'
 
 function parse(playlist: string) {
     return PlaylistParser.parse(playlist, dataExtractor)
 }
 
-const dataExtractor = {
+const dataExtractor: DataExtractor = {
     extractTracks(collection: string) {
         const regex = /(<Song.*?>.*?<\/Song>)/gsm
         return collection.match(regex) ?? []
@@ -21,7 +21,7 @@ const dataExtractor = {
     },
 
     extractLocation(track: string) {
-        const regex = /<FilePath.*?DIR="(.*?)"/s
+        const regex = /FilePath="(.*?)"/s
         return track.match(regex)?.[1] ?? ''
     },
 

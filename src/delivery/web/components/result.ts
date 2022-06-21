@@ -1,9 +1,9 @@
 import {AugmentedDigest, Digest} from '../../../domain/models/digest'
 import {DigestedPlaylist} from '../../../domain/models/digested-playlist'
-import {TraktorRawPlaylist} from '../../../domain/models/traktor-raw-playlist'
 import {RawPlaylist} from '../../../domain/models/raw-playlist'
 import {templateWithContent} from './helpers'
 import {DigestComponent} from './digest-component'
+import {M3UOutputPlaylist} from '../../../domain/models/m3u-output-playlist'
 
 const template = templateWithContent(`
 <style>
@@ -59,8 +59,8 @@ export class Result extends HTMLElement {
 
     handleDownload() {
         this.download(
-            `spoktor_-${this.downloadName}.nml`,
-            TraktorRawPlaylist.generatePlaylistFrom(this.getSelectedCoincidences(), this.downloadName))
+            `spoktor_-${this.downloadName}.m3u`,
+            M3UOutputPlaylist.generatePlaylistFrom(this.getSelectedCoincidences(), this.downloadName))
     }
 
     getSelectedCoincidences() {
@@ -115,7 +115,7 @@ export class Result extends HTMLElement {
     insertDownloadButton() {
         const button = document.createElement('button')
         button.id = 'download'
-        button.innerText = 'Download traktor playlist'
+        button.innerText = 'Download playlist with the selected coincidences'
         button.addEventListener('click', this.handleDownload.bind(this))
         this.button = button
         this.shadow.appendChild(button)
