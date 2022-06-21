@@ -1,0 +1,44 @@
+body {
+    display: flex;
+}
+
+h1 {
+    text-align: center;
+    padding-bottom: 1em;
+}
+
+.spoktor-form label {
+    display: block;
+}
+
+.spoktor-form form {
+    font-size: 1.2rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.spoktor-form fieldset:not(:last-child) {
+    margin-bottom: 1.5em;
+}
+
+.yt-form form {
+    font-size: 1.2rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.yt-form input[type="submit"] {
+    padding: 1em;
+}
+
+.result ul {
+    list-style-type: none;
+}
+
+.result ul li {
+    margin-top: .5em;
+}
+
+.result ol li:not(:last-child) {
+    margin-bottom: 1em;
+}
