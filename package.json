@@ -7,7 +7,8 @@
   "scripts": {
     "deploy": "./deploy.sh",
     "build": "rollup --config",
-    "serve": "web-dev-server --root-dir build --watch --node-resolve",
+    "serve:client-side": "web-dev-server --root-dir build --watch --node-resolve",
+    "serve:server-side": "nodemon --ext '*' --exec 'node --loader tsm src/delivery/server-side/server.ts'",
     "tsc": "tsc --watch --noEmit",
     "test:uvu": "uvu -r tsm tests/domain",
     "test:uvu:watch": "watchlist src tests -- npm run test:uvu",
@@ -30,6 +31,7 @@
     "@web/test-runner-commands": "0.6.1",
     "@web/test-runner-visual-regression": "0.6.5",
     "esbuild-register": "3.3.2",
+    "nodemon": "2.0.16",
     "rollup": "2.75.3",
     "rollup-plugin-clean": "1.0.0",
     "rollup-plugin-copy": "3.4.0",
