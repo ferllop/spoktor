@@ -18,6 +18,10 @@ const dataExtractor = {
         return track.split('\n')[2] ?? ''
     },
 
+    extractLocation() {
+        return 'spotify'
+    },
+
     extractPlaylistName(rawPlaylist: string) {
         const arr = rawPlaylist.split('\n')
         const hashtagIndex = arr.findIndex(line => {

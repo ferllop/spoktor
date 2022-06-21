@@ -27,7 +27,7 @@ function makePlaylist(...tracks: string[]) {
 }
 
 function makeDigest(suffix: number|string) {
-    return {artist: makeArtist(suffix), song: makeTitle(suffix), rawData: makeTrack(suffix)}
+    return {artist: makeArtist(suffix), song: makeTitle(suffix), location: '', rawData: makeTrack(suffix)}
 }
 
 tuneMyMusicCsvParser('should know how to extract the tracks', () => {

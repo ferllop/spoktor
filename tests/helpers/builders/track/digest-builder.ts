@@ -22,6 +22,7 @@ export class DigestBuilder extends TrackBuilder<Digest> {
         return {
             artist: this.artist,
             song: this.song,
+            location: this.location,
             rawData: this.rawData,
         }
     }

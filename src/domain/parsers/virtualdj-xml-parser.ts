@@ -20,7 +20,7 @@ const dataExtractor = {
         return track.match(regex)?.[1] ?? ''
     },
 
-    extractFilePath(track: string) {
+    extractLocation(track: string) {
         const regex = /<FilePath.*?DIR="(.*?)"/s
         return track.match(regex)?.[1] ?? ''
     },

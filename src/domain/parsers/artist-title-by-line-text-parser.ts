@@ -18,6 +18,10 @@ const dataExtractor = {
             .replaceAll(multipleArtistsSeparator, ',')
     },
 
+    extractLocation() {
+        return 'unknown'
+    },
+
     extractSong(track: string) {
         return track.split(artistSongSeparator)[1] ?? ''
     },

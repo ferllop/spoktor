@@ -4,6 +4,13 @@ function parse(playlist: string) {
     return PlaylistParser.parse(playlist, dataExtractor)
 }
 
+function renderFullFilePathFrom(rawTrack: string) {
+    const volume = dataExtractor.extractVolume(rawTrack)
+    const directoryPath = dataExtractor.extractDir(rawTrack)
+    const filename = dataExtractor.extractFilename(rawTrack)
+    return (volume + directoryPath + filename).replaceAll('/:', '\\')
+}
+
 const dataExtractor = {
     extractTracks(collection: string) {
         const regex = /(<ENTRY.*?>.*?<\/ENTRY>)/gsm
@@ -22,6 +29,10 @@ const dataExtractor = {
         const entry = track.match(entryRegex)?.[1] ?? ''
         const titleRegex = /TITLE="(.*?)"/s
         return entry.match(titleRegex)?.[1] ?? ''
+    },
+
+    extractLocation(track: string) {
+        return renderFullFilePathFrom(track)
     },
 
     extractDir(track: string) {

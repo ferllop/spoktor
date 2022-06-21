@@ -7,7 +7,7 @@ export const TraktorRawPlaylist = {
 }
 
 function renderFullFilePathFrom(rawTrack: string) {
-    return VirtualDjXmlParser.extractFilePath(rawTrack)
+    return VirtualDjXmlParser.extractLocation(rawTrack)
 }
 
 function getNodePlaylistEntries(digests: Digest[]) {

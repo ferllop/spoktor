@@ -1,9 +1,9 @@
 import {TextTrackBuilder} from './text-track-builder'
 
 export class TraktorTrackBuilder extends TextTrackBuilder {
-    volume = 'C:'
-    directory = '/:path/:where/:audio-file/:is-located/:'
-    filename = 'audio file-file_name.mp3'
+    volume = ''
+    directory = ''
+    filename = ''
 
     withDirectory(directory: string) {
         this.directory = '/:' + directory

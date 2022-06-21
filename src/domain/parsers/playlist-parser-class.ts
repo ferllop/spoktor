@@ -10,6 +10,7 @@ export type DataExtractor = {
     extractTracks: (playlist: string) => string[]
     extractArtist: (track: string) => string
     extractSong: (track: string) => string
+    extractLocation: (track: string) => string
     extractPlaylistName: (playlist: string) => string
 }
 
@@ -27,6 +28,7 @@ function DigestCreator(DataExtractor: DataExtractor) {
     return (track: string) => ({
         artist: DataExtractor.extractArtist(track),
         song: DataExtractor.extractSong(track),
+        location: DataExtractor.extractLocation(track),
         rawData: track,
     })
 }

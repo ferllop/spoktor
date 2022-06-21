@@ -20,6 +20,10 @@ const dataExtractor = {
         return track.split(fieldSeparator)[0] ?? ''
     },
 
+    extractLocation() {
+        return 'csv'
+    },
+
     extractPlaylistName(rawPlaylist: string) {
         return rawPlaylist.split(lineSeparator)[1]?.split(fieldSeparator)[3] ?? ''
     },

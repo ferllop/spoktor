@@ -5,6 +5,7 @@ export abstract class TrackBuilder<T> {
 
     song = 'someSong'
     artist = 'someArtist'
+    location = ''
 
     withoutArtist() {
         this.artist = ''

@@ -9,6 +9,7 @@ const dataExtractor = {
     extractArtist() { return ''},
     extractSong() { return ''},
     extractTracks() { return []},
+    extractLocation() { return ''},
     extractPlaylistName() { return ''},
 }
 const TestablePlaylistParser: PlaylistParser = {

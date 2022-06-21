@@ -20,6 +20,10 @@ const DataExtractor = {
         return track.match(regex)?.[1] ?? ''
     },
 
+    extractLocation() {
+        return 'spotify'
+    },
+
     extractPlaylistName(rawPlaylist: string) {
         const regex = /<meta property="og:title" content="(.*?)" \/>/
         return rawPlaylist.match(regex)?.[1] ?? ''
