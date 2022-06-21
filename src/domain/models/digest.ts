@@ -27,28 +27,28 @@ function areFuzzyEqual(digestA: Digest, digestB: Digest): boolean {
 }
 
 function fuzzyCompare(needleRaw: string, haystackRaw: string): boolean {
-        const clean = (str: string) => str.replace(/(.)\1+/g, '$1').replace(/[- '()_,.]/g, '-').replaceAll('&', 'and').toLowerCase()
-        const needle = clean(needleRaw)
-        const haystack = clean(haystackRaw)
-        const needleLength = needle.length
-        const haystackLength = haystack.length
-        if (needleLength > haystackLength) {
-            return false
-        }
-        if (needleLength === haystackLength) {
-            return needle === haystack
-        }
-        outer: for (let i = 0, j = 0; i < needleLength; i++) {
-            const nch = needle.charCodeAt(i)
-            while (j < haystackLength) {
-                if (haystack.charCodeAt(j++) === nch) {
-                    continue outer
-                }
-            }
-            return false
-        }
-        return true
+    const clean = (str: string) => str.replace(/(.)\1+/g, '$1').replace(/[- '()_,.]/g, '-').replaceAll('&', 'and').toLowerCase()
+    let needle = clean(needleRaw)
+    let haystack = clean(haystackRaw)
+    if (needle.length > haystack.length) {
+        const tmp = haystack
+        haystack = needle
+        needle = tmp
     }
+    if (needle.length === 0 || haystack.length === 0) {
+         return needle === haystack
+    }
+    outer: for (let i = 0, j = 0; i < needle.length; i++) {
+        const nch = needle.charCodeAt(i)
+        while (j < haystack.length) {
+            if (haystack.charCodeAt(j++) === nch) {
+                continue outer
+            }
+        }
+        return false
+    }
+    return true
+}
 
 export const Digest = {
     isValid,
