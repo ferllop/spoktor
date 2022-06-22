@@ -28,10 +28,12 @@
     </section>
     <section class="yt-form">
         <h2>Youtube videos list to playlist</h2>
-        <form class="youtube-playlist" action="">
-            <textarea></textarea>
+        <form class="youtube-playlist" 
+            hx-post="/youtube-links" 
+            hx-target="#youtube-playlist-link">
+            <textarea name="youtube-video-list" ></textarea>
             <input type="submit" value="Get Link">
-            <section></section>
+            <section id="youtube-playlist-link"></section>
         </form>
     </section>
 </aside>
