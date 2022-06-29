@@ -6,6 +6,7 @@ import {TraktorXmlParser} from './traktor-xml-parser'
 import {VirtualDjXmlParser} from './virtualdj-xml-parser'
 import {ArtistTitleByLineParser} from './artist-title-by-line-text-parser'
 import {TuneMyMusicCsvParser} from './tune-my-music-csv-parser'
+import {PlaylistParser} from './playlist-parser'
 
 export function selectParserFor(rawPlaylist: string) {
     if (rawPlaylist.length === 0) {
@@ -34,6 +35,23 @@ export function selectParserFor(rawPlaylist: string) {
 
     if (rawPlaylist.startsWith('Track name, Artist name, Album, Playlist name')) {
         return TuneMyMusicCsvParser
+    }
+
+    throw new InvalidPlaylistError()
+}
+
+const Parser: Record<string, PlaylistParser> = {
+    'traktor-xml-parser': TraktorXmlParser,
+    'spotify-text-parser': SpotifyTextParser,
+    'spotify-html-parser': SpotifyHtmlParser,
+    'virtual-dj-xml-parser': VirtualDjXmlParser,
+    'artist-title-by-line-parser': ArtistTitleByLineParser,
+    'tune-my-music-csv-parser': TuneMyMusicCsvParser
+}
+
+export function selectParserByType(type: string): PlaylistParser|void {
+    if (type in Parser) {
+        return Parser[type]
     }
 
     throw new InvalidPlaylistError()

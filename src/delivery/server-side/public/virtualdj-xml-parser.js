@@ -1,26 +1,26 @@
+import {PlaylistParser} from './playlist-parser.js'
 
-
-function parse(playlist: string) {
+export function parse(playlist) {
     return PlaylistParser.parse(playlist, dataExtractor)
 }
 
-const dataExtractor: DataExtractor = {
-    extractTracks(collection: string) {
+const dataExtractor = {
+    extractTracks(collection) {
         const regex = /(<Song.*?>.*?<\/Song>)/gsm
         return collection.match(regex) ?? []
     },
 
-    extractArtist(track: string) {
+    extractArtist(track) {
         const regex = /<Song.*?Author="(.*?)".*?>/s
         return track.match(regex)?.[1] ?? ''
     },
 
-    extractSong(track: string) {
+    extractSong(track) {
         const regex = /<Song.*?Title="(.*?)".*?>/s
         return track.match(regex)?.[1] ?? ''
     },
 
-    extractLocation(track: string) {
+    extractLocation(track) {
         const regex = /FilePath="(.*?)"/s
         return track.match(regex)?.[1] ?? ''
     },
@@ -30,7 +30,3 @@ const dataExtractor: DataExtractor = {
     },
 }
 
-export const VirtualDjXmlParser: PlaylistParser & typeof dataExtractor = {
-    parse,
-    ...dataExtractor,
-}

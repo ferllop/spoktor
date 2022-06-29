@@ -1,4 +1,4 @@
-import {PlaylistParser} from './playlist-parser-class'
+
 
 function parse(playlist: string) {
     return PlaylistParser.parse(playlist, DataExtractor)
