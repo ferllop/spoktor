@@ -1,6 +1,5 @@
 import {TraktorTrackBuilder} from './traktor-track-builder'
 import {TrackBuilder} from './track-builder'
-import {Digest} from '../../../../src/domain/models/digest'
 
 export class DigestBuilder extends TrackBuilder<Digest> {
     rawData: string = ''
