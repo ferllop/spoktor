@@ -1,4 +1,5 @@
-function isValid(/** Digest */ candidate)/** boolean */ {
+/** @type {import().isValid} */
+export const isValid = (/** Digest */ candidate) => {
     return candidate.artist.length > 0
         || candidate.song.length > 0
 }

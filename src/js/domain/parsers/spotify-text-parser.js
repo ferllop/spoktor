@@ -1,4 +1,4 @@
-import {PlaylistParser} from './playlist-parser'
+import {PlaylistParser} from './playlist-parser.js'
 
 /** @type {import('./index').PlaylistParser['parse']} */
 const parse = (playlist) => {

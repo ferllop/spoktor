@@ -1,4 +1,6 @@
-import {PlaylistParser} from './playlist-parser'
+import {PlaylistParser} from './playlist-parser.js'
+
+/** @typedef {import('./index').DataExtractor} DataExtractor*/
 
 function parse(playlist) {
     return PlaylistParser.parse(playlist, dataExtractor)
@@ -8,7 +10,7 @@ const lineSeparator = '\n'
 const artistSongSeparator = ' , '
 const multipleArtistsSeparator = ';'
 
-/** @type {import().DataExtractor} */
+/** @type DataExtractor */
 const dataExtractor = {
     extractTracks(rawPlaylist) {
         return rawPlaylist.split(lineSeparator).slice(1)
@@ -32,7 +34,7 @@ const dataExtractor = {
     },
 }
 
-/** @type {import().PlaylistParser } */
+/** @type {import('index').PlaylistParser } */
 export const ArtistTitleByLineParser = {
     parse,
     ...dataExtractor,

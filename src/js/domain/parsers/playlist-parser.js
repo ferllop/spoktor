@@ -1,5 +1,5 @@
-import {EmptyPlaylistError} from '../errors/empty-playlist-error'
-import {Digest} from '../models'
+import {EmptyPlaylistError} from '../errors/empty-playlist-error.js'
+import {isValid} from '../models/digest.js'
 
 /** @returns {Digest[]} */
 export function parse(/**string */playlist, /** DataExtractor */ dataExtractor){
@@ -9,12 +9,12 @@ export function parse(/**string */playlist, /** DataExtractor */ dataExtractor){
     const tracks = dataExtractor.extractTracks(playlist) ?? []
     const createDigest = DigestCreator(dataExtractor)
     const digests = tracks.map(createDigest)
-    return digests.filter(Digest.isValid)
+    return digests.filter(isValid)
 }
 
 /** @return {function(string): Digest} */
 function DigestCreator(/** DataExtractor */ dataExtractor) {
-    return (/**string*/track) => ({
+    return (/** string */ track) => ({
         artist: dataExtractor.extractArtist(track),
         song: dataExtractor.extractSong(track),
         location: dataExtractor.extractLocation(track),

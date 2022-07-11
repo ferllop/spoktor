@@ -1,6 +1,6 @@
 const regex = /youtu(?:.*\/v\/|.*v=|\.be\/|.*?embed\/)([A-Za-z0-9_\-]{11})/
 
-function pipe(value, /** : ((...param) => any)[] */ ...functions) {
+export function pipe(value, /** : ((...param) => any)[] */ ...functions) {
     const [nextFunction, ...rest] = functions
     if (nextFunction === undefined) {
         return value

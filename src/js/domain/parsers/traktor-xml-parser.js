@@ -1,4 +1,4 @@
-import {PlaylistParser} from './playlist-parser'
+import {PlaylistParser} from './playlist-parser.js'
 
 function parse(/**string*/ playlist) {
     return PlaylistParser.parse(playlist, dataExtractor)

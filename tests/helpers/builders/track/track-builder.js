@@ -1,43 +1,46 @@
-/**
- * @template T
- */
-export class TrackBuilder {
+import {curry, pipe} from 'ramda'
 
-    static GENERIC_ARTIST_NAME = 'artist'
-    static GENERIC_SONG_TITLE = 'song'
+export const GENERIC_ARTIST_NAME = 'artist'
+export const GENERIC_SONG_TITLE = 'song'
 
-    song = 'someSong'
-    artist = 'someArtist'
-    location = ''
+/** @type {Track} */
+export const aTrack = {
+    song: 'someSong',
+    artist: 'someArtist',
+    location: '',
+}
 
-    withoutArtist() {
-        this.artist = ''
-        return this
+/** @returns {Track} */
+export function withSong(/** string */ song, /** Track */ track) {
+    return {...track, song: song}
+}
+
+/** @returns {Track} */
+export function withArtists(/** string[] */ artists,  /** Track */ track) {
+    return {
+        ...track,
+        artist: artists.join(','),
     }
+}
 
-    withoutSong() {
-        this.song = ''
-        return this
-    }
+/** @returns {Track} */
+export function withArtist(/** string */ artist, /** Track */ track) {
+    return {...track, artist: artist}
+}
 
-    withSong(/** string */ song) {
-        this.song = song
-        return this
-    }
+/** @returns {Track} */
+export function withoutArtists(/** Track */ track) {
+    return withArtist('', track)
+}
 
-    withArtist(/** string */ artist) {
-        this.artist = artist
-        return this
-    }
+/** @returns {Track} */
+export function withoutSong(/** Track */ track) {
+    return withSong('', track)
+}
 
-    numberedWith(/** number */ number) {
-        this.withSong(TrackBuilder.GENERIC_SONG_TITLE + number)
-        this.withArtist(TrackBuilder.GENERIC_ARTIST_NAME + number)
-        return this
-    }
-
-    /** @abstract */
-    build() /** T */ {
-        throw new Error('must be implemented by subclass!');
-    }
+/** @returns {Track} */
+export function numberedWith(/** number */ number, /** Track */ track) {
+    return pipe(
+        curry(withSong)(GENERIC_SONG_TITLE + number),
+        curry(withArtist)(GENERIC_ARTIST_NAME + number))(track)
 }

@@ -1,32 +1,32 @@
 import {suite} from 'uvu'
 import * as assert from 'uvu/assert'
-import {TuneMyMusicCsvParser} from '../../../src/domain/parsers/tune-my-music-csv-parser'
-import {assertDigestedPlaylistsAreEqual} from '../../helpers/custom-asserts'
-import {TrackBuilder} from '../../helpers/builders/track/track-builder'
+import {TuneMyMusicCsvParser} from '../../../src/js/domain/parsers/tune-my-music-csv-parser.js'
+import {assertDigestedPlaylistsAreEqual} from '../../helpers/custom-asserts.js'
+import {GENERIC_ARTIST_NAME, GENERIC_SONG_TITLE} from '../../helpers/builders/track/track-builder.js'
 
 const tuneMyMusicCsvParser = suite("Tune My Music CSV parser")
 
-function makeField(field: string, suffix: string|number) {
+function makeField(/** string */ field, /** string|number */ suffix) {
     return field + suffix
 }
 
-function makeTitle(suffix: string | number) {
-    return makeField(TrackBuilder.GENERIC_SONG_TITLE, suffix)
+function makeTitle(/** string | number */ suffix) {
+    return makeField(GENERIC_SONG_TITLE, suffix)
 }
 
-function makeArtist(suffix: string | number) {
-    return makeField(TrackBuilder.GENERIC_ARTIST_NAME, suffix)
+function makeArtist(/** string | number */ suffix) {
+    return makeField(GENERIC_ARTIST_NAME, suffix)
 }
 
-function makeTrack(suffix: string|number, playlistName = 'the-playlist') {
+function makeTrack(/** string | number */ suffix, playlistName = 'the-playlist') {
     return makeTitle(suffix) + ',' + makeArtist(suffix) + ',the-album,' + playlistName
 }
 
-function makePlaylist(...tracks: string[]) {
+function makePlaylist(/** string[] */ ...tracks) {
     return 'Track name, Artist name, Album, Playlist name, Type, ISRC' + '\n' + tracks.join('\n')
 }
 
-function makeDigest(suffix: number|string) {
+function makeDigest(/** number|string */ suffix) {
     return {artist: makeArtist(suffix), song: makeTitle(suffix), location: '', rawData: makeTrack(suffix)}
 }
 

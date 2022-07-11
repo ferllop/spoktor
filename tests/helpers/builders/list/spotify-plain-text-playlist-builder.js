@@ -1,20 +1,18 @@
-import {TextPlayListBuilder} from './text-play-list-builder'
-import {SpotifyTextTrackBuilder} from '../track/spotify-text-track-builder'
+import {withXTracks as superWithXTracks} from './playlist-builder.js'
+import {buildSpotifyTextTrack} from '../track/spotify-text-track-builder.js'
 
-export class SpotifyPlainTextPlaylistBuilder extends TextPlayListBuilder {
-    override withXTracks(quantity: number, offset = 1) {
-        return super.withXTracks(quantity, offset, new SpotifyTextTrackBuilder())
-    }
-
-    build() {
-        return header(this.playlistName) + '\n' + this.tracks.join('\n\n') + '\n' + footer
-    }
-
+export function withXTracks(/** number */ quantity, /** number */ offset, /** Playlist */ playlist) {
+    return superWithXTracks(quantity, offset, buildSpotifyTextTrack, playlist)
 }
 
-const header = (playlistName: string) => `somerandomcharactersonalongstring--sgljhsfgljhfljahfpawuyrapjdfhsñkjgsfkgjfg
+export function buildSpotifyPlainTextPlaylist(/** Playlist */ playlist) {
+    return header(playlist.playlistName) + '\n' + playlist.tracks.join('\n\n') + '\n' + footer()
+}
 
-${playlistName ?? '4 de Junio 2022'}
+function header(/** string */ playlistName) {
+    return `somerandomcharactersonalongstring--sgljhsfgljhfljahfpawuyrapjdfhsñkjgsfkgjfg
+
+${Boolean(playlistName) ? playlistName : '4 de Junio 2022'}
 Upgrade
 
 theuser
@@ -83,14 +81,14 @@ Change volume
 
 Listening on AA-L678
 
-${playlistName ?? '4 de Junio 2022'}
+${Boolean(playlistName) ? playlistName : '4 de Junio 2022'}
 Choose photo
 
 
     Playlist
 
 
-  ${playlistName ?? '4 de Junio 2022'}
+  ${Boolean(playlistName) ? playlistName : '4 de Junio 2022'}
 
 theuser <https://open.spotify.com/user/theuser>
 1 like73 songs, 4 hr 51 min
@@ -100,8 +98,10 @@ title
 album
 date added
 `
+}
 
-const footer = `
+function footer(){
+    return `
 Find more
 
 RecommendedBased on what's in this playlist
@@ -453,3 +453,4 @@ Confirm My Choices
 
 <https://www.onetrust.com/products/cookie-consent/>
 `
+}

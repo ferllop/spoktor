@@ -1,11 +1,11 @@
-import {SpotifyTextParser} from './spotify-text-parser'
-import {SpotifyHtmlParser} from './spotify-html-parser'
-import {EmptyPlaylistError} from '../errors/empty-playlist-error'
-import {InvalidPlaylistError} from '../errors/invalid-playlist-error'
-import {TraktorXmlParser} from './traktor-xml-parser'
-import {VirtualDjXmlParser} from './virtualdj-xml-parser'
-import {ArtistTitleByLineParser} from './artist-title-by-line-text-parser'
-import {TuneMyMusicCsvParser} from './tune-my-music-csv-parser'
+import {SpotifyTextParser} from './spotify-text-parser.js'
+import {SpotifyHtmlParser} from './spotify-html-parser.js'
+import {EmptyPlaylistError} from '../errors/empty-playlist-error.js'
+import {InvalidPlaylistError} from '../errors/invalid-playlist-error.js'
+import {TraktorXmlParser} from './traktor-xml-parser.js'
+import {VirtualDjXmlParser} from './virtualdj-xml-parser.js'
+import {ArtistTitleByLineParser} from './artist-title-by-line-text-parser.js'
+import {TuneMyMusicCsvParser} from './tune-my-music-csv-parser.js'
 
 /**
  * @type {import('./index').ParserSelector}
@@ -41,4 +41,3 @@ export const selectParserFor = (rawPlaylist) => {
 
     throw new InvalidPlaylistError()
 }
-

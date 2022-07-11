@@ -1,8 +1,7 @@
-import {PlaylistParser} from './playlist-parser'
+import {PlaylistParser} from './playlist-parser.js'
 
-function parse(playlist) {
-    return PlaylistParser.parse(playlist, dataExtractor)
-}
+/** @type {import('./index').PlaylistParser['parse']} */
+const parse = playlist => PlaylistParser.parse(playlist, dataExtractor)
 
 /** @type {import().DataExtractor} */
 const dataExtractor = {
@@ -31,7 +30,7 @@ const dataExtractor = {
     },
 }
 
-/** @type {import().PlaylistParser } */
+/** @type {import('index').PlaylistParser } */
 export const VirtualDjXmlParser = {
     parse,
     ...dataExtractor,

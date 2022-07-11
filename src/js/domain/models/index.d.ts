@@ -12,3 +12,4 @@ export type AugmentedDigest = Digest & {
 
 export type DigestsComparator = (a: Digest, b: Digest) => boolean
 export type DigestComparatorFactory = (a: Digest) => (b: Digest) => boolean
+export type isValid<T> = (num: T) => boolean

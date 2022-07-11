@@ -1,9 +1,7 @@
-import {PlaylistParser} from './playlist-parser'
+import {PlaylistParser} from './playlist-parser.js'
 
-
-function parse(/**string*/ playlist) {
-    return PlaylistParser.parse(playlist, DataExtractor)
-}
+/** @type {import('./index').PlaylistParser['parse']} */
+const parse = playlist => PlaylistParser.parse(playlist, DataExtractor)
 
 /** @type {import().DataExtractor } */
 const DataExtractor = {
@@ -32,7 +30,7 @@ const DataExtractor = {
     },
 }
 
-/** @type {import().PlaylistParser }*/
+/** @type {import('index').PlaylistParser }*/
 export const SpotifyHtmlParser = {
     parse,
     ...DataExtractor,

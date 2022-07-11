@@ -1,4 +1,4 @@
-import {PlaylistParser} from './playlist-parser'
+import {PlaylistParser} from './playlist-parser.js'
 
 function parse(playlist) {
     return PlaylistParser.parse(playlist, dataExtractor)
@@ -7,7 +7,7 @@ function parse(playlist) {
 const lineSeparator = '\n'
 const fieldSeparator = ','
 
-/** @type {import().DataExtractor} */
+/** @type {import('index').DataExtractor} */
 const dataExtractor = {
     extractTracks(rawPlaylist) {
         return rawPlaylist.split(lineSeparator).slice(1)
@@ -30,7 +30,7 @@ const dataExtractor = {
     },
 }
 
-/** @type {import().PlaylistParser } */
+/** @type {import('index').PlaylistParser } */
 export const TuneMyMusicCsvParser = {
     parse,
     ...dataExtractor,
