@@ -1,3 +1,5 @@
+import {Digest} from './digest.js'
+
 /** @type {Digest[]} */
 const EMPTY = []
 

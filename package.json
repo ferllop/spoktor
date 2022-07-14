@@ -7,7 +7,8 @@
   "scripts": {
     "deploy": "./deploy.sh",
     "build": "rollup --config",
-    "serve:client-side": "web-dev-server --root-dir build --watch --node-resolve",
+    "serve:client-side-old": "web-dev-server --root-dir build --watch --node-resolve",
+    "serve:client-side": "web-dev-server --root-dir src --watch --node-resolve",
     "serve:server-side": "nodemon --ext '*' --exec 'node --loader tsm src/delivery/server-side/server.ts'",
     "tsc": "tsc --watch --noEmit",
     "tsc:domain": "tsc",
