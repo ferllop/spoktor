@@ -1,7 +1,8 @@
-import {selectParserFor} from './domain/parsers/parser-selector'
+import {selectParserFor} from './domain/parsers/parser-selector.js'
 import {DigestedPlaylist} from './domain/models/digested-playlist.js'
 import {M3UOutputPlaylist} from './domain/models/m3u-output-playlist.js'
 import {RawPlaylist} from './domain/models/raw-playlist.js'
+import {createLink} from './domain/models/youtube-playlist-link-creator.js'
 
 let needles
 let haystack
@@ -10,10 +11,13 @@ let result
 
 const needlesInput = document.getElementById('needles')
 const haystackInput = document.getElementById('haystack')
+const youtubeFormEl = document.querySelector('.yt-form')
 
 window.addEventListener('load', handleInitialLoad)
 needlesInput.addEventListener('change', event => handleNeedleChange(event.target))
 haystackInput.addEventListener('change', event => handleHaystackChange(event.target))
+youtubeFormEl.querySelector('input[type="submit"]')
+    .addEventListener('click', handleYoutubeLinkSubmit(youtubeFormEl))
 
 async function handleNeedleChange(inputElement) {
     const fileContent = await loadFileContent(inputElement)
@@ -78,7 +82,7 @@ function makeResult() {
 
         item.appendChild(templateWithContent(
             `Artist: ${digest.artist}<br />Song: ${digest.song}`).content)
-        if (digest.coincidences?.length > 0 ) {
+        if (digest.coincidences?.length > 0) {
             item.appendChild(makeCoincidences(digest, indexA))
         }
         list.appendChild(item)
@@ -146,4 +150,15 @@ function getSelectedCoincidences() {
             const coincidencesPosition = Number.parseInt(selection.getAttribute('data-coincidences-position'))
             return result[playlistPosition].coincidences[coincidencesPosition]
         })
+}
+
+function handleYoutubeLinkSubmit(/** HTMLFormElement */ form) {
+    return (event) => {
+        console.log(form)
+        event.preventDefault()
+        const links = form.querySelector('textarea')
+        const anchor = templateWithContent(
+            `<a href="${createLink(links.value)}" target="_blank" rel="noopener">Go to playlist</a>`)
+        form.appendChild(anchor.content)
+    }
 }
