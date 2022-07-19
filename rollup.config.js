@@ -1,29 +1,32 @@
 import clean from 'rollup-plugin-clean'
 import copy from 'rollup-plugin-copy'
 import {terser} from 'rollup-plugin-terser'
-import typescript from '@rollup/plugin-typescript'
 
 const copyOptions = {
     targets: [
         {
             src: [
-                'src/delivery/web/index.html',
+                'src/index.html',
             ], dest: 'build',
         },
+        {
+            src: [
+                'src/css',
+            ], dest: 'build',
+        }
     ],
 }
 
 export default {
-    input: 'src/delivery/web/index.ts',
+    input: 'src/js/index.js',
     output: {
         sourcemap: true,
-        file: './build/index.js',
+        file: './build/js/index.js',
         format: 'es',
     },
     plugins: [
         clean(),
         copy(copyOptions),
         terser(),
-        typescript({sourceMap: true}),
     ],
 }
