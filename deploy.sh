@@ -1,6 +1,6 @@
 #! /bin/bash
 
-source ./.env.deploy
+source ./deploy-config
 
 npm run build
 
