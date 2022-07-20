@@ -8,10 +8,11 @@
     "deploy": "./deploy.sh",
     "build": "rollup --config",
     "serve": "web-dev-server --watch",
-    "test": "uvu tests --ignore '\\.d\\.ts'",
+    "test": "uvu --ignore '\\.d\\.ts'",
     "test:watch": "watchlist src tests -- npm run test",
-    "test:unit": "uvu tests/unit --ignore '\\.d\\.ts'",
-    "test:e2e": "uvu tests/e2e"
+    "test:unit": "npm run test -- tests/unit",
+    "test:unit:watch": "watchlist src tests -- npm run test:unit",
+    "test:e2e": "npm run test -- tests/e2e"
   },
   "author": "Ferran Llop",
   "license": "ISC",
