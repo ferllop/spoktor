@@ -1,6 +1,6 @@
-import clean from 'rollup-plugin-clean'
 import copy from 'rollup-plugin-copy'
 import {terser} from 'rollup-plugin-terser'
+import del from 'rollup-plugin-delete'
 
 const copyOptions = {
     targets: [
@@ -20,12 +20,12 @@ const copyOptions = {
 export default {
     input: 'src/js/index.js',
     output: {
-        sourcemap: true,
+        sourcemap: false,
         file: './build/js/index.js',
         format: 'es',
     },
     plugins: [
-        clean(),
+        del({ targets: 'build/*' }),
         copy(copyOptions),
         terser(),
     ],

@@ -21,8 +21,8 @@
     "puppeteer": "15.4.0",
     "puppeteer-screenshot-tester": "1.5.0",
     "rollup": "2.75.3",
-    "rollup-plugin-clean": "1.0.0",
     "rollup-plugin-copy": "3.4.0",
+    "rollup-plugin-delete": "2.0.0",
     "rollup-plugin-terser": "7.0.2",
     "uvu": "0.5.3",
     "watchlist": "0.3.1"
