@@ -8,9 +8,9 @@
     "deploy": "./deploy.sh",
     "build": "rollup --config",
     "serve": "web-dev-server --watch",
-    "test": "npm run test:unit && npm run test:e2e",
+    "test": "uvu tests --ignore '\\.d\\.ts'",
+    "test:watch": "watchlist src tests -- npm run test",
     "test:unit": "uvu tests/unit --ignore '\\.d\\.ts'",
-    "test:unit:watch": "watchlist src tests -- npm run test:uvu",
     "test:e2e": "uvu tests/e2e"
   },
   "author": "Ferran Llop",
