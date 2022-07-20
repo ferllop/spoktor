@@ -1,5 +1,5 @@
 import {suite} from 'uvu'
-import {SpotifyHtmlParser} from '../../../src/js/domain/parsers/spotify-html-parser.js'
+import {SpotifyHtmlParser} from '../../../../src/js/domain/parsers/spotify-html-parser.js'
 import * as assert from 'uvu/assert'
 import {buildSpotifyHtmlPlaylist, withXTracks as withXHtmlTracks} from '../../helpers/builders/list/spotify-html-playlist-builder.js'
 import {aPlaylist, withPlaylistName} from '../../helpers/builders/list/playlist-builder.js'

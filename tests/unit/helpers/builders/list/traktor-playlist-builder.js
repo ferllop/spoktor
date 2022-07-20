@@ -1,4 +1,4 @@
-import {TraktorXmlParser} from '../../../../src/js/domain/parsers/traktor-xml-parser.js'
+import {TraktorXmlParser} from '../../../../../src/js/domain/parsers/traktor-xml-parser.js'
 import {withXTracks as superWithXTracks} from './playlist-builder.js'
 import {buildTraktorTrack} from '../track/traktor-track-builder.js'
 import {compose, concat, join, map, prop} from 'ramda'

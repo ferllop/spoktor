@@ -1,6 +1,6 @@
 import {suite} from 'uvu'
 import * as assert from 'uvu/assert'
-import {TuneMyMusicCsvParser} from '../../../src/js/domain/parsers/tune-my-music-csv-parser.js'
+import {TuneMyMusicCsvParser} from '../../../../src/js/domain/parsers/tune-my-music-csv-parser.js'
 import {assertDigestedPlaylistsAreEqual} from '../../helpers/custom-asserts.js'
 import {GENERIC_ARTIST_NAME, GENERIC_SONG_TITLE} from '../../helpers/builders/track/track-builder.js'
 

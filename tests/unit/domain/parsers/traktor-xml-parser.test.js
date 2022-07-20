@@ -1,5 +1,5 @@
 import {suite} from 'uvu'
-import {TraktorXmlParser} from '../../../src/js/domain/parsers/traktor-xml-parser.js'
+import {TraktorXmlParser} from '../../../../src/js/domain/parsers/traktor-xml-parser.js'
 import {assertDigestedPlaylistsAreEqual, assertStringsAreEqualIgnoringItsFormatting} from '../../helpers/custom-asserts.js'
 import * as assert from 'uvu/assert'
 import {

@@ -1,6 +1,6 @@
 import {suite} from 'uvu'
 import * as assert from 'uvu/assert'
-import {TraktorRawPlaylist} from '../../../src/js/domain/models/traktor-raw-playlist.js'
+import {TraktorRawPlaylist} from '../../../../src/js/domain/models/traktor-raw-playlist.js'
 import {aPlaylist, withoutTracks} from '../../helpers/builders/list/playlist-builder.js'
 import {buildTraktorPlaylist} from '../../helpers/builders/list/traktor-playlist-builder.js'
 import {withXTracks} from '../../helpers/builders/list/digest-playlist-builder.js'

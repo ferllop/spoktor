@@ -1,8 +1,8 @@
 import {suite} from 'uvu'
 import * as assert from 'uvu/assert'
-import {DigestedPlaylist} from '../../../src/js/domain/models/digested-playlist.js'
+import {DigestedPlaylist} from '../../../../src/js/domain/models/digested-playlist.js'
 import {DigestPlaylist, withXTracks} from '../../helpers/builders/list/digest-playlist-builder.js'
-import {Digest} from '../../../src/js/domain/models/digest.js'
+import {Digest} from '../../../../src/js/domain/models/digest.js'
 import {aTrack, numberedWith} from '../../helpers/builders/track/track-builder.js'
 import {aDigest} from '../../helpers/builders/track/digest-builder.js'
 import {aPlaylist} from '../../helpers/builders/list/playlist-builder.js'
@@ -14,7 +14,7 @@ const track1 = aDigest(numberedWith(1, aTrack))
 const track2 = aDigest(numberedWith(2, aTrack))
 const someDigests = compose(DigestPlaylist.of, prop('tracks'), curry(withXTracks))
 
-/** @typedef {import('../../../src/js/domain/models/index').DigestsComparator} DigestsComparator*/
+/** @typedef {import('../../../../src/js/domain/models/index.js').DigestsComparator} DigestsComparator*/
 
 const alwaysEquals = () => true
 

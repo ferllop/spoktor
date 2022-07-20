@@ -1,6 +1,6 @@
 import {suite} from 'uvu'
 import * as assert from 'uvu/assert'
-import {SpotifyTextParser} from '../../../src/js/domain/parsers/spotify-text-parser.js'
+import {SpotifyTextParser} from '../../../../src/js/domain/parsers/spotify-text-parser.js'
 import {
     buildSpotifyPlainTextPlaylist,
     withXTracks as withXTextTracks,
@@ -13,8 +13,8 @@ import {buildDigestsPlaylist} from '../../helpers/builders/list/digest-playlist-
 import {aDigest, withRawData} from '../../helpers/builders/track/digest-builder.js'
 
 const spotifyTextParser = suite("Spotify Text parser")
-/** @typedef {import('../../helpers/builders/track/index').Track} Track */
-/** @typedef {import('../../helpers/builders/list/index').Playlist} Playlist */
+/** @typedef {import('../../helpers/builders/track/index.js').Track} Track */
+/** @typedef {import('../../helpers/builders/list/index.js').Playlist} Playlist */
 
 const transformer = (/** Track */ track) => {
     const spotifyTrack = buildSpotifyTextTrack(track)
