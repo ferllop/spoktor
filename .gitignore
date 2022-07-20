@@ -2,5 +2,6 @@ idea
 node_modules
 *.swp
 .env.deploy
+dev-local-config.js
 build
 screenshots

@@ -11,9 +11,7 @@
     "test": "npm run test:unit && npm run test:e2e",
     "test:unit": "uvu tests/unit --ignore '\\.d\\.ts'",
     "test:unit:watch": "watchlist src tests -- npm run test:uvu",
-    "test:e2e": "uvu tests/e2e",
-    "check": "(npm run read-env && echo $SPOKTOR_DEV_SERVER_PORT)"
-
+    "test:e2e": "uvu tests/e2e"
   },
   "author": "Ferran Llop",
   "license": "ISC",
