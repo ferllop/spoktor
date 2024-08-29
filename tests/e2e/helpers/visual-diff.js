@@ -2,7 +2,7 @@ import ScreenshotTester from 'puppeteer-screenshot-tester'
 import * as assert from 'uvu/assert'
 import {startDevServer} from '@web/dev-server'
 
-const screenshotPath = './screenshots'
+const screenshotPath = './tests/e2e/screenshots'
 const screenshotExtension = 'jpg'
 
 export async function visualDiff(puppeteerPage, screenshotName) {
