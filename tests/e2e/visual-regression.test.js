@@ -9,7 +9,7 @@ const spoktor = suite('e2e spoktor')
 
 spoktor.before(async context => {
     context.server = await startDevServer({
-        argv: [`--port=${devLocalConfig.testServerPort}`]
+        argv: [`--port=${devLocalConfig.testServerPort}`, '--rootDir build']
     })
     context.browser = await puppeteer.launch()
 })
