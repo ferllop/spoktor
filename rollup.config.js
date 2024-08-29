@@ -1,5 +1,5 @@
 import copy from 'rollup-plugin-copy'
-import {terser} from 'rollup-plugin-terser'
+import terser from '@rollup/plugin-terser'
 import del from 'rollup-plugin-delete'
 
 const copyOptions = {
