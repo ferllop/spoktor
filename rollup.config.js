@@ -1,6 +1,7 @@
 import copy from 'rollup-plugin-copy'
 import terser from '@rollup/plugin-terser'
 import del from 'rollup-plugin-delete'
+import typescript from '@rollup/plugin-typescript'
 
 const copyOptions = {
     targets: [
@@ -27,6 +28,7 @@ export default {
     plugins: [
         del({ targets: 'build/*' }),
         copy(copyOptions),
+        typescript(),
         terser(),
     ],
 }

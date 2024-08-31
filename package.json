@@ -7,26 +7,32 @@
   "scripts": {
     "deploy": "./deploy.sh",
     "build": "rollup --config",
-    "serve": "web-dev-server --watch",
-    "test": "uvu --ignore '\\.d\\.ts'",
-    "test:watch": "watchlist src tests -- npm run test",
-    "test:unit": "npm run test -- tests/unit",
-    "test:unit:watch": "watchlist src tests -- npm run test:unit",
-    "test:e2e": "npm run test -- tests/e2e",
+    "build:watch": "rollup --config --watch",
+    "serve": "web-dev-server",
+    "test": "tsm --no-warnings node_modules/uvu/bin.js",
+    "test:watch": "tsm --watch --no-warnings node_modules/uvu/bin.js",
+    "test:unit": "npm test -- tests/unit",
+    "test:unit:watch": "npm run test:watch -- tests/unit",
+    "test:e2e": "npm test -- tests/e2e",
     "update-dependencies": "npx npm-upgrade"
   },
   "author": "Ferran Llop",
   "license": "ISC",
   "devDependencies": {
     "@rollup/plugin-terser": "0.4.4",
+    "@rollup/plugin-typescript": "11.1.6",
+    "@types/ramda": "0.30.2",
     "@web/dev-server": "0.4.6",
+    "@web/dev-server-esbuild": "1.0.2",
     "puppeteer": "23.2.1",
     "puppeteer-screenshot-tester": "1.6.0",
     "rollup": "4.21.1",
     "rollup-plugin-copy": "3.5.0",
     "rollup-plugin-delete": "2.0.0",
-    "uvu": "0.5.6",
-    "watchlist": "0.3.1"
+    "tslib": "2.7.0",
+    "tsm": "2.3.0",
+    "typescript": "5.5.4",
+    "uvu": "0.5.6"
   },
   "dependencies": {
     "ramda": "0.30.1"
