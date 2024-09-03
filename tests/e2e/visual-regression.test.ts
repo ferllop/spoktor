@@ -1,7 +1,7 @@
 import {suite} from 'uvu'
 import puppeteer from 'puppeteer/lib/cjs/puppeteer/puppeteer.js'
 import {visualDiff} from './helpers/visual-diff.js'
-import {uploadFile} from './helpers/puppeteer-commands.js'
+import {uploadFiles} from './helpers/puppeteer-commands.js'
 import {startDevServer} from '@web/dev-server'
 import {devLocalConfig} from '../../dev-local-config.js'
 import { Page } from 'puppeteer'
@@ -54,17 +54,17 @@ spoktor('with a list of youtube videos', async ({page}) => {
 })
 
 async function loadSpotifyFile(page: Page) {
-    return uploadFile(page,
+    return uploadFiles(page,
         import.meta,
-        'test-data/spotify-playlist.txt',
+        ['test-data/spotify-playlist.txt'],
          '#needles',
         )
 }
 
 async function loadTraktorFile(page: Page) {
-    return uploadFile(page,
+    return uploadFiles(page,
         import.meta,
-        'test-data/traktor-collection.nml',
+        ['test-data/traktor-collection.nml'],
         '#haystack',
         )
 }

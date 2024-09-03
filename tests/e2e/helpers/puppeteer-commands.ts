@@ -1,36 +1,23 @@
 import path from 'node:path'
 import { Page } from 'puppeteer'
 
-function computeAbsoluteFilePath(testFilePath: string, filePath: string) {
-    return path.join(path.dirname(testFilePath), filePath)
+export const uploadFiles
+= (page: Page, importMeta: ImportMeta, filePaths: string[], selector: string): Promise<void> => {
+    const testFilePath = getFilePath(importMeta)
+    const absoluteFilePaths = filePaths.map(computeAbsoluteFilePath(testFilePath))
+    return putFiles(page, selector, absoluteFilePaths)
 }
 
-function computeAbsoluteFilePaths(testFilePath: string, filePaths: string | string[]) {
-    if (Array.isArray(filePaths)) {
-        return filePaths.map(filepath => computeAbsoluteFilePath(testFilePath, filepath))
-    }
+const getFilePath = (importMeta: ImportMeta): string => 
+    new URL('', importMeta.url).pathname
 
-    if (typeof filePaths === 'string') {
-        return [computeAbsoluteFilePath(testFilePath, filePaths)]
-    }
+const computeAbsoluteFilePath = (testFilePath: string) => (filePath: string): string => 
+    path.join(path.dirname(testFilePath), filePath)
 
-    throw new Error('filePath must be a string to upload one file or an array of strings to upload multiple files')
-}
-
-async function putFiles(page: Page, selector: string, absoluteFilePaths: string[]) {
-    const [fileChooser] = await Promise.all([
+const putFiles = (page: Page, selector: string, absoluteFilePaths: string[]): Promise<void> =>
+    Promise.all([
         page.waitForFileChooser(),
         page.click(selector),
     ])
-    await fileChooser.accept(absoluteFilePaths)
-}
+    .then(([fileChooser]) => fileChooser.accept(absoluteFilePaths))
 
-function getPathFromImportMeta(importMeta: ImportMeta) {
-    return new URL('', importMeta.url).pathname
-}
-
-export async function uploadFile(puppeteerPage: Page, importMeta: ImportMeta, filePaths: string | string[], selector: string) {
-    const testFilePath = getPathFromImportMeta(importMeta)
-    const absoluteFilePaths = computeAbsoluteFilePaths(testFilePath, filePaths)
-    await putFiles(puppeteerPage, selector, absoluteFilePaths)
-}
