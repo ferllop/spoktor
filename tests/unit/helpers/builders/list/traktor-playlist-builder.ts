@@ -1,29 +1,19 @@
-import {TraktorXmlParser} from '../../../../../src/js/domain/parsers/traktor-xml-parser.js'
-import {Playlist, withXTracks as superWithXTracks} from './playlist-builder.js'
-import {buildTraktorTrack} from '../track/traktor-track-builder.js'
-import {compose, concat, join, map, prop} from 'ramda'
-import { Digest } from '../../../../../src/js/domain/models/digest.js'
+import { Playlist } from './playlist-builder.js'
+import {toTraktorEntry, TraktorTrackData} from '../track/traktor-track-builder.js'
+import { MinimalTrackData } from '../track/track-builder.js'
 
-export function withXTracks(quantity: number, offset: number, playlist: Playlist) {
-    return superWithXTracks(quantity, offset, buildTraktorTrack, playlist)
+export function toTraktorPlaylist(playlist: Playlist<TraktorTrackData>) {
+    return header(playlist) + playlist.tracks.map(toTraktorEntry).join('') + footer(playlist)
 }
 
-export function buildTraktorPlaylist(playlist: Playlist) {
-    const rawDataFromDigests = map((track: Digest) => prop('rawData')(track), prop('tracks', playlist))
-    return compose(
-        concat(header(playlist)),
-        concat(join('', rawDataFromDigests)),
-        footer)(playlist)
-}
-
-function header(playlist: Playlist) {
+function header(playlist: Playlist<MinimalTrackData>) {
     return `<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <NML VERSION="19"><HEAD COMPANY="www.native-instruments.com" PROGRAM="Traktor"></HEAD>
 <MUSICFOLDERS></MUSICFOLDERS>
 <COLLECTION ENTRIES="${playlist.tracks.length}">`
 }
 
-function footer(playlist: Playlist) {
+function footer(playlist: Playlist<TraktorTrackData>) {
     return `</COLLECTION>
 <SETS ENTRIES="0"></SETS>
 <PLAYLISTS>
@@ -31,7 +21,7 @@ function footer(playlist: Playlist) {
 <SUBNODES COUNT="1">
 <NODE TYPE="PLAYLIST" NAME="the-playlist-name">
 <PLAYLIST ENTRIES="${playlist.tracks.length}" TYPE="LIST" UUID="generatedByTraktor">
-${getNodePlaylistEntries(map(prop('rawData'), playlist.tracks)).join('')}
+${playlist.tracks.map(entry).join('')}
 </PLAYLIST>
 </NODE>
 </SUBNODES>
@@ -41,11 +31,7 @@ ${getNodePlaylistEntries(map(prop('rawData'), playlist.tracks)).join('')}
 </NML>`
 }
 
-function getNodePlaylistEntries(tracks: string[]) {
-    return tracks.map(track => {
-        return `<ENTRY>
-<PRIMARYKEY TYPE="TRACK" KEY="${TraktorXmlParser.extractLocation(track)}"></PRIMARYKEY>
+const entry = (track: TraktorTrackData) => `<ENTRY>
+<PRIMARYKEY TYPE="TRACK" KEY="${track.location}"></PRIMARYKEY>
 </ENTRY>`
-    })
-}
 

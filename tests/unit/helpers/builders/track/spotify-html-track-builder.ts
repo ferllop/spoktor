@@ -1,7 +1,6 @@
-import { Track } from "./track-builder.js";
+import { MinimalTrackData } from "./track-builder.js";
 
-export function buildSpotifyHtmlTrack(track: Track) {
-    return `
+export const toSpotifyHtmlTrack = (track: MinimalTrackData) => `
             <div data-testid="track-row" class="EntityRowV2__Container-sc-ayafop-0 bjLiWe">
     <button data-testid="entity-row-v2-button" aria-label="track Para No Verte Más" class="EntityRowV2__PlayPauseButton-sc-ayafop-1 erxMLK">
         <span class="Type__StyledComponent-sc-1ell6iv-0 bhCKIk MestoBold-sc-16x8d2-0 EntityRowV2__RowNumber-sc-ayafop-7 lnpneL cEwA-dS">18</span>
@@ -16,5 +15,5 @@ export function buildSpotifyHtmlTrack(track: Track) {
                     <a href="/artist/60nua3AsVSfADZtg5Hdz3W">${track.artist}</a>
                 </span>
             </div>`
-}
+
 

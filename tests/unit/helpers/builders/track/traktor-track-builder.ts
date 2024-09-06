@@ -1,41 +1,43 @@
-import { Track } from "./track-builder.js"
+import { aTrack, MinimalTrackData } from "./track-builder.js"
 
-export type TraktorTrack = Track & {
+export type TraktorTrackData = MinimalTrackData & {
     directory: string
     volume: string
     filename: string
 }
-export function aTraktorTrack(track: Track): TraktorTrack {
-    return ({
+
+export const toTraktorTrack = 
+    (track: MinimalTrackData): TraktorTrackData => ({
         ...track,
         volume: '',
         directory: '',
         filename: '',
     })
-}
 
-export function withDirectory(directory: string, track: TraktorTrack): TraktorTrack {
-    return ({
+
+export const aTraktorTrack = () => toTraktorTrack(aTrack)
+
+export const withDirectory = 
+    (directory: string) => (track: TraktorTrackData): TraktorTrackData => ({
         ...track,
         directory: '/:' + directory
             .replace(/^\//, '')
             .replace(/\/$/, '')
             .replace(/\//g, '/:') + '/:',
     })
-}
 
-export function withFilename(filename: string, track: TraktorTrack): TraktorTrack {
-    return {...track, filename}
-}
+export const withFilename =
+    (filename: string) => (track: TraktorTrackData): TraktorTrackData => 
+    ({...track, filename})
 
-export function withVolume(volume: string, track: TraktorTrack): TraktorTrack {
-    return {
+export const withVolume =
+    (volume: string) => (track: TraktorTrackData): TraktorTrackData =>
+    ({
         ...track,
         volume: volume.replaceAll(':', '').toUpperCase() + ':',
-    }
-}
+    })
 
-export function buildTraktorTrack(track: TraktorTrack): string {
+export const toTraktorEntry = (track: TraktorTrackData): string => {
     const artistAttribute = track.artist === null ? '' : `ARTIST="${track.artist}"`
     const titleAttribute = track.song === null ? '' : `TITLE="${track.song}"`
     return `

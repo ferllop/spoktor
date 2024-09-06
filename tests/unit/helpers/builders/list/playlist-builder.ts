@@ -1,47 +1,39 @@
-import {
-    aTrack,
-    GENERIC_ARTIST_NAME,
-    GENERIC_SONG_TITLE,
-    Track,
-    withArtist,
-    withSong,
-} from '../track/track-builder.js'
-import {curry, pipe} from 'ramda'
+import { aTrack, MinimalTrackData, withPosition } from "../track/track-builder.js"
+import { pipe } from "../../../../fp.js"
 
-export type Playlist = {
-    tracks: Track[],
+export type Playlist<T> = {
+    tracks: T[],
     playlistName: string,
 }
 
-export const aPlaylist: Playlist = {
+export const aPlaylist: Playlist<MinimalTrackData> = {
     tracks: [],
     playlistName: '',
 }
 
-export function withPlaylistName(name: string, playlist: Playlist): Playlist {
-    return {...playlist, playlistName: name}
-}
+export const withPlaylistName = 
+    (name: string) => <T>(playlist: Playlist<T>): Playlist<T> =>
+    ({...playlist, playlistName: name})
 
-export function withoutTracks(playlist: Playlist): Playlist {
-    return {...playlist, tracks: []}
-}
+export const withoutTracks = <T>(playlist: Playlist<T>): Playlist<T> =>
+    ({...playlist, tracks: []})
 
-export function withTrack(track: Track, playlist: Playlist): Playlist {
-    return {...playlist, tracks: playlist.tracks.concat(track)}
-}
+export const withTracks = 
+    <T>(tracks: T[]) => (playlist: Playlist<T>): Playlist<T> =>
+    ({...playlist, tracks: playlist.tracks.concat(tracks)})
 
-export function withXTracks(quantity: number, offset: number, extraDataBuilder: (t: Track) => any, playlist: Playlist): Playlist {
-    return {
-        ...playlist,
-        tracks: playlist.tracks.concat(
-            new Array(quantity).fill(null).map((_, index) => {
-                const trackNumber = index + offset
-                return pipe(
-                    () => aTrack,
-                    track => withArtist(GENERIC_ARTIST_NAME + trackNumber, track),
-                    curry(withSong)(GENERIC_SONG_TITLE + trackNumber),
-                    extraDataBuilder,
-                )()
-            })),
-    }
-}
+export const withXTracks = 
+    (quantity: number) => (playlist: Playlist<MinimalTrackData>): Playlist<MinimalTrackData> => 
+    pipe(
+        playlist,
+        withTracks(
+            new Array<MinimalTrackData>(quantity).fill(aTrack)
+                .map((_ , index) => 
+                    pipe(aTrack, withPosition(playlist.tracks.length + index + 1))),
+        )
+    )
+
+export const mapTracks = 
+    <T, U>(f: (track: T) => U) => (playlist: Playlist<T>): Playlist<U> => 
+    ({...playlist, tracks: playlist.tracks.map(f)})
+

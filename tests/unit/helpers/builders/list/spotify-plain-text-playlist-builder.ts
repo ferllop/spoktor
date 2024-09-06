@@ -1,12 +1,13 @@
-import {Playlist, withXTracks as superWithXTracks} from './playlist-builder.js'
-import {buildSpotifyTextTrack} from '../track/spotify-text-track-builder.js'
+import {Playlist} from './playlist-builder.js'
+import {toSpotifyTextTrack} from '../track/spotify-text-track-builder.js'
+import { MinimalTrackData } from '../track/track-builder.js'
 
-export function withXTracks(quantity: number, offset: number, playlist: Playlist) {
-    return superWithXTracks(quantity, offset, buildSpotifyTextTrack, playlist)
-}
-
-export function buildSpotifyPlainTextPlaylist(playlist: Playlist) {
-    return header(playlist.playlistName) + '\n' + playlist.tracks.join('\n\n') + '\n' + footer()
+export function toSpotifyPlainTextPlaylist(playlist: Playlist<MinimalTrackData>) {
+    return header(playlist.playlistName) 
+        + '\n' 
+        + playlist.tracks.map(toSpotifyTextTrack).join('\n\n')
+        + '\n' 
+        + footer()
 }
 
 function header(playlistName: string) {

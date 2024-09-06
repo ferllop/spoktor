@@ -1,6 +1,6 @@
-import { Track } from "./track-builder.js"
+import { MinimalTrackData } from "./track-builder.js"
 
-export function buildSpotifyTextTrack(track: Track) {
+export const toSpotifyTextTrack = (track: MinimalTrackData) => {
     const artists = track.artist.split(',')
         .map(artist => artist + ' <https://open.spotify.com/artist/2wMcQIxzH2LYHJZNxo9FcN>')
         .join(',\n')

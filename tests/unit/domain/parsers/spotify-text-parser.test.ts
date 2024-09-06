@@ -2,60 +2,50 @@ import {suite} from 'uvu'
 import * as assert from 'uvu/assert'
 import {SpotifyTextParser} from '../../../../src/js/domain/parsers/spotify-text-parser.js'
 import {
-    buildSpotifyPlainTextPlaylist,
-    withXTracks as withXTextTracks,
+    toSpotifyPlainTextPlaylist,
 } from '../../helpers/builders/list/spotify-plain-text-playlist-builder.js'
 import {assertDigestedPlaylistsAreEqual} from '../../helpers/custom-asserts.js'
-import {aPlaylist, withPlaylistName, withXTracks} from '../../helpers/builders/list/playlist-builder.js'
-import {buildSpotifyTextTrack} from '../../helpers/builders/track/spotify-text-track-builder.js'
-import {aTrack, numberedWith, Track, withArtist, withArtists, withSong} from '../../helpers/builders/track/track-builder.js'
-import {buildDigestsPlaylist} from '../../helpers/builders/list/digest-playlist-builder.js'
-import {aDigest, withRawData} from '../../helpers/builders/track/digest-builder.js'
+import {aPlaylist, withPlaylistName, withXTracks } from '../../helpers/builders/list/playlist-builder.js'
+import {toSpotifyTextTrack} from '../../helpers/builders/track/spotify-text-track-builder.js'
+import {aTrack, withPosition, withArtist, withArtists, withSong} from '../../helpers/builders/track/track-builder.js'
+import {toDigestsPlaylist} from '../../helpers/builders/list/digest-playlist-builder.js'
+import { pipe } from '../../../fp.js'
 
 const spotifyTextParser = suite("Spotify Text parser")
 
-const transformer = (track: Track) => {
-    const spotifyTrack = buildSpotifyTextTrack(track)
-    const digest = aDigest(track)
-    return withRawData(spotifyTrack, digest)
-}
-
 spotifyTextParser('should return a one item array when there is one track in the playlist', () => {
-    const playlist = buildSpotifyPlainTextPlaylist(withXTextTracks(1, 0, aPlaylist))
+    const playlist = pipe(aPlaylist, withXTracks(1))
     assertDigestedPlaylistsAreEqual(
-        SpotifyTextParser.parse(playlist),
-        buildDigestsPlaylist(
-            withXTracks(1, 0,
-            transformer,
-            aPlaylist)))
+        SpotifyTextParser.parse(toSpotifyPlainTextPlaylist(playlist)),
+        toDigestsPlaylist(toSpotifyTextTrack)(playlist))
 })
 
 spotifyTextParser('should know how to extract a track', () => {
-    const fullSample = buildSpotifyPlainTextPlaylist(withXTextTracks(3, 1, aPlaylist))
-    const expected = buildSpotifyTextTrack(numberedWith(1, aTrack))
+    const fullSample = toSpotifyPlainTextPlaylist(withXTracks(3)(aPlaylist))
+    const expected = toSpotifyTextTrack(withPosition(1)(aTrack))
     assert.equal(SpotifyTextParser.extractTracks(fullSample)[0], expected)
 })
 
 spotifyTextParser('should know how to extract the song title from track', () => {
-    const track = buildSpotifyTextTrack(withSong('The Song', aTrack))
+    const track = toSpotifyTextTrack(withSong('The Song')(aTrack))
     const result = SpotifyTextParser.extractSong(track)
     assert.equal(result, 'The Song')
 })
 
 spotifyTextParser('should know how to extract the artist from track when there is a single artist', () => {
-    const track = buildSpotifyTextTrack(withArtist('The Artist', aTrack))
+    const track = toSpotifyTextTrack(withArtist('The Artist')(aTrack))
     const result = SpotifyTextParser.extractArtist(track)
     assert.equal(result, 'The Artist')
 })
 
 spotifyTextParser('should know how to extract the artist from track when there are three artists', () => {
-    const track = buildSpotifyTextTrack(
-        withArtists(
-            ['This is the first artist',
+    const track = toSpotifyTextTrack(
+        withArtists([
+            'This is the first artist',
             'This is the second artist',
-            'This is the third artist'],
-            aTrack
-        ))
+            'This is the third artist'
+        ])(aTrack)
+    )
     const result = SpotifyTextParser.extractArtist(track)
     assert.equal(result, 'This is the first artist, This is the second artist, This is the third artist')
 })
@@ -90,17 +80,16 @@ hace 25 días
 })
 
 spotifyTextParser('should return the two digests when there are two items in the playlist', () => {
-    const playlist = buildSpotifyPlainTextPlaylist(withXTextTracks(2, 1, aPlaylist))
+    const playlist = withXTracks(2)(aPlaylist)
     assertDigestedPlaylistsAreEqual(
-        SpotifyTextParser.parse(playlist),
-        buildDigestsPlaylist(
-            withXTracks(2, 1, transformer, aPlaylist)))
+        SpotifyTextParser.parse(toSpotifyPlainTextPlaylist(playlist)),
+        toDigestsPlaylist(toSpotifyTextTrack)(playlist))
 })
 
 spotifyTextParser('should know how to extract the playlist name', () => {
     const playlistName = 'The Playlist'
-    const playlist = buildSpotifyPlainTextPlaylist(withPlaylistName(playlistName, aPlaylist))
-    assert.equal(SpotifyTextParser.extractPlaylistName(playlist), playlistName)
+    const playlist = withPlaylistName(playlistName)(aPlaylist)
+    assert.equal(SpotifyTextParser.extractPlaylistName(toSpotifyPlainTextPlaylist(playlist)), playlistName)
 })
 
 spotifyTextParser.run()

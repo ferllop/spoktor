@@ -1,13 +1,18 @@
 import { Digest } from "../../../../../src/js/domain/models/digest.js"
-import { Track } from "./track-builder.js"
+import { aTrack, MinimalTrackData } from "./track-builder.js"
 
-export function aDigest(track: Track): Digest {
-    return {
-        ...track,
-        rawData: '',
-    }
-}
+type RawDataCreator = (track: MinimalTrackData) => string
 
-export function withRawData(data: string, digest: Digest): Digest {
-    return {...digest, rawData: data}
-}
+export const aDigest = (rawDataCreator: RawDataCreator) => toDigest(rawDataCreator)(aTrack)
+
+export const toDigest = 
+    (rawDataCreator: RawDataCreator) => (track: MinimalTrackData): Digest => 
+    ({
+        artist: track.artist, 
+        song: track.song, 
+        location: track.location, 
+        rawData: rawDataCreator(track)})
+
+export const withRawData = 
+    (data: string) => (digest: Digest): Digest => 
+    ({...digest, rawData: data})

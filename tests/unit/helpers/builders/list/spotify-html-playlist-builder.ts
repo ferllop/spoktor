@@ -1,13 +1,9 @@
-import {Playlist, withXTracks as superWithXTracks} from './playlist-builder.js'
-import {map} from 'ramda'
-import {buildSpotifyHtmlTrack} from '../track/spotify-html-track-builder.js'
+import {Playlist } from './playlist-builder.js'
+import {toSpotifyHtmlTrack} from '../track/spotify-html-track-builder.js'
+import { MinimalTrackData } from '../track/track-builder.js'
 
-export function withXTracks(quantity: number, offset: number, playlist: Playlist) {
-    return superWithXTracks(quantity, offset, (track) => ({...track}), playlist)
-}
-
-export function buildSpotifyHtmlPlaylist(playlist: Playlist) {
-    return header(playlist.playlistName) + map(buildSpotifyHtmlTrack, playlist.tracks).join('') + footer
+export function toSpotifyHtmlPlaylist(playlist: Playlist<MinimalTrackData>) {
+    return header(playlist.playlistName) + playlist.tracks.map(toSpotifyHtmlTrack).join('') + footer
 }
 
 const header = (playlistName: string) => `<!DOCTYPE html><html lang=en dir="ltr" class="mobile-web-player">
