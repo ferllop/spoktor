@@ -1,4 +1,4 @@
-import {DataExtractor, PlaylistParser} from './playlist-parser.js'
+import {DataExtractor, parse, PlaylistParser} from './playlist-parser.js'
 
 const lineSeparator = '\n'
 const artistSongSeparator = ' , '
@@ -28,6 +28,6 @@ const dataExtractor: DataExtractor = {
 }
 
 export const ArtistTitleByLineParser: PlaylistParser = {
-    parse: playlist => PlaylistParser.parse(playlist, dataExtractor),
+    parse: parse(dataExtractor),
     ...dataExtractor,
 }

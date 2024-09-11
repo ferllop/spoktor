@@ -1,4 +1,4 @@
-import {DataExtractor, PlaylistParser} from './playlist-parser.js'
+import {DataExtractor, parse, PlaylistParser} from './playlist-parser.js'
 
 const firstOrEmpty = (regex: RegExp) => (track: string) => track.match(regex)?.[1] ?? ''
 export const extractVolume = firstOrEmpty(/<LOCATION.*?VOLUME="(.*?)"/s)
@@ -36,6 +36,6 @@ const dataExtractor: DataExtractor = {
 }
 
 export const TraktorXmlParser: PlaylistParser = {
-    parse: playlist => PlaylistParser.parse(playlist, dataExtractor),
+    parse: parse(dataExtractor),
     ...dataExtractor
 }

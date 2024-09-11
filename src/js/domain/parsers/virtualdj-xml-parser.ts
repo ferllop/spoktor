@@ -1,4 +1,4 @@
-import {DataExtractor, PlaylistParser} from './playlist-parser.js'
+import {parse, DataExtractor, PlaylistParser} from './playlist-parser.js'
 
 const dataExtractor: DataExtractor = {
     extractTracks(collection) {
@@ -27,6 +27,6 @@ const dataExtractor: DataExtractor = {
 }
 
 export const VirtualDjXmlParser: PlaylistParser = {
-    parse: playlist => PlaylistParser.parse(playlist, dataExtractor),
+    parse: parse(dataExtractor),
     ...dataExtractor,
 }

@@ -1,7 +1,6 @@
-import { selectParserFor } from './domain/parsers/parser-selector.js'
-import { DigestedPlaylist } from './domain/models/digested-playlist.js'
-import { M3UOutputPlaylist } from './domain/models/m3u-output-playlist.js'
-import { RawPlaylist } from './domain/models/raw-playlist.js'
+import { intersect } from './domain/models/digested-playlist.js'
+import { generatePlaylistFrom } from './domain/models/m3u-output-playlist.js'
+import { extractPlaylistName, parse } from './domain/models/raw-playlist.js'
 import { createLink } from './domain/models/youtube-playlist-link-creator.js'
 import { AugmentedDigest, Digest } from './domain/models/digest.js'
 
@@ -20,21 +19,6 @@ haystackInput.addEventListener('change', event => handleHaystackChange(event.tar
 youtubeFormEl.querySelector('input[type="submit"]')
     ?.addEventListener('click', handleYoutubeLinkSubmit(youtubeFormEl))
 
-async function handleNeedleChange(inputElement: HTMLInputElement) {
-    const fileContent = await loadFileContent(inputElement)
-    const parser = selectParserFor(fileContent)
-    needles = parser.parse(fileContent)
-    downloadName = RawPlaylist.extractPlaylistName(fileContent)
-    makeResult()
-}
-
-async function handleHaystackChange(inputElement: HTMLInputElement) {
-    const fileContent = await loadFileContent(inputElement)
-    const parser = selectParserFor(fileContent)
-    haystack = parser.parse(fileContent)
-    makeResult()
-}
-
 function handleInitialLoad() {
     if (needlesInput.value) {
         handleNeedleChange(needlesInput)
@@ -42,6 +26,19 @@ function handleInitialLoad() {
     if (haystackInput.value) {
         handleHaystackChange(haystackInput)
     }
+}
+
+async function handleNeedleChange(inputElement: HTMLInputElement) {
+    const fileContent = await loadFileContent(inputElement)
+    needles = parse(fileContent)
+    downloadName = extractPlaylistName(fileContent)
+    makeResult()
+}
+
+async function handleHaystackChange(inputElement: HTMLInputElement) {
+    const fileContent = await loadFileContent(inputElement)
+    haystack = parse(fileContent)
+    makeResult()
 }
 
 function loadFileContent(inputElement: HTMLInputElement): Promise<string> {
@@ -59,15 +56,25 @@ function loadFileContent(inputElement: HTMLInputElement): Promise<string> {
     })
 }
 
-function templateWithContent(content: string) {
-    const template = document.createElement('template')
-    template.innerHTML = content
-    return template
+function makeResult() {
+    const list = document.createElement('ol')
+    const digests = getDigestsToRender()
+    result = digests.map(digest => isAugmented(digest) ? digest : {...digest, coincidences: []})
+    result.forEach((digest, indexA) => {
+        const item = document.createElement('li')
+        item.appendChild(templateWithContent(
+            `Artist: ${digest.artist}<br />Song: ${digest.song}`).content)
+        if (digest.coincidences.length > 0) {
+            item.appendChild(makeCoincidences(digest, indexA))
+        }
+        list.appendChild(item)
+    })
+    renderResult(list)
 }
 
 function getDigestsToRender() {
     if (needles !== undefined && haystack !== undefined) {
-        return DigestedPlaylist.intersect(needles, haystack)
+        return intersect(needles, haystack)
     }
 
     if (needles !== undefined) {
@@ -81,21 +88,10 @@ function isAugmented(digest: Digest | AugmentedDigest): digest is AugmentedDiges
     return 'coincidences' in digest
 }
 
-function makeResult() {
-    const list = document.createElement('ol')
-    const digests = getDigestsToRender()
-    result = digests.map(digest => isAugmented(digest) ? digest : {...digest, coincidences: []})
-    result.forEach((digest, indexA) => {
-        const item = document.createElement('li')
-
-        item.appendChild(templateWithContent(
-            `Artist: ${digest.artist}<br />Song: ${digest.song}`).content)
-        if (digest.coincidences.length > 0) {
-            item.appendChild(makeCoincidences(digest, indexA))
-        }
-        list.appendChild(item)
-    })
-    renderResult(list)
+function templateWithContent(content: string) {
+    const template = document.createElement('template')
+    template.innerHTML = content
+    return template
 }
 
 function makeCoincidences(digest: AugmentedDigest, indexA: number) {
@@ -129,14 +125,11 @@ function makeDownloadButton() {
     const button = document.createElement('button')
     button.id = 'download'
     button.innerText = 'Download playlist with the selected coincidences'
-    button.addEventListener('click', handleDownload)
+    button.addEventListener('click', 
+        () => download(
+            `spoktor_-${downloadName}.m3u`,
+            generatePlaylistFrom(getSelectedCoincidences(), downloadName)))
     return button
-}
-
-function handleDownload() {
-    download(
-        `spoktor_-${downloadName}.m3u`,
-        M3UOutputPlaylist.generatePlaylistFrom(getSelectedCoincidences(), downloadName))
 }
 
 function download(filename: string, text: string) {

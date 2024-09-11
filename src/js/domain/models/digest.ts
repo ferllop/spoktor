@@ -5,37 +5,22 @@ export type Digest = {
     rawData: string
 }
 export type isValid<T> = (num: T) => boolean
-
 export type PositionedDigest = Digest & { position: number }
-export type AugmentedDigest = Digest & {
-    coincidences: PositionedDigest[]
-}
-
+export type AugmentedDigest = Digest & { coincidences: PositionedDigest[] }
 export type DigestsComparator = (a: Digest, b: Digest) => boolean
 export type DigestComparatorFactory = (a: Digest) => (b: Digest) => boolean
-export const isValid = (candidate: Digest) => {
-    return candidate.artist.length > 0
-        || candidate.song.length > 0
-}
 
-export const Digest = {
-    isValid,
-    areEqual,
-    areFuzzyEqual,
-}
+export const isValid = (candidate: Digest) =>
+    candidate.artist.length > 0 || candidate.song.length > 0
 
-function areEqual(digestA: Digest, digestB: Digest) {
+export const areEqual = (digestA: Digest, digestB: Digest) => 
+    digestA.song === digestB.song && digestA.artist === digestB.artist
 
-    return digestA.song === digestB.song
-        && digestA.artist === digestB.artist
-}
-
-function areFuzzyEqual(digestA: Digest, digestB: Digest): boolean {
-    return fuzzyCompare(digestA.song, digestB.song)
+export const areFuzzyEqual = (digestA: Digest, digestB: Digest): boolean =>
+    fuzzyCompare(digestA.song, digestB.song)
         && fuzzyCompare(digestA.artist, digestB.artist)
-}
 
-function fuzzyCompare(needleRaw: string, haystackRaw: string): boolean {
+const fuzzyCompare = (needleRaw: string, haystackRaw: string): boolean => {
     const clean = (str: string) => str.replace(/(.)\1+/g, '$1').replace(/[- '()_,.]/g, '-').replaceAll('&', 'and').toLowerCase()
     let needle = clean(needleRaw)
     let haystack = clean(haystackRaw)

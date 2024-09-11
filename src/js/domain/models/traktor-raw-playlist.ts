@@ -1,19 +1,17 @@
-import { toTraktorEntry, TraktorTrackData } from "../../../../tests/unit/helpers/builders/track/traktor-track-builder.js"
+import { Digest } from "./digest.js"
 
-export const generatePlaylistFrom = (tracks: TraktorTrackData[], playlistName: string) => {
-    const header = `<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+export const generatePlaylistFrom = (tracks: Digest[], playlistName: string) => 
+    `<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <NML VERSION="19"><HEAD COMPANY="www.native-instruments.com" PROGRAM="Traktor"></HEAD>
 <MUSICFOLDERS></MUSICFOLDERS>
-<COLLECTION ENTRIES="${tracks.length}">`
-
-    const footer = `</COLLECTION>
+<COLLECTION ENTRIES="${tracks.length}">${tracks.map(digest => digest.rawData).join('')}</COLLECTION>
 <SETS ENTRIES="0"></SETS>
 <PLAYLISTS>
 <NODE TYPE="FOLDER" NAME="$ROOT">
 <SUBNODES COUNT="1">
 <NODE TYPE="PLAYLIST" NAME="${playlistName}">
 <PLAYLIST ENTRIES="${tracks.length}" TYPE="LIST" UUID="generatedByTraktor">
-${entries(tracks).join('')}
+${tracks.map(toEntry).join('')}
 </PLAYLIST>
 </NODE>
 </SUBNODES>
@@ -22,15 +20,7 @@ ${entries(tracks).join('')}
 <INDEXING></INDEXING>
 </NML>`
 
-    return header +
-        tracks.map(toTraktorEntry).join('') +
-        footer
-}
-
-const entries = (tracks: TraktorTrackData[]) => {
-    return tracks.map(digest => {
-        return `<ENTRY>
-<PRIMARYKEY TYPE="TRACK" KEY="${digest.location}"></PRIMARYKEY>
+const toEntry = (track: Digest) => 
+    `<ENTRY>
+<PRIMARYKEY TYPE="TRACK" KEY="${track.location}"></PRIMARYKEY>
 </ENTRY>`
-    })
-}

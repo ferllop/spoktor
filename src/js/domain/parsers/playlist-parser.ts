@@ -15,8 +15,8 @@ export type DataExtractor = {
     extractPlaylistName: (playlist: string) => string
 }
 
-export function parse(playlist: RawPlaylist, dataExtractor: DataExtractor): Digest[] {
-    if(playlist.length === 0) {
+export const parse = (dataExtractor: DataExtractor) => (playlist: RawPlaylist): Digest[] => {
+    if (playlist.length === 0) {
         throw new EmptyPlaylistError()
     }
     const tracks = dataExtractor.extractTracks(playlist) ?? []
@@ -25,15 +25,9 @@ export function parse(playlist: RawPlaylist, dataExtractor: DataExtractor): Dige
     return digests.filter(isValid)
 }
 
-function DigestCreator(dataExtractor: DataExtractor): (track: string) => Digest {
-    return (track: string) => ({
+const DigestCreator = (dataExtractor: DataExtractor) => (track: string): Digest => ({
         artist: dataExtractor.extractArtist(track),
         song: dataExtractor.extractSong(track),
         location: dataExtractor.extractLocation(track),
         rawData: track,
     })
-}
-
-export const PlaylistParser = {
-    parse,
-}

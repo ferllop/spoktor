@@ -1,40 +1,29 @@
-import {AugmentedDigest, Digest, DigestsComparator, PositionedDigest} from './digest.js'
+import {areFuzzyEqual, AugmentedDigest, Digest, DigestsComparator, PositionedDigest} from './digest.js'
 
-const EMPTY: Digest[] = []
+export const EMPTY: Digest[] = []
 
-function digestsPresentIn(digests: Digest[], comparator: DigestsComparator) {
-    return (checkingDigest: Digest) => digests.some(digest => comparator(digest, checkingDigest))
+export const intersect = (needles: Digest[], haystack: Digest[]): AugmentedDigest[] => {
+    const coincidences = getNeedlesFromHaystack(needles, haystack, areFuzzyEqual)
+    return needles.map(recordCoincidences(coincidences, areFuzzyEqual))
 }
 
-function getNeedlesFromHaystack(needles: Digest[], haystack: Digest[], comparator: DigestsComparator): Digest[] {
-    return haystack.filter(digestsPresentIn(needles, comparator))
-}
+export const getNeedlesFromHaystack = (
+    needles: Digest[], 
+    haystack: Digest[], 
+    comparator: DigestsComparator
+): Digest[] => haystack.filter(digestsPresentIn(needles, comparator))
 
-function insertCoincidencesIntoDigests(needles: Digest[], receivingDigests: Digest[], comparator: DigestsComparator): AugmentedDigest[] {
-    return receivingDigests.map(receivingDigest => ({
+const digestsPresentIn = 
+    (digests: Digest[], comparator: DigestsComparator) => (checkingDigest: Digest) =>
+        digests.some(digest => comparator(digest, checkingDigest))
+
+export const recordCoincidences = 
+    (needles: Digest[], comparator: DigestsComparator) => (receivingDigest: Digest) => ({
             ...receivingDigest,
-            coincidences: recordPosition(needles).filter(needle => comparator(receivingDigest, needle)),
-        }),
-    )
-}
+            coincidences: needles.map(recordPosition).filter(needle => comparator(receivingDigest, needle)),
+        })
 
-function intersect(needles: Digest[], haystack: Digest[]): AugmentedDigest[] {
-    const comparator = Digest.areFuzzyEqual
-    const coincidences = DigestedPlaylist.getNeedlesFromHaystack(needles, haystack, comparator)
-    return DigestedPlaylist.insertCoincidencesIntoDigests(coincidences, needles, comparator)
-}
-
-function recordPosition(digests: Digest[]): PositionedDigest[] {
-    return digests.map((digest, index) => ({
+export const recordPosition = (digest: Digest, position: number): PositionedDigest => ({
         ...digest,
-        position: index,
-    }))
-}
-
-export const DigestedPlaylist = {
-    EMPTY,
-    getNeedlesFromHaystack,
-    insertCoincidencesIntoDigests,
-    recordPosition,
-    intersect,
-}
+        position,
+    })

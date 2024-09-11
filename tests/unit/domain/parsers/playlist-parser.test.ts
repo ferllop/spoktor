@@ -1,6 +1,6 @@
 import * as assert from 'uvu/assert'
 import {suite} from 'uvu'
-import {PlaylistParser} from '../../../../src/js/domain/parsers/playlist-parser.js'
+import {parse, PlaylistParser} from '../../../../src/js/domain/parsers/playlist-parser.js'
 import {EmptyPlaylistError} from '../../../../src/js/domain/errors/empty-playlist-error.js'
 
 const playlistParserTest = suite('Playlist parser')
@@ -13,7 +13,7 @@ const dataExtractor = {
     extractPlaylistName() { return ''},
 }
 const TestablePlaylistParser: PlaylistParser = {
-    parse: playlist => PlaylistParser.parse(playlist, dataExtractor),
+    parse: parse(dataExtractor),
     ...dataExtractor
 }
 

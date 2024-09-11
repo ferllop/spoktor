@@ -1,4 +1,4 @@
-import { DataExtractor, PlaylistParser } from './playlist-parser.js'
+import { DataExtractor, parse, PlaylistParser } from './playlist-parser.js'
 
 const DataExtractor: DataExtractor = {
     extractTracks(rawPlaylist) {
@@ -27,6 +27,6 @@ const DataExtractor: DataExtractor = {
 }
 
 export const SpotifyHtmlParser: PlaylistParser = {
-    parse: playlist => PlaylistParser.parse(playlist, DataExtractor),
+    parse: parse(DataExtractor),
     ...DataExtractor,
 }
