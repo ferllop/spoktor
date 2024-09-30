@@ -1,6 +1,6 @@
 import { intersect } from '../domain/digested-playlist.js'
 import { generatePlaylistFrom } from '../domain/playlist-generators/generators/m3u-output-playlist.js'
-import { AugmentedDigest, Digest } from '../domain/digest.js'
+import { ComparedDigest, Digest } from '../domain/digest.js'
 import { parse } from '../domain/parser/parser.js'
 import { selectDataExtractor } from '../domain/parser/data-extractor-selector.js'
 
@@ -57,8 +57,8 @@ function loadFileContent(inputElement: HTMLInputElement): Promise<string> {
 function makeResult() {
     const list = document.createElement('ol')
     const digests = getDigestsToRender()
-    const results: AugmentedDigest[] = digests.map(digest => isAugmented(digest) ? digest : {...digest, coincidences: []})
-    results.forEach((digest, indexA) => {
+    const comparedDigests: ComparedDigest[] = digests.map(digest => isComparedDigest(digest) ? digest : {...digest, coincidences: []})
+    comparedDigests.forEach((digest, indexA) => {
         const item = document.createElement('li')
         item.appendChild(templateWithContent(
             `Artist: ${digest.artist}<br />Song: ${digest.song}`).content)
@@ -67,7 +67,7 @@ function makeResult() {
         }
         list.appendChild(item)
     })
-    renderResult(list, results)
+    renderResult(list, comparedDigests)
 }
 
 function getDigestsToRender() {
@@ -82,7 +82,7 @@ function getDigestsToRender() {
     return []
 }
 
-function isAugmented(digest: Digest | AugmentedDigest): digest is AugmentedDigest {
+function isComparedDigest(digest: Digest | ComparedDigest): digest is ComparedDigest {
     return 'coincidences' in digest
 }
 
@@ -92,7 +92,7 @@ function templateWithContent(content: string) {
     return template
 }
 
-function makeCoincidences(digest: AugmentedDigest, indexA: number) {
+function makeCoincidences(digest: ComparedDigest, indexA: number) {
     const sublist = document.createElement('ul')
     sublist.className = 'coincidences'
     digest.coincidences.forEach((digest, indexB) => {
@@ -110,23 +110,23 @@ Artist: ${digest.artist}<br />Song: ${digest.song}
     return sublist
 }
 
-function renderResult(result: HTMLOListElement, results: AugmentedDigest[]) {
+function renderResult(result: HTMLOListElement, comparedDigests: ComparedDigest[]) {
     const resultEl = document.querySelector('.result')!
     const hasCoincidences = result.querySelector('.coincidences') !== null
     if (hasCoincidences) {
-        resultEl.replaceChildren(makeDownloadButton(results))
+        resultEl.replaceChildren(makeDownloadButton(comparedDigests))
     }
     resultEl.appendChild(result)
 }
 
-function makeDownloadButton(results: AugmentedDigest[]) {
+function makeDownloadButton(comparedDigests: ComparedDigest[]) {
     const button = document.createElement('button')
     button.id = 'download'
     button.innerText = 'Download playlist with the selected coincidences'
     button.addEventListener('click', 
         () => download(
             `spoktor_-${downloadName}.m3u`,
-            generatePlaylistFrom(getSelectedCoincidences(results), downloadName)))
+            generatePlaylistFrom(getSelectedCoincidences(comparedDigests), downloadName)))
     return button
 }
 
@@ -140,13 +140,13 @@ function download(filename: string, text: string) {
     document.body.removeChild(element)
 }
 
-function getSelectedCoincidences(results: AugmentedDigest[]) {
+function getSelectedCoincidences(comparedDigests: ComparedDigest[]) {
     const selections: HTMLInputElement[] = Array.from(document.querySelectorAll('.result input[type="checkbox"]'))
     return selections
         .filter(selection => selection.checked)
         .map(selection => {
             const playlistPosition = Number.parseInt(selection.getAttribute('data-playlist-position')!)
             const coincidencesPosition = Number.parseInt(selection.getAttribute('data-coincidences-position')!)
-            return results[playlistPosition].coincidences[coincidencesPosition]
+            return comparedDigests[playlistPosition].coincidences[coincidencesPosition]
         })
 }
