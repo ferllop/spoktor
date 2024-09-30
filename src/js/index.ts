@@ -1,9 +1,9 @@
-import { intersect } from './domain/models/digested-playlist.js'
-import { generatePlaylistFrom } from './domain/models/m3u-output-playlist.js'
-import { createLink } from './domain/models/youtube-playlist-link-creator.js'
-import { AugmentedDigest, Digest } from './domain/models/digest.js'
-import { parse } from './domain/parser/playlist-parser.js'
-import { selectDataExtractor } from './domain/parser/data-extractor-selector.js'
+import { intersect } from './spoktor/models/digested-playlist.js'
+import { generatePlaylistFrom } from './spoktor/models/m3u-output-playlist.js'
+import { createLink } from './youtube-playlist-link-creator/youtube-playlist-link-creator.js'
+import { AugmentedDigest, Digest } from './spoktor/models/digest.js'
+import { parse } from './spoktor/parser/playlist-parser.js'
+import { selectDataExtractor } from './spoktor/parser/data-extractor-selector.js'
 
 let needles: Digest[]
 let haystack: Digest[]

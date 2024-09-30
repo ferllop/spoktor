@@ -1,6 +1,6 @@
 import {suite} from 'uvu'
 import * as assert from 'uvu/assert'
-import { spotifyTextDataExtractor } from '../../../../../src/js/domain/parser/data-extractors/spotify-text.js'
+import { spotifyTextDataExtractor } from '../../../../../src/js/spoktor/parser/data-extractors/spotify-text.js'
 import {
     toSpotifyPlainTextPlaylist,
 } from '../../../helpers/builders/list/spotify-plain-text-playlist-builder.js'
@@ -10,7 +10,7 @@ import {toSpotifyTextTrack} from '../../../helpers/builders/track/spotify-text-t
 import {aTrack, withPosition, withArtist, withArtists, withSong} from '../../../helpers/builders/track/track-builder.js'
 import {toDigestsPlaylist} from '../../../helpers/builders/list/digest-playlist-builder.js'
 import { pipe } from '../../../../../src/js/lib/fp.js'
-import { parse } from '../../../../../src/js/domain/parser/playlist-parser.js'
+import { parse } from '../../../../../src/js/spoktor/parser/playlist-parser.js'
 
 const spotifyTextParser = suite("Spotify Text parser")
 

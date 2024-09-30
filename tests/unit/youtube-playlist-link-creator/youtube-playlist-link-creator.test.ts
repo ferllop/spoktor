@@ -1,6 +1,6 @@
 import {suite} from 'uvu'
 import * as assert from 'uvu/assert'
-import {createLink, makePlaylistLinkWithVideos} from '../../../../src/js/domain/models/youtube-playlist-link-creator.js'
+import {createLink, makePlaylistLinkWithVideos} from '../../../src/js/youtube-playlist-link-creator/youtube-playlist-link-creator.js'
 
 const ytPlaylistCreator = suite('Youtube playlist link creator')
 

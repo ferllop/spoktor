@@ -1,5 +1,5 @@
 import {suite} from 'uvu'
-import {extractDir, extractFilename, extractVolume, traktorXmlDataExtractor} from '../../../../../src/js/domain/parser/data-extractors/traktor-xml.js'
+import {extractDir, extractFilename, extractVolume, traktorXmlDataExtractor} from '../../../../../src/js/spoktor/parser/data-extractors/traktor-xml.js'
 import {assertDigestedPlaylistsAreEqual, assertStringsAreEqualIgnoringItsFormatting} from '../../../helpers/custom-asserts.js'
 import * as assert from 'uvu/assert'
 import {
@@ -13,7 +13,7 @@ import {toTraktorCollection} from '../../../helpers/builders/list/traktor-collec
 import {aPlaylist, mapTracks, withTracks, withXTracks} from '../../../helpers/builders/list/playlist-builder.js'
 import { prop } from '../../../../fp.js'
 import { pipe } from '../../../../../src/js/lib/fp.js'
-import { parse } from '../../../../../src/js/domain/parser/playlist-parser.js'
+import { parse } from '../../../../../src/js/spoktor/parser/playlist-parser.js'
 
 const traktorXmlParser = suite('Traktor XML parser')
 const sut = parse(traktorXmlDataExtractor)

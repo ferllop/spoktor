@@ -1,4 +1,4 @@
-import { Digest } from "../../../../../src/js/domain/models/digest.js"
+import { Digest } from "../../../../../src/js/spoktor/models/digest.js"
 import { aTrack, MinimalTrackData } from "./track-builder.js"
 
 type RawDataCreator = (track: MinimalTrackData) => string
