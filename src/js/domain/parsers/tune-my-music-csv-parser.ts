@@ -1,9 +1,9 @@
-import {DataExtractor, parse, PlaylistParser} from './playlist-parser.js'
+import {DataExtractor} from './playlist-parser.js'
 
 const lineSeparator = '\n'
 const fieldSeparator = ','
 
-const dataExtractor: DataExtractor = {
+export const tuneMyMusicCsvDataExtractor: DataExtractor = {
     extractTracks(rawPlaylist) {
         return rawPlaylist.split(lineSeparator).slice(1)
     },
@@ -23,9 +23,4 @@ const dataExtractor: DataExtractor = {
     extractPlaylistName(rawPlaylist) {
         return rawPlaylist.split(lineSeparator)[1]?.split(fieldSeparator)[3] ?? ''
     },
-}
-
-export const TuneMyMusicCsvParser: PlaylistParser = {
-    parse: parse(dataExtractor),
-    ...dataExtractor,
 }

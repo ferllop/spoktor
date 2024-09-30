@@ -1,6 +1,6 @@
-import {parse, DataExtractor, PlaylistParser} from './playlist-parser.js'
+import {DataExtractor} from './playlist-parser.js'
 
-const dataExtractor: DataExtractor = {
+export const virtualdjXmlDataExtractor: DataExtractor = {
     extractTracks(collection) {
         const regex = /(<Song.*?>.*?<\/Song>)/gsm
         return collection.match(regex) ?? []
@@ -24,9 +24,4 @@ const dataExtractor: DataExtractor = {
     extractPlaylistName() {
         return ''
     },
-}
-
-export const VirtualDjXmlParser: PlaylistParser = {
-    parse: parse(dataExtractor),
-    ...dataExtractor,
 }

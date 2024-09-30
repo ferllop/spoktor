@@ -1,6 +1,6 @@
 import {suite} from 'uvu'
 import * as assert from 'uvu/assert'
-import {SpotifyTextParser} from '../../../../src/js/domain/parsers/spotify-text-parser.js'
+import { spotifyTextDataExtractor } from '../../../../src/js/domain/parsers/spotify-text-parser.js'
 import {
     toSpotifyPlainTextPlaylist,
 } from '../../helpers/builders/list/spotify-plain-text-playlist-builder.js'
@@ -10,31 +10,32 @@ import {toSpotifyTextTrack} from '../../helpers/builders/track/spotify-text-trac
 import {aTrack, withPosition, withArtist, withArtists, withSong} from '../../helpers/builders/track/track-builder.js'
 import {toDigestsPlaylist} from '../../helpers/builders/list/digest-playlist-builder.js'
 import { pipe } from '../../../fp.js'
+import { parse } from '../../../../src/js/domain/parsers/playlist-parser.js'
 
 const spotifyTextParser = suite("Spotify Text parser")
 
 spotifyTextParser('should return a one item array when there is one track in the playlist', () => {
     const playlist = pipe(aPlaylist, withXTracks(1))
     assertDigestedPlaylistsAreEqual(
-        SpotifyTextParser.parse(toSpotifyPlainTextPlaylist(playlist)),
+        parse(spotifyTextDataExtractor)(toSpotifyPlainTextPlaylist(playlist)),
         toDigestsPlaylist(toSpotifyTextTrack)(playlist))
 })
 
 spotifyTextParser('should know how to extract a track', () => {
     const fullSample = toSpotifyPlainTextPlaylist(withXTracks(3)(aPlaylist))
     const expected = toSpotifyTextTrack(withPosition(1)(aTrack))
-    assert.equal(SpotifyTextParser.extractTracks(fullSample)[0], expected)
+    assert.equal(spotifyTextDataExtractor.extractTracks(fullSample)[0], expected)
 })
 
 spotifyTextParser('should know how to extract the song title from track', () => {
     const track = toSpotifyTextTrack(withSong('The Song')(aTrack))
-    const result = SpotifyTextParser.extractSong(track)
+    const result = spotifyTextDataExtractor.extractSong(track)
     assert.equal(result, 'The Song')
 })
 
 spotifyTextParser('should know how to extract the artist from track when there is a single artist', () => {
     const track = toSpotifyTextTrack(withArtist('The Artist')(aTrack))
-    const result = SpotifyTextParser.extractArtist(track)
+    const result = spotifyTextDataExtractor.extractArtist(track)
     assert.equal(result, 'The Artist')
 })
 
@@ -46,7 +47,7 @@ spotifyTextParser('should know how to extract the artist from track when there a
             'This is the third artist'
         ])(aTrack)
     )
-    const result = SpotifyTextParser.extractArtist(track)
+    const result = spotifyTextDataExtractor.extractArtist(track)
     assert.equal(result, 'This is the first artist, This is the second artist, This is the third artist')
 })
 
@@ -61,7 +62,7 @@ Summer Sippin' <https://open.spotify.com/album/5BT52U1Dee7ed2FIQbFkb9>
 hace 25 días
 
 3:21`
-    const result = SpotifyTextParser.extractArtist(track)
+    const result = spotifyTextDataExtractor.extractArtist(track)
     assert.equal(result, 'Artist 1, Artist 2, Artist 3')
 })
 
@@ -75,21 +76,21 @@ Summer Sippin'
 hace 25 días
 
 3:21`
-    const result = SpotifyTextParser.extractArtist(track)
+    const result = spotifyTextDataExtractor.extractArtist(track)
     assert.equal(result, 'Artist 1')
 })
 
 spotifyTextParser('should return the two digests when there are two items in the playlist', () => {
     const playlist = withXTracks(2)(aPlaylist)
     assertDigestedPlaylistsAreEqual(
-        SpotifyTextParser.parse(toSpotifyPlainTextPlaylist(playlist)),
+        parse(spotifyTextDataExtractor)(toSpotifyPlainTextPlaylist(playlist)),
         toDigestsPlaylist(toSpotifyTextTrack)(playlist))
 })
 
 spotifyTextParser('should know how to extract the playlist name', () => {
     const playlistName = 'The Playlist'
     const playlist = withPlaylistName(playlistName)(aPlaylist)
-    assert.equal(SpotifyTextParser.extractPlaylistName(toSpotifyPlainTextPlaylist(playlist)), playlistName)
+    assert.equal(spotifyTextDataExtractor.extractPlaylistName(toSpotifyPlainTextPlaylist(playlist)), playlistName)
 })
 
 spotifyTextParser.run()

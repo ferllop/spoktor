@@ -1,10 +1,10 @@
-import {DataExtractor, parse, PlaylistParser} from './playlist-parser.js'
+import {DataExtractor} from './playlist-parser.js'
 
 const lineSeparator = '\n'
 const artistSongSeparator = ' , '
 const multipleArtistsSeparator = ';'
 
-const dataExtractor: DataExtractor = {
+export const byLineDataExtractor: DataExtractor = {
     extractTracks(rawPlaylist) {
         return rawPlaylist.split(lineSeparator).slice(1)
     },
@@ -25,9 +25,4 @@ const dataExtractor: DataExtractor = {
     extractPlaylistName() {
         return ''
     },
-}
-
-export const ArtistTitleByLineParser: PlaylistParser = {
-    parse: parse(dataExtractor),
-    ...dataExtractor,
 }

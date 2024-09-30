@@ -3,10 +3,6 @@ import {isValid, Digest} from '../models/digest.js'
 
 export type RawPlaylist = string
 
-export type PlaylistParser = {
-    parse: (playlist: string) => Digest[]
-} & DataExtractor
-
 export type DataExtractor = {
     extractTracks: (playlist: string) => string[]
     extractArtist: (track: string) => string

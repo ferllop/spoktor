@@ -1,8 +1,9 @@
 import { intersect } from './domain/models/digested-playlist.js'
 import { generatePlaylistFrom } from './domain/models/m3u-output-playlist.js'
-import { extractPlaylistName, parse } from './domain/models/raw-playlist.js'
 import { createLink } from './domain/models/youtube-playlist-link-creator.js'
 import { AugmentedDigest, Digest } from './domain/models/digest.js'
+import { parse } from './domain/parsers/playlist-parser.js'
+import { selectDataExtractor } from './domain/parsers/parser-selector.js'
 
 let needles: Digest[]
 let haystack: Digest[]
@@ -30,14 +31,16 @@ function handleInitialLoad() {
 
 async function handleNeedleChange(inputElement: HTMLInputElement) {
     const fileContent = await loadFileContent(inputElement)
-    needles = parse(fileContent)
-    downloadName = extractPlaylistName(fileContent)
+    const dataExtractor = selectDataExtractor(fileContent)
+    needles = parse(dataExtractor)(fileContent)
+    downloadName = dataExtractor.extractPlaylistName(fileContent)
     makeResult()
 }
 
 async function handleHaystackChange(inputElement: HTMLInputElement) {
     const fileContent = await loadFileContent(inputElement)
-    haystack = parse(fileContent)
+    const dataExtractor = selectDataExtractor(fileContent)
+    haystack = parse(dataExtractor)(fileContent)
     makeResult()
 }
 

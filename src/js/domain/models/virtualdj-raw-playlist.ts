@@ -1,7 +1,7 @@
-import { VirtualDjXmlParser } from '../parsers/virtualdj-xml-parser.js'
+import { virtualdjXmlDataExtractor } from '../parsers/virtualdj-xml-parser.js'
 import { Digest } from './digest.js'
 
-export const renderFullFilePathFrom = VirtualDjXmlParser.extractLocation
+export const renderFullFilePathFrom = virtualdjXmlDataExtractor.extractLocation
 
 export const generatePlaylistFrom = (digests: Digest[]): string => 
     `<?xml version="1.0" encoding="UTF-8"?>

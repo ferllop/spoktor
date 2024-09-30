@@ -1,6 +1,6 @@
-import { DataExtractor, parse, PlaylistParser } from './playlist-parser.js'
+import { DataExtractor } from './playlist-parser.js'
 
-const DataExtractor: DataExtractor = {
+export const spotifyHtmlDataExtractor: DataExtractor = {
     extractTracks(rawPlaylist) {
         const regex = /(<div.*?type="track".*?>.*?<\/div>)/gsm
         return rawPlaylist.match(regex) ?? []
@@ -24,9 +24,4 @@ const DataExtractor: DataExtractor = {
         const regex = /<meta property="og:title" content="(.*?)" \/>/
         return rawPlaylist.match(regex)?.[1] ?? ''
     },
-}
-
-export const SpotifyHtmlParser: PlaylistParser = {
-    parse: parse(DataExtractor),
-    ...DataExtractor,
 }
