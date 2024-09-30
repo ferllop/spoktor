@@ -1,12 +1,6 @@
-const regex = /youtu(?:.*\/v\/|.*v=|\.be\/|.*?embed\/)([A-Za-z0-9_\-]{11})/
+import { pipe } from "../../lib/fp.js"
 
-export function pipe(value: any, ...functions: ((...param: any[]) => any)[]) {
-    const [nextFunction, ...rest] = functions
-    if (nextFunction === undefined) {
-        return value
-    }
-    return pipe(nextFunction(value), ...rest)
-}
+const regex = /youtu(?:.*\/v\/|.*v=|\.be\/|.*?embed\/)([A-Za-z0-9_\-]{11})/
 
 export function createLink(linkList: string): string {
     const videoIds = pipe(
