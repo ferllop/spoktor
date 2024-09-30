@@ -1,4 +1,4 @@
-import { pipe } from "../lib/fp.js"
+import { pipe } from "../../lib/fp.js"
 
 const regex = /youtu(?:.*\/v\/|.*v=|\.be\/|.*?embed\/)([A-Za-z0-9_\-]{11})/
 

@@ -1,5 +1,5 @@
 import * as assert from 'uvu/assert'
-import { Digest } from '../../../src/js/spoktor/digest.js'
+import { Digest } from '../../../src/js/spoktor/domain/digest.js'
 
 export function assertDigestedPlaylistsAreEqual(playlistA: Digest[], playlistB: Digest[]) {
     assert.equal(playlistA.length, playlistB.length, 'Playlist length')

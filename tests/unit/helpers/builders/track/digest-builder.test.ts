@@ -2,7 +2,7 @@ import {suite} from 'uvu'
 import * as assert from 'uvu/assert'
 import {aDigest, toDigest, withRawData} from './digest-builder.js'
 import {aTrack} from './track-builder.js'
-import { Digest } from '../../../../../src/js/spoktor/digest.js'
+import { Digest } from '../../../../../src/js/spoktor/domain/digest.js'
 
 const digestBuilder = suite('Digest builder')
 
