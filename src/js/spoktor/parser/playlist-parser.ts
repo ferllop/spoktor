@@ -1,4 +1,4 @@
-import {EmptyPlaylistError} from '../errors/empty-playlist-error.js'
+import {EmptyPlaylistError} from './errors/empty-playlist-error.js'
 import {isValid, Digest} from '../digest.js'
 
 export type RawPlaylist = string
