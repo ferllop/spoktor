@@ -11,7 +11,8 @@ import {
 import {aTrack, withArtist, withoutArtists, withoutSong, withSong} from '../../../helpers/builders/track/track-builder.js'
 import {toTraktorCollection} from '../../../helpers/builders/list/traktor-collection-builder.js'
 import {aPlaylist, mapTracks, withTracks, withXTracks} from '../../../helpers/builders/list/playlist-builder.js'
-import { pipe, prop } from '../../../../fp.js'
+import { prop } from '../../../../fp.js'
+import { pipe } from '../../../../../src/js/lib/fp.js'
 import { parse } from '../../../../../src/js/domain/parser/playlist-parser.js'
 
 const traktorXmlParser = suite('Traktor XML parser')

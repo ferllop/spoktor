@@ -6,7 +6,7 @@ import {aTrack, withPosition} from '../../helpers/builders/track/track-builder.j
 import {toDigest} from '../../helpers/builders/track/digest-builder.js'
 import {aPlaylist, withXTracks} from '../../helpers/builders/list/playlist-builder.js'
 import { toDigestsPlaylist } from '../../helpers/builders/list/digest-playlist-builder.js'
-import { pipe } from '../../../fp.js'
+import { pipe } from '../../../../src/js/lib/fp.js'
 
 const digestedPlaylist = suite('Digested playlist')
 

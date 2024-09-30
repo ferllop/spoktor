@@ -11,7 +11,7 @@ import {aPlaylist, mapTracks, withXTracks} from '../../helpers/builders/list/pla
 import {toSpotifyPlainTextPlaylist} from '../../helpers/builders/list/spotify-plain-text-playlist-builder.js'
 import {toSpotifyHtmlPlaylist} from '../../helpers/builders/list/spotify-html-playlist-builder.js'
 import { toTraktorTrack } from '../../helpers/builders/track/traktor-track-builder.js'
-import { pipe } from '../../../fp.js'
+import { pipe } from '../../../../src/js/lib/fp.js'
 
 const parserSelector = suite('Parser selector')
 

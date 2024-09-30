@@ -9,7 +9,7 @@ import {aPlaylist, withPlaylistName, withXTracks } from '../../../helpers/builde
 import {toSpotifyTextTrack} from '../../../helpers/builders/track/spotify-text-track-builder.js'
 import {aTrack, withPosition, withArtist, withArtists, withSong} from '../../../helpers/builders/track/track-builder.js'
 import {toDigestsPlaylist} from '../../../helpers/builders/list/digest-playlist-builder.js'
-import { pipe } from '../../../../fp.js'
+import { pipe } from '../../../../../src/js/lib/fp.js'
 import { parse } from '../../../../../src/js/domain/parser/playlist-parser.js'
 
 const spotifyTextParser = suite("Spotify Text parser")

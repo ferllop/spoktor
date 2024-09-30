@@ -1,5 +1,5 @@
 import { aTrack, MinimalTrackData, withPosition } from "../track/track-builder.js"
-import { pipe } from "../../../../fp.js"
+import { pipe } from '../../../../../src/js/lib/fp.js'
 
 export type Playlist<T> = {
     tracks: T[],
