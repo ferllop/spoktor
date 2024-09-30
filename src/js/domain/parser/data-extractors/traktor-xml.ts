@@ -1,4 +1,4 @@
-import {DataExtractor} from './playlist-parser.js'
+import {DataExtractor} from '../playlist-parser.js'
 
 const firstOrEmpty = (regex: RegExp) => (track: string) => track.match(regex)?.[1] ?? ''
 export const extractVolume = firstOrEmpty(/<LOCATION.*?VOLUME="(.*?)"/s)

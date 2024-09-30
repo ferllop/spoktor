@@ -1,9 +1,9 @@
 import {suite} from 'uvu'
 import * as assert from 'uvu/assert'
-import { tuneMyMusicCsvDataExtractor } from '../../../../src/js/domain/parsers/tune-my-music-csv-parser.js'
-import {assertDigestedPlaylistsAreEqual} from '../../helpers/custom-asserts.js'
-import {GENERIC_ARTIST_NAME, GENERIC_SONG_TITLE} from '../../helpers/builders/track/track-builder.js'
-import { parse } from '../../../../src/js/domain/parsers/playlist-parser.js'
+import { tuneMyMusicCsvDataExtractor } from '../../../../../src/js/domain/parser/data-extractors/tune-my-music-csv.js'
+import {assertDigestedPlaylistsAreEqual} from '../../../helpers/custom-asserts.js'
+import {GENERIC_ARTIST_NAME, GENERIC_SONG_TITLE} from '../../../helpers/builders/track/track-builder.js'
+import { parse } from '../../../../../src/js/domain/parser/playlist-parser.js'
 
 const tuneMyMusicCsvParser = suite("Tune My Music CSV parser")
 

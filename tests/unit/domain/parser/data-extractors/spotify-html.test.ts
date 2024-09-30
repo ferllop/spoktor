@@ -1,10 +1,10 @@
 import {suite} from 'uvu'
-import {spotifyHtmlDataExtractor} from '../../../../src/js/domain/parsers/spotify-html-parser.js'
+import {spotifyHtmlDataExtractor} from '../../../../../src/js/domain/parser/data-extractors/spotify-html.js'
 import * as assert from 'uvu/assert'
-import {toSpotifyHtmlPlaylist} from '../../helpers/builders/list/spotify-html-playlist-builder.js'
-import {aPlaylist, withPlaylistName, withXTracks} from '../../helpers/builders/list/playlist-builder.js'
-import { pipe } from '../../../fp.js'
-import { parse } from '../../../../src/js/domain/parsers/playlist-parser.js'
+import {toSpotifyHtmlPlaylist} from '../../../helpers/builders/list/spotify-html-playlist-builder.js'
+import {aPlaylist, withPlaylistName, withXTracks} from '../../../helpers/builders/list/playlist-builder.js'
+import { pipe } from '../../../../fp.js'
+import { parse } from '../../../../../src/js/domain/parser/playlist-parser.js'
 
 const spotifyHtmlParser = suite("Spotify HTML parser")
 

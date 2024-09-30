@@ -1,11 +1,11 @@
-import {spotifyTextDataExtractor} from './spotify-text-parser.js'
-import {spotifyHtmlDataExtractor} from './spotify-html-parser.js'
+import {spotifyTextDataExtractor} from './data-extractors/spotify-text.js'
+import {spotifyHtmlDataExtractor} from './data-extractors/spotify-html.js'
 import {EmptyPlaylistError} from '../errors/empty-playlist-error.js'
 import {InvalidPlaylistError} from '../errors/invalid-playlist-error.js'
-import {traktorXmlDataExtractor} from './traktor-xml-parser.js'
-import {virtualdjXmlDataExtractor} from './virtualdj-xml-parser.js'
-import {byLineDataExtractor} from './artist-title-by-line-text-parser.js'
-import {tuneMyMusicCsvDataExtractor} from './tune-my-music-csv-parser.js'
+import {traktorXmlDataExtractor} from './data-extractors/traktor-xml.js'
+import {virtualdjXmlDataExtractor} from './data-extractors/virtualdj-xml.js'
+import {byLineDataExtractor} from './data-extractors/artist-title-by-line-text.js'
+import {tuneMyMusicCsvDataExtractor} from './data-extractors/tune-my-music-csv.js'
 import {RawPlaylist} from './playlist-parser.js'
 
 export const selectDataExtractor = (rawPlaylist: RawPlaylist) => {

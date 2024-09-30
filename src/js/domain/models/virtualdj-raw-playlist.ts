@@ -1,4 +1,4 @@
-import { virtualdjXmlDataExtractor } from '../parsers/virtualdj-xml-parser.js'
+import { virtualdjXmlDataExtractor } from '../parser/data-extractors/virtualdj-xml.js'
 import { Digest } from './digest.js'
 
 export const renderFullFilePathFrom = virtualdjXmlDataExtractor.extractLocation

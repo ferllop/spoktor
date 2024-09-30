@@ -1,18 +1,18 @@
 import {suite} from 'uvu'
-import {extractDir, extractFilename, extractVolume, traktorXmlDataExtractor} from '../../../../src/js/domain/parsers/traktor-xml-parser.js'
-import {assertDigestedPlaylistsAreEqual, assertStringsAreEqualIgnoringItsFormatting} from '../../helpers/custom-asserts.js'
+import {extractDir, extractFilename, extractVolume, traktorXmlDataExtractor} from '../../../../../src/js/domain/parser/data-extractors/traktor-xml.js'
+import {assertDigestedPlaylistsAreEqual, assertStringsAreEqualIgnoringItsFormatting} from '../../../helpers/custom-asserts.js'
 import * as assert from 'uvu/assert'
 import {
     toTraktorTrack,
     toTraktorEntry,
     withDirectory,
     withFilename, withVolume,
-} from '../../helpers/builders/track/traktor-track-builder.js'
-import {aTrack, withArtist, withoutArtists, withoutSong, withSong} from '../../helpers/builders/track/track-builder.js'
-import {toTraktorCollection} from '../../helpers/builders/list/traktor-collection-builder.js'
-import {aPlaylist, mapTracks, withTracks, withXTracks} from '../../helpers/builders/list/playlist-builder.js'
-import { pipe, prop } from '../../../fp.js'
-import { parse } from '../../../../src/js/domain/parsers/playlist-parser.js'
+} from '../../../helpers/builders/track/traktor-track-builder.js'
+import {aTrack, withArtist, withoutArtists, withoutSong, withSong} from '../../../helpers/builders/track/track-builder.js'
+import {toTraktorCollection} from '../../../helpers/builders/list/traktor-collection-builder.js'
+import {aPlaylist, mapTracks, withTracks, withXTracks} from '../../../helpers/builders/list/playlist-builder.js'
+import { pipe, prop } from '../../../../fp.js'
+import { parse } from '../../../../../src/js/domain/parser/playlist-parser.js'
 
 const traktorXmlParser = suite('Traktor XML parser')
 const sut = parse(traktorXmlDataExtractor)
