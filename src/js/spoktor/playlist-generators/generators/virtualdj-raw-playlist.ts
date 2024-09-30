@@ -1,9 +1,10 @@
-import { virtualdjXmlDataExtractor } from '../parser/data-extractors/virtualdj-xml.js'
-import { Digest } from './digest.js'
+import { virtualdjXmlDataExtractor } from '../../parser/data-extractors/virtualdj-xml.js'
+import { Digest } from '../../digest.js'
+import { PlaylistGenerator } from '../playlist-generator.js'
 
 export const renderFullFilePathFrom = virtualdjXmlDataExtractor.extractLocation
 
-export const generatePlaylistFrom = (digests: Digest[]): string => 
+export const generatePlaylistFrom: PlaylistGenerator = digests => 
     `<?xml version="1.0" encoding="UTF-8"?>
         <VirtualFolder>
             ${digests.map(toEntry).join('')}

@@ -1,12 +1,12 @@
 import {suite} from 'uvu'
 import * as assert from 'uvu/assert'
-import {aPlaylist, mapTracks, withoutTracks, withXTracks} from '../../helpers/builders/list/playlist-builder.js'
-import {toTraktorPlaylist} from '../../helpers/builders/list/traktor-playlist-builder.js'
-import { generatePlaylistFrom } from '../../../../src/js/spoktor/models/traktor-raw-playlist.js'
-import { toTraktorEntry, toTraktorTrack, TraktorTrackData } from '../../helpers/builders/track/traktor-track-builder.js'
-import { pipe } from '../../../../src/js/lib/fp.js'
-import { Digest } from '../../../../src/js/spoktor/models/digest.js'
-import { toDigest } from '../../helpers/builders/track/digest-builder.js'
+import {aPlaylist, mapTracks, withoutTracks, withXTracks} from '../../../helpers/builders/list/playlist-builder.js'
+import {toTraktorPlaylist} from '../../../helpers/builders/list/traktor-playlist-builder.js'
+import { generatePlaylistFrom } from '../../../../../src/js/spoktor/playlist-generators/generators/traktor-raw-playlist.js'
+import { toTraktorEntry, toTraktorTrack } from '../../../helpers/builders/track/traktor-track-builder.js'
+import { pipe } from '../../../../../src/js/lib/fp.js'
+import { Digest } from '../../../../../src/js/spoktor/digest.js'
+import { toDigest } from '../../../helpers/builders/track/digest-builder.js'
 
 const traktorPlaylistGenerator = suite('Traktor playlist generator')
 

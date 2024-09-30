@@ -1,12 +1,12 @@
 import {suite} from 'uvu'
 import * as assert from 'uvu/assert'
-import { getNeedlesFromHaystack, recordCoincidences, recordPosition } from '../../../../src/js/spoktor/models/digested-playlist.js'
-import {areEqual} from '../../../../src/js/spoktor/models/digest.js'
-import {aTrack, withPosition} from '../../helpers/builders/track/track-builder.js'
-import {toDigest} from '../../helpers/builders/track/digest-builder.js'
-import {aPlaylist, withXTracks} from '../../helpers/builders/list/playlist-builder.js'
-import { toDigestsPlaylist } from '../../helpers/builders/list/digest-playlist-builder.js'
-import { pipe } from '../../../../src/js/lib/fp.js'
+import { getNeedlesFromHaystack, recordCoincidences, recordPosition } from '../../../src/js/spoktor/digested-playlist.js'
+import {areEqual} from '../../../src/js/spoktor/digest.js'
+import {aTrack, withPosition} from '../helpers/builders/track/track-builder.js'
+import {toDigest} from '../helpers/builders/track/digest-builder.js'
+import {aPlaylist, withXTracks} from '../helpers/builders/list/playlist-builder.js'
+import { toDigestsPlaylist } from '../helpers/builders/list/digest-playlist-builder.js'
+import { pipe } from '../../../src/js/lib/fp.js'
 
 const digestedPlaylist = suite('Digested playlist')
 

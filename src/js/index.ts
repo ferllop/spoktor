@@ -1,7 +1,7 @@
-import { intersect } from './spoktor/models/digested-playlist.js'
-import { generatePlaylistFrom } from './spoktor/models/m3u-output-playlist.js'
+import { intersect } from './spoktor/digested-playlist.js'
+import { generatePlaylistFrom } from './spoktor/playlist-generators/generators/m3u-output-playlist.js'
 import { createLink } from './youtube-playlist-link-creator/youtube-playlist-link-creator.js'
-import { AugmentedDigest, Digest } from './spoktor/models/digest.js'
+import { AugmentedDigest, Digest } from './spoktor/digest.js'
 import { parse } from './spoktor/parser/playlist-parser.js'
 import { selectDataExtractor } from './spoktor/parser/data-extractor-selector.js'
 
