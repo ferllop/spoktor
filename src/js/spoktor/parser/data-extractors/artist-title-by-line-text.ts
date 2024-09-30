@@ -1,4 +1,4 @@
-import {DataExtractor} from '../playlist-parser.js'
+import {DataExtractor} from '../parser.js'
 
 const lineSeparator = '\n'
 const artistSongSeparator = ' , '

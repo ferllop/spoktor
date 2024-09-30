@@ -1,22 +1,22 @@
 import * as assert from 'uvu/assert'
 import {suite} from 'uvu'
-import {parse} from '../../../../src/js/spoktor/parser/playlist-parser.js'
+import {parse} from '../../../../src/js/spoktor/parser/parser.js'
 import {EmptyPlaylistError} from '../../../../src/js/spoktor/parser/errors/empty-playlist-error.js'
 
-const playlistParserTest = suite('Playlist parser')
+const parser = suite('Parser')
 
-const dataExtractor = {
+const dummyDataExtractor = {
     extractArtist() { return ''},
     extractSong() { return ''},
     extractTracks() { return []},
     extractLocation() { return ''},
     extractPlaylistName() { return ''},
 }
-const TestablePlaylistParser = parse(dataExtractor)
 
-playlistParserTest('should throw error if spotify playlist is empty', () => {
-    assert.throws(() => TestablePlaylistParser(''),
+parser('should throw error if spotify playlist is empty', () => {
+    const emptyPlaylist = ''
+    assert.throws(() => parse(dummyDataExtractor)(emptyPlaylist),
         (error: unknown) => error instanceof EmptyPlaylistError)
 })
 
-playlistParserTest.run()
+parser.run()

@@ -1,6 +1,6 @@
 import * as assert from 'uvu/assert'
 import {suite} from 'uvu'
-import {parse} from '../../../../src/js/spoktor/parser/playlist-parser.js'
+import {parse} from '../../../../src/js/spoktor/parser/parser.js'
 import {EmptyPlaylistError} from '../../../../src/js/spoktor/parser/errors/empty-playlist-error.js'
 
 const playlistParserTest = suite('Playlist parser')

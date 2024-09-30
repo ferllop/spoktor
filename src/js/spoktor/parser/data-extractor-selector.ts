@@ -6,7 +6,7 @@ import {traktorXmlDataExtractor} from './data-extractors/traktor-xml.js'
 import {virtualdjXmlDataExtractor} from './data-extractors/virtualdj-xml.js'
 import {byLineDataExtractor} from './data-extractors/artist-title-by-line-text.js'
 import {tuneMyMusicCsvDataExtractor} from './data-extractors/tune-my-music-csv.js'
-import {RawPlaylist} from './playlist-parser.js'
+import {RawPlaylist} from './parser.js'
 
 export const selectDataExtractor = (rawPlaylist: RawPlaylist) => {
     if (rawPlaylist.length === 0) {
