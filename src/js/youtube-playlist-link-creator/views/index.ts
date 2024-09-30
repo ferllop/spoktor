@@ -6,7 +6,6 @@ youtubeFormEl.querySelector('input[type="submit"]')
 
 export function handleYoutubeLinkSubmit(form: HTMLFormElement) {
     return (event: Event) => {
-        console.log(form)
         event.preventDefault()
         const links = form.querySelector('textarea')!
         
