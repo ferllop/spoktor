@@ -12,42 +12,50 @@ spoktor.before(async context => {
     context.server = await startDevServer({
         argv: [`--port=${devLocalConfig.testServerPort}`]
     })
-    context.browser = await puppeteer.launch()
+    context.browser = await puppeteer.launch({timeout: 5000})
 })
 
 spoktor.before.each(async context => {
     context.page = await context.browser.newPage()
+    await context.page.goto('http://localhost:9000')
 })
 
-spoktor.after.each(async context => {
-    await context.page.close()
+spoktor.after.each(async ({page}) => {
+    await page.close()
 })
 
-spoktor.after(async context => {
-    await context.browser.close()
-    await context.server.stop()
+spoktor.after(async ({browser, server}) => {
+    await browser.close()
+    await server.stop()
 })
 
 spoktor('initial state', async ({page}) => {
-    await page.goto('http://localhost:9000')
     await visualDiff(page, 'initial')
 })
 
-spoktor('with spotify playlist loaded', async ({page}) => {
-    await page.goto('http://localhost:9000')
+spoktor('with only spotify playlist loaded', async ({page}) => {
     await loadSpotifyFile(page)
     await visualDiff(page, 'only-spotify-loaded')
 })
 
+spoktor('with only traktor collection loaded', async ({page}) => {
+    await loadTraktorFile(page)
+    await visualDiff(page, 'only-traktor-loaded')
+})
+
 spoktor('with spotify and traktor intersected', async ({page}) => {
-    await page.goto('http://localhost:9000')
     await loadSpotifyFile(page)
     await loadTraktorFile(page)
     await visualDiff(page, 'both-spotify-and-traktor-loaded')
 })
 
+spoktor('when traktor collection is loaded first', async ({page}) => {
+    await loadTraktorFile(page)
+    await loadSpotifyFile(page)
+    await visualDiff(page, 'traktor-loaded-first')
+})
+
 spoktor('with a list of youtube videos', async ({page}) => {
-    await page.goto('http://localhost:9000')
     await page.type('.youtube-playlist textarea', 'https://www.youtube.com/watch?v=aaaaaaaaaaa')
     await page.click('.youtube-playlist input[type="submit"]')
     await visualDiff(page, 'with-youtube-links')

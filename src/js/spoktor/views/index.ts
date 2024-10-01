@@ -4,8 +4,8 @@ import { ComparedDigest, Digest } from '../domain/digest.js'
 import { parse } from '../domain/parser/parser.js'
 import { selectDataExtractor } from '../domain/parser/data-extractor-selector.js'
 
-let needles: Digest[]
-let haystack: Digest[]
+let needles: Digest[] = []
+let haystack: Digest[] = []
 let downloadName: string
 
 const needlesInput = document.getElementById('needles') as HTMLInputElement
@@ -55,9 +55,9 @@ function loadFileContent(inputElement: HTMLInputElement): Promise<string> {
 }
 
 function makeResult() {
+    const comparedDigests = intersect(needles, haystack)
     const list = document.createElement('ol')
-    const digests = getDigestsToRender()
-    const comparedDigests: ComparedDigest[] = digests.map(digest => isComparedDigest(digest) ? digest : {...digest, coincidences: []})
+    
     comparedDigests.forEach((digest, indexA) => {
         const item = document.createElement('li')
         item.appendChild(templateWithContent(
@@ -67,23 +67,8 @@ function makeResult() {
         }
         list.appendChild(item)
     })
-    renderResult(list, comparedDigests)
-}
-
-function getDigestsToRender() {
-    if (needles !== undefined && haystack !== undefined) {
-        return intersect(needles, haystack)
-    }
-
-    if (needles !== undefined) {
-        return needles
-    }
-
-    return []
-}
-
-function isComparedDigest(digest: Digest | ComparedDigest): digest is ComparedDigest {
-    return 'coincidences' in digest
+    
+    renderResult(list, comparedDigests, downloadName)
 }
 
 function templateWithContent(content: string) {
@@ -96,8 +81,7 @@ function makeCoincidences(digest: ComparedDigest, indexA: number) {
     const sublist = document.createElement('ul')
     sublist.className = 'coincidences'
     digest.coincidences.forEach((digest, indexB) => {
-        sublist.appendChild(templateWithContent(
-            `
+        sublist.appendChild(templateWithContent(`
 <li>
 <label><input type="checkbox"
         data-playlist-position="${indexA}"
@@ -110,16 +94,16 @@ Artist: ${digest.artist}<br />Song: ${digest.song}
     return sublist
 }
 
-function renderResult(result: HTMLOListElement, comparedDigests: ComparedDigest[]) {
+function renderResult(result: HTMLOListElement, comparedDigests: ComparedDigest[], downloadName: string) {
     const resultEl = document.querySelector('.result')!
     const hasCoincidences = result.querySelector('.coincidences') !== null
     if (hasCoincidences) {
-        resultEl.replaceChildren(makeDownloadButton(comparedDigests))
+        resultEl.replaceChildren(makeDownloadButton(comparedDigests, downloadName))
     }
     resultEl.appendChild(result)
 }
 
-function makeDownloadButton(comparedDigests: ComparedDigest[]) {
+function makeDownloadButton(comparedDigests: ComparedDigest[], downloadName: string) {
     const button = document.createElement('button')
     button.id = 'download'
     button.innerText = 'Download playlist with the selected coincidences'
@@ -142,11 +126,15 @@ function download(filename: string, text: string) {
 
 function getSelectedCoincidences(comparedDigests: ComparedDigest[]) {
     const selections: HTMLInputElement[] = Array.from(document.querySelectorAll('.result input[type="checkbox"]'))
+    
     return selections
         .filter(selection => selection.checked)
         .map(selection => {
-            const playlistPosition = Number.parseInt(selection.getAttribute('data-playlist-position')!)
-            const coincidencesPosition = Number.parseInt(selection.getAttribute('data-coincidences-position')!)
+            const playlistPosition = Number.parseInt(
+                selection.getAttribute('data-playlist-position')!)
+            const coincidencesPosition = Number.parseInt(
+                selection.getAttribute('data-coincidences-position')!)
+
             return comparedDigests[playlistPosition].coincidences[coincidencesPosition]
         })
 }
