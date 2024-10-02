@@ -5,47 +5,43 @@ import { parse } from '../domain/parser/parser.js'
 import { selectDataExtractor } from '../domain/parser/data-extractor-selector.js'
 import { pipe } from '../../lib/fp.js'
 
-let needles: Digest[] = []
-let haystack: Digest[] = []
-let downloadName: string
+const state = {
+    downloadName: '',
+    haystack: new Array<Digest>(),
+    needles: new Array<Digest>(),    
+}
 
-const needlesInput = document.getElementById('needles') as HTMLInputElement
-const haystackInput = document.getElementById('haystack') as HTMLInputElement
+Array.from<HTMLInputElement>(
+    document.querySelectorAll('input[type="file"]'))
+    .forEach(input => 
+        input.addEventListener('change', handleInputChange))
 
 window.addEventListener('load', handleInitialLoad)
-needlesInput.addEventListener('change', handleNeedleChange)
-haystackInput.addEventListener('change', handleHaystackChange)
 
 function handleInitialLoad(event: Event) {
     if (!(event.target instanceof HTMLInputElement)) {
         return
     }
-    if (needlesInput.value) {
-        handleNeedleChange(event)
-    }
-    if (haystackInput.value) {
-        handleHaystackChange(event)
-    }
+    handleInputChange(event)
 }
 
-async function handleNeedleChange(event: Event) {
+async function handleInputChange(event: Event) {
     if (!(event.target instanceof HTMLInputElement)){
         return
     }
-    const fileContent = await loadFileContent(event.target)
-    const dataExtractor = selectDataExtractor(fileContent)
-    needles = pipe(fileContent, parse(dataExtractor))
-    downloadName = dataExtractor.extractPlaylistName(fileContent).replaceAll(' ', '_')
-    makeResult()
-}
 
-async function handleHaystackChange(event: Event) {
-    if (!(event.target instanceof HTMLInputElement)){
-        return
-    }
     const fileContent = await loadFileContent(event.target)
     const dataExtractor = selectDataExtractor(fileContent)
-    haystack = pipe(fileContent, parse(dataExtractor))
+
+    if (event.target.matches('#haystack')) {
+        state.haystack = pipe(fileContent, parse(dataExtractor))
+    }
+
+    if (event.target.matches('#needles')) {
+        state.needles = pipe(fileContent, parse(dataExtractor))
+        state.downloadName = dataExtractor.extractPlaylistName(fileContent).replaceAll(' ', '_')
+    }
+
     makeResult()
 }
 
@@ -65,26 +61,27 @@ function loadFileContent(inputElement: HTMLInputElement): Promise<string> {
 }
 
 function makeResult() {
-    const comparedDigests = intersect(needles, haystack)
+    const comparedDigests = intersect(state.needles, state.haystack)
     const list = document.createElement('ol')
-    
-    comparedDigests.forEach((digest, indexA) => {
-        const item = document.createElement('li')
-        item.appendChild(templateWithContent(
-            `Artist: ${digest.artist}<br />Song: ${digest.song}`).content)
-        if (digest.coincidences.length > 0) {
-            item.appendChild(makeCoincidences(digest.coincidences, indexA))
-        }
-        list.appendChild(item)
-    })
+    comparedDigests.forEach((digest, indexA) => 
+        list.appendChild(makeResultEntry(digest, indexA)))
+    renderResult(list, comparedDigests, state.downloadName)
+}
 
-    renderResult(list, comparedDigests, downloadName)
+function makeResultEntry(digest: ComparedDigest, indexA: number) {
+    const item = document.createElement('li')
+    item.appendChild(templateWithContent(
+        `Artist: ${digest.artist}<br />Song: ${digest.song}`))
+    if (digest.coincidences.length > 0) {
+        item.appendChild(makeCoincidences(digest.coincidences, indexA))
+    }
+    return item
 }
 
 function templateWithContent(content: string) {
     const template = document.createElement('template')
     template.innerHTML = content
-    return template
+    return template.content
 }
 
 function makeCoincidences(digests: Digest[], indexA: number) {
@@ -102,7 +99,7 @@ function makeCoincidences(digests: Digest[], indexA: number) {
                     Artist: ${digest.artist}<br />Song: ${digest.song}
                 </label>
             </li>`
-        ).content)
+        ))
     })
     return sublist
 }
@@ -123,7 +120,7 @@ function makeDownloadButton(comparedDigests: ComparedDigest[], downloadName: str
     button.id = 'download'
     button.innerText = 'Download playlist with the selected coincidences'
     button.addEventListener('click', 
-        handleDownload(`spoktor-${downloadName}.m3u`, comparedDigests))
+        handleDownload(downloadName, comparedDigests))
     return button
 }
 
@@ -135,10 +132,10 @@ function makeNoSelectedCoincidencesDialog() {
                 <button>OK</button>
             </form>
         </dialog>`
-    ).content
+    )
 }
 
-function handleDownload(filename: string, comparedDigests: ComparedDigest[]) {
+function handleDownload(downloadName: string, comparedDigests: ComparedDigest[]) {
     return () => {
         const coincidences: HTMLInputElement[] =
         Array.from(document.querySelectorAll('.coincidences [type="checkbox"]'))
@@ -153,10 +150,11 @@ function handleDownload(filename: string, comparedDigests: ComparedDigest[]) {
             comparedDigests, 
             getSelectedCoincidences(selected), 
             generatePlaylistFrom(downloadName))
-            
+
+        const filenameToDownload = `spoktor-${downloadName}.m3u`
         const element = document.createElement('a')
         element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(playlist))
-        element.setAttribute('download', filename)
+        element.setAttribute('download', filenameToDownload)
         element.style.display = 'none'
         document.body.appendChild(element)
         element.click()
