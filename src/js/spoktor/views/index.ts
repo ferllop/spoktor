@@ -30,7 +30,7 @@ async function handleInputChange(event: Event) {
         return
     }
 
-    const fileContent = await loadFileContent(event.target)
+    const fileContent = await getFileContent(event.target)
     const dataExtractor = selectDataExtractor(fileContent)
 
     if (event.target.matches('#haystack')) {
@@ -42,10 +42,10 @@ async function handleInputChange(event: Event) {
         state.downloadName = dataExtractor.extractPlaylistName(fileContent).replaceAll(' ', '_')
     }
 
-    makeResult()
+    buildResultHtml()
 }
 
-function loadFileContent(inputElement: HTMLInputElement): Promise<string> {
+function getFileContent(inputElement: HTMLInputElement): Promise<string> {
     return new Promise((resolve, reject) => {
         if (!inputElement.files?.[0]) {
             return reject()
@@ -60,62 +60,67 @@ function loadFileContent(inputElement: HTMLInputElement): Promise<string> {
     })
 }
 
-function makeResult() {
+function buildResultHtml() {
     const comparedDigests = intersect(state.needles, state.haystack)
     const list = document.createElement('ol')
     comparedDigests.forEach((digest, indexA) => 
-        list.appendChild(makeResultEntry(digest, indexA)))
-    renderResult(list, comparedDigests, state.downloadName)
+        list.appendChild(buildResultItemHtml(digest, indexA)))
+    putResult(list, comparedDigests, state.downloadName)
 }
 
-function makeResultEntry(digest: ComparedDigest, indexA: number) {
-    const item = document.createElement('li')
-    item.appendChild(templateWithContent(
-        `Artist: ${digest.artist}<br />Song: ${digest.song}`))
+function buildResultItemHtml(digest: ComparedDigest, indexA: number) {
+    const li = document.createElement('li')
+    li.innerHTML = `Artist: ${digest.artist}<br />Song: ${digest.song}`
     if (digest.coincidences.length > 0) {
-        item.appendChild(makeCoincidences(digest.coincidences, indexA))
+        li.appendChild(buildCoincidences(digest.coincidences, indexA))
     }
-    return item
+    return li
 }
 
-function templateWithContent(content: string) {
+function templateTagWithContent(content: string) {
     const template = document.createElement('template')
     template.innerHTML = content
     return template.content
 }
 
-function makeCoincidences(digests: Digest[], indexA: number) {
+function liTagWithContent(content: string) {
+    const li = document.createElement('li')
+    li.innerHTML = content
+    return li
+}
+
+function buildCoincidences(digests: Digest[], indexA: number) {
     const sublist = document.createElement('ul')
     sublist.className = 'coincidences'
-    digests.forEach((digest, indexB) => {
-        sublist.appendChild(templateWithContent(
-            `<li>
-                <label>
-                    <input type="checkbox"
-                        data-playlist-position="${indexA}"
-                        data-coincidences-position="${indexB}"
-                        id="${indexA}-${indexB}"
-                        checked />
-                    Artist: ${digest.artist}<br />Song: ${digest.song}
-                </label>
-            </li>`
-        ))
-    })
+    digests.forEach((digest, indexB) =>
+        sublist.appendChild(buildCoincidence(indexA, indexB, digest)))
     return sublist
 }
 
-function renderResult(result: HTMLOListElement, comparedDigests: ComparedDigest[], downloadName: string) {
+function buildCoincidence(indexA: number, indexB: number, digest: Digest) {
+    return liTagWithContent(
+        `<label>
+            <input type="checkbox"
+                data-playlist-position="${indexA}"
+                data-coincidences-position="${indexB}"
+                id="${indexA}-${indexB}"
+                checked />
+            Artist: ${digest.artist}<br />Song: ${digest.song}
+        </label>`)
+}
+
+function putResult(result: HTMLOListElement, comparedDigests: ComparedDigest[], downloadName: string) {
     const resultEl = document.querySelector('.result')!
     const hasCoincidences = result.querySelector('.coincidences') !== null
     if (hasCoincidences) {
         resultEl.replaceChildren(
-            makeDownloadButton(comparedDigests, downloadName),
+            buildDownloadButton(comparedDigests, downloadName),
             makeNoSelectedCoincidencesDialog())
     }
     resultEl.appendChild(result)
 }
 
-function makeDownloadButton(comparedDigests: ComparedDigest[], downloadName: string) {
+function buildDownloadButton(comparedDigests: ComparedDigest[], downloadName: string) {
     const button = document.createElement('button')
     button.id = 'download'
     button.innerText = 'Download playlist with the selected coincidences'
@@ -125,7 +130,7 @@ function makeDownloadButton(comparedDigests: ComparedDigest[], downloadName: str
 }
 
 function makeNoSelectedCoincidencesDialog() {
-    return templateWithContent(
+    return templateTagWithContent(
         `<dialog id="no-selected-coincidences">
             <p>There are no selected coincidences</p>
             <form method="dialog">
