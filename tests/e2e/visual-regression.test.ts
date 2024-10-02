@@ -1,18 +1,28 @@
 import {suite} from 'uvu'
-import puppeteer from 'puppeteer/lib/cjs/puppeteer/puppeteer.js'
+import * as assert from 'uvu/assert'
 import {visualDiff} from './helpers/visual-diff.js'
 import {uploadFiles} from './helpers/puppeteer-commands.js'
 import {startDevServer} from '@web/dev-server'
 import {devLocalConfig} from '../../dev-local-config.js'
-import { Page } from 'puppeteer'
+import { launch, Browser, Page } from 'puppeteer'
+import {readFileSync} from 'node:fs'
+import {resolve} from 'node:path'
 
-const spoktor = suite('e2e spoktor')
+const spoktor = suite<Context>('e2e spoktor')
 
+type Context = {
+    server: Awaited<ReturnType<typeof startDevServer>>,
+    browser: Browser,
+    page: Page,
+}
 spoktor.before(async context => {
     context.server = await startDevServer({
         argv: [`--port=${devLocalConfig.testServerPort}`]
     })
-    context.browser = await puppeteer.launch({timeout: 5000})
+    context.browser = await launch({
+        timeout: 5000, 
+        args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    })
 })
 
 spoktor.before.each(async context => {
@@ -59,6 +69,43 @@ spoktor('with a list of youtube videos', async ({page}) => {
     await page.type('.youtube-playlist textarea', 'https://www.youtube.com/watch?v=aaaaaaaaaaa')
     await page.click('.youtube-playlist input[type="submit"]')
     await visualDiff(page, 'with-youtube-links')
+})
+
+spoktor('with selected coincidences downloads a playlist with the selected coincidences', async ({page}) => {
+    const client = await page.target().createCDPSession()
+    await client.send('Page.setDownloadBehavior', {
+        behavior: 'allow',
+        downloadPath: './tests/e2e/screenshots/',
+    })
+
+    await loadSpotifyFile(page)
+    await loadTraktorFile(page)
+    await page.click('#download')
+    await page.waitForNetworkIdle()
+
+    const downloadedPlaylist = readFileSync(
+        resolve(import.meta.dirname, './screenshots/spoktor-4_de_Junio_2022.m3u'), 'utf8')
+
+    const correctPlaylist = readFileSync(
+        resolve(import.meta.dirname, './test-data/correct-playlist.m3u'), 'utf8')
+
+    assert.equal(downloadedPlaylist, correctPlaylist)
+})
+
+spoktor('with no selected coincidences shows a dialog alerting of it', async ({page}) => {
+    page.on('dialog', async dialog => {
+        console.log(dialog.message());
+        await dialog.dismiss();
+    });
+    await loadSpotifyFile(page)
+    await loadTraktorFile(page)
+
+    await page.$$eval(".coincidences label", 
+        async els => await els.forEach(async el => await el.click()))
+
+    await page.click('#download')
+
+    await visualDiff(page, 'with-no-coincidences-selected')
 })
 
 async function loadSpotifyFile(page: Page) {
