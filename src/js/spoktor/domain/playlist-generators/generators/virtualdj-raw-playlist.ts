@@ -4,7 +4,7 @@ import { PlaylistGenerator } from '../playlist-generator.js'
 
 export const renderFullFilePathFrom = virtualdjXmlDataExtractor.extractLocation
 
-export const generatePlaylistFrom: PlaylistGenerator = digests => 
+export const generatePlaylistFrom: PlaylistGenerator = () => digests => 
     `<?xml version="1.0" encoding="UTF-8"?>
         <VirtualFolder>
             ${digests.map(toEntry).join('')}

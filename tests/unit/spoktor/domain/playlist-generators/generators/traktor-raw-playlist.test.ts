@@ -12,21 +12,21 @@ const traktorPlaylistGenerator = suite('Traktor playlist generator')
 
 traktorPlaylistGenerator('should generate a playlist with no entries when zero digests are provided', () => {
     const playlist: Digest[] = []
-    assert.equal(generatePlaylistFrom(playlist, 'the-playlist-name'),
+    assert.equal(generatePlaylistFrom('the-playlist-name')(playlist),
         pipe(aPlaylist, withoutTracks, mapTracks(toTraktorTrack), toTraktorPlaylist))
 })
 
 traktorPlaylistGenerator('should generate a playlist with one entry when one track is provided', () => {
     const playlist = pipe(aPlaylist, withXTracks(1))
     const traktorPlaylist = pipe(playlist, mapTracks(toDigest(track => pipe(track, toTraktorTrack, toTraktorEntry))))
-    assert.equal(generatePlaylistFrom(traktorPlaylist.tracks, 'the-playlist-name'),
+    assert.equal(generatePlaylistFrom('the-playlist-name')(traktorPlaylist.tracks),
         pipe(playlist, mapTracks(toTraktorTrack), toTraktorPlaylist))
 })
 
 traktorPlaylistGenerator('should generate a playlist with two entries when tracks are provided', () => {
     const playlist = pipe(aPlaylist, withXTracks(2))
     const traktorPlaylist = pipe(playlist, mapTracks(toDigest(track => pipe(track, toTraktorTrack, toTraktorEntry))))
-    assert.equal(generatePlaylistFrom(traktorPlaylist.tracks, 'the-playlist-name'),
+    assert.equal(generatePlaylistFrom('the-playlist-name')(traktorPlaylist.tracks),
         pipe(playlist, mapTracks(toTraktorTrack), toTraktorPlaylist))
 })
 

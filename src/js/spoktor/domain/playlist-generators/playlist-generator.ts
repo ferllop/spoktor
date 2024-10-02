@@ -1,3 +1,3 @@
 import { Digest } from "../digest.js";
 
-export type PlaylistGenerator = (digests: Digest[], playlistName: string) => string
+export type PlaylistGenerator = (playlistName: string) => (digests: Digest[]) => string

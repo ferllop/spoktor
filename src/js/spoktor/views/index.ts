@@ -3,6 +3,7 @@ import { generatePlaylistFrom } from '../domain/playlist-generators/generators/m
 import { ComparedDigest, Digest } from '../domain/digest.js'
 import { parse } from '../domain/parser/parser.js'
 import { selectDataExtractor } from '../domain/parser/data-extractor-selector.js'
+import { pipe } from '../../lib/fp.js'
 
 let needles: Digest[] = []
 let haystack: Digest[] = []
@@ -33,7 +34,7 @@ async function handleNeedleChange(event: Event) {
     }
     const fileContent = await loadFileContent(event.target)
     const dataExtractor = selectDataExtractor(fileContent)
-    needles = parse(dataExtractor)(fileContent)
+    needles = pipe(fileContent, parse(dataExtractor))
     downloadName = dataExtractor.extractPlaylistName(fileContent).replaceAll(' ', '_')
     makeResult()
 }
@@ -44,7 +45,7 @@ async function handleHaystackChange(event: Event) {
     }
     const fileContent = await loadFileContent(event.target)
     const dataExtractor = selectDataExtractor(fileContent)
-    haystack = parse(dataExtractor)(fileContent)
+    haystack = pipe(fileContent, parse(dataExtractor))
     makeResult()
 }
 
@@ -148,7 +149,11 @@ function handleDownload(filename: string, comparedDigests: ComparedDigest[]) {
             return
         }
         
-        const playlist: string = generatePlaylistFrom(getSelectedCoincidences(comparedDigests, selected), downloadName)
+        const playlist: string = pipe(
+            comparedDigests, 
+            getSelectedCoincidences(selected), 
+            generatePlaylistFrom(downloadName))
+            
         const element = document.createElement('a')
         element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(playlist))
         element.setAttribute('download', filename)
@@ -159,9 +164,9 @@ function handleDownload(filename: string, comparedDigests: ComparedDigest[]) {
     }
 }
 
-function getSelectedCoincidences(comparedDigests: ComparedDigest[], selections: HTMLInputElement[]) {
-    return selections
-        .map(selection => {
+function getSelectedCoincidences(selections: HTMLInputElement[]) {
+    return (comparedDigests: ComparedDigest[]) => 
+        selections.map(selection => {
             const playlistPosition = Number.parseInt(
                 selection.getAttribute('data-playlist-position')!)
             const coincidencesPosition = Number.parseInt(
